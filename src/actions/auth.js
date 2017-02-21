@@ -65,7 +65,7 @@ export function signOut() {
 
 // CHECK IF USER IS LOGGED IN
 export function initAuth(dispatch) {
-  // console.log('in initAuth');
+  console.log('in initAuth');
   return new Promise((res, rej) => {
     // const unsub = firebaseAuth.onAuthStateChanged(
     firebaseAuth.onAuthStateChanged(
