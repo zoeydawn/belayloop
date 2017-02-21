@@ -1,3 +1,11 @@
 h1 {
   font-family: 'Roboto';
 }
+
+.pointer {
+  cursor: pointer;
+}
+
+#topLogo {
+  height: 75px;
+}
