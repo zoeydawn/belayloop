@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-let sampleReducer = (state = 0) => state;
+import auth from './auth';
 
 export default combineReducers({
-  zero: sampleReducer
+  auth,
 });

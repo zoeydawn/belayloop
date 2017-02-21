@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -12,34 +13,37 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
 import Avatar from 'material-ui/Avatar';
 
-// class Login extends Component {
-//   static muiName = 'FlatButton';
-//
-//   render() {
-//     return (
-//       <FlatButton {...this.props} label="Login" />
-//     );
-//   }
-// }
+import Login from './Login';
+import { signOut } from '../actions/auth';
 
 class Navbar extends Component {
   state = {
-    logged: true,
+    logged: false,
   };
 
   handleChange = (event, logged) => {
     this.setState({logged: logged});
   };
 
+  logOut = () => {
+    this.props.signOut();
+    browserHistory.push('/');
+  }
+
   render() {
-    const Login = (
+    const { loggedIn, user, signOut } = this.props;
+    console.log('loggedIn:', loggedIn);
+
+    const login = (
       <ToolbarGroup>
-        <FlatButton label="Login/Join" />
+        {/* <FlatButton label="Login/Join" /> */}
+        <Login />
       </ToolbarGroup>
     );
-    const Logged = (
+    const logged = (
       <ToolbarGroup>
-        <Avatar src="http://www.nndb.com/people/094/000039974/ron-paul-1-sized.jpg" />
+        <Avatar src={user.photoURL} />
+        <ToolbarSeparator />
         <IconMenu
           iconButtonElement={
             <IconButton><MoreVertIcon /></IconButton>
@@ -49,12 +53,12 @@ class Navbar extends Component {
         >
           <MenuItem primaryText="Dashboard" />
           <MenuItem primaryText="Profile" />
-          <MenuItem primaryText="Sign out" />
+          <MenuItem primaryText="Sign out" onClick={this.logOut} />
         </IconMenu>
       </ToolbarGroup>
     );
 
-    const rightMenu = this.state.logged ? Logged : Login;
+    const rightMenu = loggedIn ? logged : login;
 
     return (
       <div>
@@ -71,4 +75,15 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+const mapStateToProps = (state => ({
+  loggedIn: state.auth.authenticated,
+  user: state.auth.user,
+}));
+
+const mapDispatchToProps = dispatch => ({
+  signOut() {
+    dispatch(signOut());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

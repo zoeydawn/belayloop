@@ -9,3 +9,7 @@ h1 {
 #topLogo {
   height: 75px;
 }
+
+.logInButton {
+  margin: 10px;
+}
