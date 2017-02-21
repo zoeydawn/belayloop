@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
-import AppBar from 'material-ui/AppBar';
+// import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
-import Toggle from 'material-ui/Toggle';
+// import FlatButton from 'material-ui/FlatButton';
+// import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+// import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
 import Avatar from 'material-ui/Avatar';
+import FontIcon from 'material-ui/FontIcon';
 
 import Login from './Login';
 import { signOut } from '../actions/auth';
@@ -40,9 +41,16 @@ class Navbar extends Component {
         <Login />
       </ToolbarGroup>
     );
+
     const logged = (
       <ToolbarGroup>
-        <Avatar src={user.photoURL} />
+        <FontIcon
+          className="fa fa-bell"
+        />
+        <FontIcon
+          className="fa fa-comments"
+        />
+      <Avatar src={user.photoURL} id="navbarAvitar" />
         <ToolbarSeparator />
         <IconMenu
           iconButtonElement={
@@ -64,7 +72,7 @@ class Navbar extends Component {
       <div>
         <Toolbar>
           <ToolbarGroup firstChild>
-            <img className="pointer" id="topLogo" src="https://www.logogarden.com/wp-content/uploads/lg-logo-samples/Interior-Design-Logo-1.png" alt="" />
+            <img className="pointer" id="topLogo" src="" alt="" />
           </ToolbarGroup>
           {/* <ToolbarGroup> */}
             {rightMenu}
