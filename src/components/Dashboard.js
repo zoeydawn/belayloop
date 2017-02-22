@@ -20,7 +20,7 @@ class Dashboard extends Component {
         <div className="profileLeft">
           <img className="profileAvatar" src={photoURL} alt={displayName} />
         </div>
-        <div id="profileCenter">
+        <div className="profileCenter">
           <h1>{displayName}</h1>
           <h3>Chapel Hill, NC</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque. Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.</p>
@@ -42,7 +42,7 @@ class Dashboard extends Component {
             </TableBody>
           </Table>
         </div>
-        <div id="profileRight"></div>
+        <div className="profileRight"></div>
       </div>
     );
   }
