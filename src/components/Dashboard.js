@@ -2,45 +2,47 @@ import React, { Component } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
+import FontIcon from 'material-ui/FontIcon';
 
 import { updateUser } from '../actions/userActions';
 
 class Dashboard extends Component {
 
   editInfo = () => {
-    this.props.updateUser({ bio: 'me!!' });
+    this.props.updateUser({ displayName: 'Donovan' });
   }
 
   render() {
     const { displayName, email, uid, photoURL } = this.props.user;
     // console.log('firebaseAuth:', firebaseAuth);
     return (
-      <div>
-        <img src={photoURL} alt={displayName} />
-        <Table>
-          {/* <TableHeader>
-            <TableRow>
-              <TableHeaderColumn>ID</TableHeaderColumn>
-              <TableHeaderColumn>Name</TableHeaderColumn>
-              <TableHeaderColumn>Status</TableHeaderColumn>
-            </TableRow>
-          </TableHeader> */}
-          <TableBody>
-            <TableRow>
-              <TableRowColumn>Display Name</TableRowColumn>
-              <TableRowColumn>{displayName}</TableRowColumn>
-            </TableRow>
-            <TableRow>
-              <TableRowColumn>Email</TableRowColumn>
-              <TableRowColumn>{email}</TableRowColumn>
-            </TableRow>
-            <TableRow>
-              <TableRowColumn>User ID</TableRowColumn>
-              <TableRowColumn>{uid}</TableRowColumn>
-            </TableRow>
-          </TableBody>
-        </Table>
-        <FlatButton label="Edit" onClick={this.editInfo} />
+      <div className="profile">
+        <div className="profileLeft">
+          <img className="profileAvatar" src={photoURL} alt={displayName} />
+        </div>
+        <div id="profileCenter">
+          <h1>{displayName}</h1>
+          <h3>Chapel Hill, NC</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque. Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.</p>
+          <Table>
+            <TableBody displayRowCheckbox={false}>
+              <TableRow displayBorder={false}>
+                <TableRowColumn>Display Name</TableRowColumn>
+                <TableRowColumn>{displayName}</TableRowColumn>
+                <TableRowColumn><FlatButton icon={<FontIcon className="fa fa-edit" />} onClick={this.editInfo} /></TableRowColumn>
+              </TableRow>
+              <TableRow displayBorder={false}>
+                <TableRowColumn>Email</TableRowColumn>
+                <TableRowColumn>{email}</TableRowColumn>
+              </TableRow>
+              <TableRow displayBorder={false}>
+                <TableRowColumn>User ID</TableRowColumn>
+                <TableRowColumn>{uid}</TableRowColumn>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+        <div id="profileRight"></div>
       </div>
     );
   }

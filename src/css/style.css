@@ -1,4 +1,4 @@
-h1 {
+* {
   font-family: 'Roboto';
 }
 
@@ -16,4 +16,69 @@ h1 {
 
 #navbarAvitar {
   margin-left: 20px;
+}
+
+/*@medial (max-width: 944) {
+
+}*/
+.profile {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  justify-content: center;
+  margin: 25px;
+}
+
+.profileAvatar {
+  max-width: 230px;
+}
+
+.profileLeft {
+  -webkit-flex: 110;
+  max-width: 300px;
+  min-width: 230px;
+  order: 1;
+  margin-right: 25px;
+}
+
+.profileCenter {
+  -webkit-flex: 250;
+  order: 3;
+  /*background-color: green;*/
+  /*margin: 25px;*/
+}
+
+.profileRight {
+  -webkit-flex: 100;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: flex-start;;
+  justify-content: flex-start;;
+  order: 2;
+  /*background-color: orange;*/
+  /*margin: 25px;*/
+}
+
+@media (min-width: 945px) {
+  .profile {
+    flex-direction: row;
+    -webkit-flex-direction: row;
+  }
+
+  .profileLeft {
+    /*background-color: red;*/
+    order: 0;
+  }
+
+  .profileCenter {
+    order: 0;
+  }
+
+  .profileRight {
+    order: 0;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
 }
