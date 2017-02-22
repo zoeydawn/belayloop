@@ -18,13 +18,17 @@ import Login from './Login';
 import { signOut } from '../actions/auth';
 
 class Navbar extends Component {
-  state = {
-    logged: false,
-  };
+  // state = {
+  //   logged: false,
+  // };
 
-  handleChange = (event, logged) => {
-    this.setState({logged: logged});
-  };
+  // handleChange = (event, logged) => {
+  //   this.setState({logged: logged});
+  // };
+
+  // componentDidMount() {
+  //   console.log('this.props.user', this.props.user);
+  // }
 
   logOut = () => {
     this.props.signOut();
@@ -47,10 +51,10 @@ class Navbar extends Component {
         <FontIcon
           className="fa fa-bell"
         />
-        <FontIcon
+        {/* <FontIcon
           className="fa fa-comments"
         />
-      <Avatar src={user.photoURL} id="navbarAvitar" />
+      <Avatar src={user.photoURL} id="navbarAvitar" /> */}
         <ToolbarSeparator />
         <IconMenu
           iconButtonElement={
@@ -59,8 +63,8 @@ class Navbar extends Component {
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
         >
-          <MenuItem primaryText="Dashboard" />
-          <MenuItem primaryText="Profile" />
+          <MenuItem primaryText="Dashboard" onClick={() => browserHistory.push('/dashboard')} />
+          <MenuItem primaryText="Profile" onClick={() => browserHistory.push(`/profile/${user.uid}`)} />
           <MenuItem primaryText="Sign out" onClick={this.logOut} />
         </IconMenu>
       </ToolbarGroup>
@@ -72,7 +76,7 @@ class Navbar extends Component {
       <div>
         <Toolbar>
           <ToolbarGroup firstChild>
-            <img className="pointer" id="topLogo" src="" alt="" />
+            <img className="pointer" id="topLogo" src="" alt="" onClick={() => browserHistory.push('/')} />
           </ToolbarGroup>
           {/* <ToolbarGroup> */}
             {rightMenu}

@@ -5,9 +5,11 @@ import { firebaseAuth } from '../firebase';
 
 import Layout from './Layout';
 import Home from './Home';
+import Dashboard from './Dashboard';
+import Profile from './Profile';
 
 function authCheck(nextState, transition) {
-  console.log('nextState:', nextState);
+  // console.log('nextState:', nextState);
   // console.log('transition:', transition);
   const user = firebaseAuth.currentUser;
   if (!user) {
@@ -22,11 +24,11 @@ export default class CustomRouter extends Component {
       <Router history={browserHistory}>
         <Route path="/" component={Layout}>
           <IndexRoute component={Home} />
-          {/* <Route path="/detail/:id" component={ImageDetail} />
-          <Route path="/search/:searchQuery" component={SearchResults} />
+          {/* <Route path="/detail/:id" component={ImageDetail} /> */}
+          {/* <Route path="/search/:searchQuery" component={SearchResults} /> */}
           <Route path="/dashboard" component={Dashboard} onEnter={authCheck} />
           <Route path="/profile/:userId" component={Profile} />
-          <Route path="/signin" component={SignIn} /> */}
+          {/* <Route path="/signin" component={SignIn} /> */}
         </Route>
       </Router>
     );

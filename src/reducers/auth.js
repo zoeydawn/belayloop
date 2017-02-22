@@ -7,6 +7,7 @@ export default function (state = initialState, { type, payload }) {
   switch (type) {
     case 'INIT_AUTH_SUCCESS':
     case 'SIGN_IN_SUCCESS':
+    case 'UPDATED_USER':
       const { uid, email, displayName, photoURL } = payload;
       return Object.assign({}, state, {
         authenticated: true,

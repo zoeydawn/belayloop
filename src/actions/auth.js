@@ -63,6 +63,15 @@ export function signOut() {
   };
 }
 
+// EDIT USER INFO
+// export function editUserInfo(obj) {
+//   return (dispatch) => {
+//     const user = firebaseAuth.currentUser;
+//     // const user = firebaseAuth.getInstance().getCurrentUser();
+//     console.log('user in editUserInfo:', user.providerData);
+//   };
+// }
+
 // CHECK IF USER IS LOGGED IN
 export function initAuth(dispatch) {
   // console.log('in initAuth');
@@ -70,6 +79,7 @@ export function initAuth(dispatch) {
     firebaseAuth.onAuthStateChanged(
       (user) => {
         if (user) {
+          // console.log('user (in actions):', user);
           dispatch(initAuthSuccess(user));
         }
         res();

@@ -1,3 +1,5 @@
+require('dotenv').config({ silent: true });
+
 const PORT = process.env.PORT || 8000;
 
 const bodyParser = require('body-parser');
@@ -7,7 +9,7 @@ const morgan = require('morgan');
 const path = require('path');
 const mongoose = require('mongoose');
 
-const MONGODB_URI = process.env.MONGOODB_URI || 'mongodb://localhost/testdb';
+const MONGODB_URI = process.env.MONGOODB_URI;
 
 // MONGOOSE CONFIGURATION
 mongoose.Promise = Promise;
