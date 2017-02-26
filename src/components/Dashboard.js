@@ -5,12 +5,18 @@ import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 
 import { updateUser } from '../actions/userActions';
+import { startListeningToUser } from '../actions/firebaseDb';
+import EditInfo from './EditInfo';
 
 class Dashboard extends Component {
 
-  editInfo = () => {
-    this.props.updateUser({ displayName: 'Donovan' });
+  componentDidMount() {
+    this.props.startListeningToUser(this.props.user.uid);
   }
+
+  // editInfo = () => {
+  //   this.props.updateUser({ displayName: 'Donovan' });
+  // }
 
   render() {
     const { displayName, email, uid, photoURL } = this.props.user;
@@ -19,6 +25,12 @@ class Dashboard extends Component {
       <div className="profile">
         <div className="profileLeft">
           <img className="profileAvatar" src={photoURL} alt={displayName} />
+          <EditInfo
+            name="photoURL"
+            title="Avatar"
+            defaultVal={photoURL}
+            submit={this.props.updateUser}
+          />
         </div>
         <div className="profileCenter">
           <h1>{displayName}</h1>
@@ -29,7 +41,14 @@ class Dashboard extends Component {
               <TableRow displayBorder={false}>
                 <TableRowColumn>Display Name</TableRowColumn>
                 <TableRowColumn>{displayName}</TableRowColumn>
-                <TableRowColumn><FlatButton icon={<FontIcon className="fa fa-edit" />} onClick={this.editInfo} /></TableRowColumn>
+                <TableRowColumn>
+                  <EditInfo
+                    name="displayName"
+                    title="Display Name"
+                    defaultVal={displayName}
+                    submit={this.props.updateUser}
+                  />
+                </TableRowColumn>
               </TableRow>
               <TableRow displayBorder={false}>
                 <TableRowColumn>Email</TableRowColumn>
@@ -55,6 +74,9 @@ const mapStateToProps = (state => ({
 const mapDispatchToProps = dispatch => ({
   updateUser(obj) {
     dispatch(updateUser(obj));
+  },
+  startListeningToUser(userId) {
+    dispatch(startListeningToUser(userId));
   },
 });
 
