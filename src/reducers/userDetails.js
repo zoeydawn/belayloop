@@ -4,7 +4,7 @@ export default function userInfo(state = null, action) {
   }
 
   switch (action.type) {
-    case 'GOT_USER':
+    case 'RECEIVE_USER':
       // console.log('action.payload:', action.payload);
       return action.payload;
     default:

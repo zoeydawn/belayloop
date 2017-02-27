@@ -12,10 +12,10 @@ const mongoose = require('mongoose');
 const MONGODB_URI = process.env.MONGOODB_URI;
 
 // MONGOOSE CONFIGURATION
-// mongoose.Promise = Promise;
-// mongoose.connect(MONGODB_URI, (err) => {
-//   console.log(err || `MongoDB connected to ${MONGODB_URI}`);
-// });
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, (err) => {
+  console.log(err || `MongoDB connected to ${MONGODB_URI}`);
+});
 
 const app = express();
 const server = require('http').createServer(app);

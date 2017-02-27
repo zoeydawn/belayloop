@@ -26,7 +26,7 @@ export function getUser(id) {
 }
 
 export function updateUser(obj) {
-  console.log('obj in updateUser:', obj);
+  // console.log('obj in updateUser:', obj);
   return (dispatch) => {
     firebaseAuth.currentUser.updateProfile(obj)
       // .then(() => axios.get(`/api/users/${firebaseAuth.currentUser.uid}`))

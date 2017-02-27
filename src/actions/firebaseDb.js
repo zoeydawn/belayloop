@@ -11,6 +11,7 @@ function receiveUser(user) {
 export function startListeningToUser(userId) {
   return (dispatch) => {
     const userRef = firebaseDb.ref('users').child(userId);
+    userRef.off();
     userRef.on('value', (snapshot) => {
       const user = snapshot.val();
       dispatch(receiveUser(user));
@@ -18,6 +19,12 @@ export function startListeningToUser(userId) {
   };
 }
 
-export function updateUser(obj) {
-  
+export function updateUserInfo(userId, obj) {
+  const userRef = firebaseDb.ref('users').child(userId);
+  userRef.set(obj);
+
+  return {
+    type: 'UPDATE_USER_INFO',
+    payload: obj,
+  };
 }

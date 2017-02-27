@@ -5,8 +5,9 @@ import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 
 import { updateUser } from '../actions/userActions';
-import { startListeningToUser } from '../actions/firebaseDb';
+import { startListeningToUser, updateUserInfo } from '../actions/firebaseDb';
 import EditInfo from './EditInfo';
+import PublicInfoModal from './PublicInfoModal';
 
 class Dashboard extends Component {
 
@@ -17,10 +18,38 @@ class Dashboard extends Component {
   // editInfo = () => {
   //   this.props.updateUser({ displayName: 'Donovan' });
   // }
+  updateInfo = (obj) => {
+    this.props.updateUserInfo(this.props.user.uid, obj);
+  }
 
   render() {
+    const { userDetails } = this.props;
+    // const { belay, bio, boldering, city, country, lead, skill, state } = userDetails;
     const { displayName, email, uid, photoURL } = this.props.user;
-    // console.log('firebaseAuth:', firebaseAuth);
+    let details = {
+      belay: '',
+      bio: '',
+      boldering: '',
+      city: '',
+      country: '',
+      lead: '',
+      skill: '',
+      state: '',
+    };
+    if (userDetails) {
+      details = {
+        belay: userDetails.belay,
+        bio: userDetails.bio,
+        boldering: userDetails.boldering,
+        city: userDetails.city,
+        country: userDetails.country,
+        lead: userDetails.lead,
+        skill: userDetails.skill,
+        state: userDetails.state,
+      }
+    }
+
+    console.log('this.props.userDetails:', this.props.userDetails);
     return (
       <div className="profile">
         <div className="profileLeft">
@@ -34,8 +63,12 @@ class Dashboard extends Component {
         </div>
         <div className="profileCenter">
           <h1>{displayName}</h1>
-          <h3>Chapel Hill, NC</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque. Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.</p>
+
+          <h3>{`${details.city} ${details.state} ${details.country}`}</h3>
+
+          <PublicInfoModal submit={this.updateInfo} userDetails={details} />
+          <h4>About me</h4>
+          <p>{details.bio}</p>
           <Table>
             <TableBody displayRowCheckbox={false}>
               <TableRow displayBorder={false}>
@@ -58,6 +91,22 @@ class Dashboard extends Component {
                 <TableRowColumn>User ID</TableRowColumn>
                 <TableRowColumn>{uid}</TableRowColumn>
               </TableRow>
+              <TableRow displayBorder={false}>
+                <TableRowColumn>Rope skill level:</TableRowColumn>
+                <TableRowColumn>{details.skill}</TableRowColumn>
+              </TableRow>
+              <TableRow displayBorder={false}>
+                <TableRowColumn>Boldering skill level:</TableRowColumn>
+                <TableRowColumn>{details.boldering}</TableRowColumn>
+              </TableRow>
+              <TableRow displayBorder={false}>
+                <TableRowColumn>Can belay?</TableRowColumn>
+                <TableRowColumn>{details.belay}</TableRowColumn>
+              </TableRow>
+              <TableRow displayBorder={false}>
+                <TableRowColumn>Can lead?</TableRowColumn>
+                <TableRowColumn>{details.lead}</TableRowColumn>
+              </TableRow>
             </TableBody>
           </Table>
         </div>
@@ -69,6 +118,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state => ({
   user: state.auth.user,
+  userDetails: state.userDetails,
 }));
 
 const mapDispatchToProps = dispatch => ({
@@ -77,6 +127,9 @@ const mapDispatchToProps = dispatch => ({
   },
   startListeningToUser(userId) {
     dispatch(startListeningToUser(userId));
+  },
+  updateUserInfo(userId, obj) {
+    dispatch(updateUserInfo(userId, obj));
   },
 });
 

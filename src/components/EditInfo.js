@@ -48,7 +48,8 @@ export default class EditInfo extends Component {
     return (
       <div>
         {/* <RaisedButton label="Dialog" onTouchTap={this.handleOpen} /> */}
-        <FlatButton icon={<FontIcon className="fa fa-edit" />} onTouchTap={this.handleOpen} />
+        {/* <FlatButton icon={<FontIcon className="fa fa-edit" />} onTouchTap={this.handleOpen} /> */}
+        <h6 className="pointer" onTouchTap={this.handleOpen}>[Edit]</h6>
         <Dialog
           title={`Edit ${title}:`}
           actions={actions}
