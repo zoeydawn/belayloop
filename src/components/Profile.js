@@ -5,15 +5,18 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 
 import { getUser } from '../actions/userActions';
+import { startListeningToUser } from '../actions/firebaseDb';
 
 class Profile extends Component {
   componentWillMount() {
-    this.props.getUser(this.props.params.userId);
+    const { userId } = this.props.params;
+    this.props.getUser(userId);
+    this.props.startListeningToUser(userId);
   }
 
   render() {
-    // const { displayName, email, uid, photoURL } = this.props.userInfo;
-    // console.log('firebaseAuth:', firebaseAuth);
+    const { userDetails } = this.props;
+    console.log('userDetails:', userDetails);
     const { userInfo } = this.props;
     let displayName = '';
     let photoURL = '';
@@ -24,6 +27,29 @@ class Profile extends Component {
       // console.log('userInfo:', this.props.userInfo);
     }
 
+    let details = {
+      belay: '',
+      bio: '',
+      boldering: '',
+      city: '',
+      country: '',
+      lead: '',
+      skill: '',
+      state: '',
+    };
+    if (userDetails) {
+      details = {
+        belay: userDetails.belay,
+        bio: userDetails.bio,
+        boldering: userDetails.boldering,
+        city: userDetails.city,
+        country: userDetails.country,
+        lead: userDetails.lead,
+        skill: userDetails.skill,
+        state: userDetails.state,
+      }
+    }
+
     return (
       <div className="profile">
         <div className="profileLeft">
@@ -32,27 +58,27 @@ class Profile extends Component {
             <TableBody displayRowCheckbox={false}>
               <TableRow displayBorder={false}>
                 <TableRowColumn>Skill Level:</TableRowColumn>
-                <TableRowColumn>5.9</TableRowColumn>
+                <TableRowColumn>{details.skill}</TableRowColumn>
               </TableRow>
               <TableRow displayBorder={false}>
                 <TableRowColumn>Boldering Level:</TableRowColumn>
-                <TableRowColumn>V2</TableRowColumn>
+                <TableRowColumn>{details.boldering}</TableRowColumn>
               </TableRow>
               <TableRow displayBorder={false}>
                 <TableRowColumn>Belay Qualified:</TableRowColumn>
-                <TableRowColumn>Yes</TableRowColumn>
+                <TableRowColumn>{details.belay}</TableRowColumn>
               </TableRow>
               <TableRow displayBorder={false}>
                 <TableRowColumn>Lead Qualified:</TableRowColumn>
-                <TableRowColumn>No</TableRowColumn>
+                <TableRowColumn>{details.lead}</TableRowColumn>
               </TableRow>
             </TableBody>
           </Table>
         </div>
         <div className="profileCenter">
           <h1>{displayName}</h1>
-          <h3>Chapel Hill, NC</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque. Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.</p>
+          <h3>{`${details.city} ${details.state} ${details.country}`}</h3>
+          <p>{details.bio}</p>
         </div>
         <div className="profileRight">
           <RaisedButton
@@ -68,11 +94,15 @@ class Profile extends Component {
 
 const mapStateToProps = (state => ({
   userInfo: state.userInfo,
+  userDetails: state.userDetails,
 }));
 
 const mapDispatchToProps = dispatch => ({
   getUser(id) {
     dispatch(getUser(id));
+  },
+  startListeningToUser(userId) {
+    dispatch(startListeningToUser(userId));
   },
 });
 
