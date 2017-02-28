@@ -18,6 +18,14 @@ function receiveLoggedUser(user) {
   };
 }
 
+function receiveConversation(con) {
+  // console.log('user:', user);
+  return {
+    type: 'RECEIVE_CONVERSATION',
+    payload: con,
+  };
+}
+
 export function startListeningToUser(userId) {
   return (dispatch) => {
     const userRef = firebaseDb.ref('users').child(userId);
@@ -35,8 +43,21 @@ export function listenToLoggedUser() {
     const userRef = firebaseDb.ref('users').child(firebaseAuth.currentUser.uid);
     userRef.off();
     userRef.on('value', (snapshot) => {
-      const messages = snapshot.val();
-      dispatch(receiveLoggedUser(messages));
+      const user = snapshot.val();
+      dispatch(receiveLoggedUser(user));
+    });
+  };
+}
+
+export function listenToConversation(id) {
+  return (dispatch) => {
+    console.log('in listenToConversation');
+    const ref = firebaseDb.ref('conversations').child(id);
+    ref.off();
+    ref.on('value', (snapshot) => {
+      const con = snapshot.val();
+      console.log('con:', con);
+      dispatch(receiveConversation(con));
     });
   };
 }

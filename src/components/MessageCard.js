@@ -1,16 +1,20 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
 const MessageCard = (props) => {
-  const { details } = props;
-  console.log('details:', details);
+  const { details, conversationId } = props;
+  const { displayName, photoURL, subject, uid } = details;
+  // console.log('details:', details);
+  // console.log('details:', details);
   return (
-    <Card>
+    <Card onClick={() => browserHistory.push(`conversation/${conversationId}`)}>
       <CardHeader
-        title="URL Avatar"
-        subtitle="Subtitle"
-        avatar="images/jsa-128.jpg"
+        actAsExpander
+        title={displayName}
+        subtitle={subject}
+        avatar={photoURL}
       />
       {/* <CardMedia
         overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
@@ -18,7 +22,7 @@ const MessageCard = (props) => {
         <img src="images/nature-600-337.jpg" />
       </CardMedia> */}
       {/* <CardTitle title="Card title" subtitle="Card subtitle" /> */}
-      <CardText>
+      {/* <CardText>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
         Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
@@ -26,7 +30,7 @@ const MessageCard = (props) => {
       </CardText>
       <CardActions>
         <FlatButton label="Action2" />
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 };

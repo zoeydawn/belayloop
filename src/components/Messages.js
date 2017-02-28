@@ -11,16 +11,25 @@ import MessageCard from './MessageCard';
 class Messages extends Component {
 
   render() {
-    const { messages } = this.props;
+    const { loggedUser } = this.props;
+    console.log('loggedUser:', loggedUser);
     let messageList = 'messageList';
-    if (messages) {
+    let messages;
+    if (loggedUser) {
+      messages = loggedUser.messages;
+      // console.log('messages:', messages);
       messageList = Object.keys(messages).map((conversationId, i) => {
         // console.log('messages[message]:', messages[message]);
         return (
-          <MessageCard details={messages[conversationId]} key={i} />
+          <MessageCard
+            details={messages[conversationId]}
+            conversationId={conversationId}
+            key={i}
+          />
         );
       });
     }
+
     return (
       <div>
         {messageList}
@@ -30,7 +39,7 @@ class Messages extends Component {
 }
 
 const mapStateToProps = (state => ({
-  messages: state.messages,
+  loggedUser: state.loggedUser,
 }));
 
 export default connect(mapStateToProps)(Messages);

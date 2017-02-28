@@ -8,6 +8,7 @@ import Home from './Home';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
 import Messages from './Messages';
+import Conversation from './Conversation';
 
 function authCheck(nextState, transition) {
   // console.log('nextState:', nextState);
@@ -30,6 +31,7 @@ export default class CustomRouter extends Component {
           <Route path="/dashboard" component={Dashboard} onEnter={authCheck} />
           <Route path="/profile/:userId" component={Profile} />
           <Route path="/messages" component={Messages} />
+          <Route path="/conversation/:id" component={Conversation} />
         </Route>
       </Router>
     );
