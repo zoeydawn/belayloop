@@ -22,9 +22,14 @@ export default class Message extends Component {
   }
 
   _onSubmit = () => {
-    const { submit, userId } = this.props;
-    submit(userId, this.state.message);
-    console.log('this.state:', this.state);
+    const { submit, userId, displayName, photoURL } = this.props;
+    const receiverObj = {
+      uid: userId,
+      displayName,
+      photoURL,
+    }
+    submit(receiverObj, this.state.message);
+    // console.log('this.state:', this.state);
     this.setState({ open: false });
   }
 

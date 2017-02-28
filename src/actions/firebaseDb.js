@@ -1,3 +1,5 @@
+import uuidV1 from 'uuid/v1';
+
 import { firebaseDb, firebaseAuth } from '../firebase';
 
 function receiveUser(user) {
@@ -49,27 +51,61 @@ export function updateUserInfo(userId, obj) {
   };
 }
 
-export function sendMessage(receiverId, message) {
+export function startConversation(receiverObj, message) {
   const { uid, displayName, photoURL } = firebaseAuth.currentUser;
-  const userRef = firebaseDb.ref('messages').child(uid).child(receiverId);
-  const receiverRef = firebaseDb.ref('messages').child(receiverId).child(uid);
-  console.log('firebaseAuth.currentUser:', firebaseAuth.currentUser);
-  userRef.push({
-    message,
-    sender: true,
-    timestamp: Date.now(),
-    read: true,
+  const conversationId = uuidV1();
+  const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId);
+  const receiverRef = firebaseDb.ref('users').child(receiverObj.uid).child('messages').child(conversationId);
+  const conversationRef = firebaseDb.ref('conversations').child(conversationId);
+  console.log('conversationId:', conversationId);
+  userRef.set({
+    uid: receiverObj.uid,
+    displayName: receiverObj.displayName,
+    photoURL: receiverObj.photoURL,
+    subject: '[no subject]',
   });
-  receiverRef.push({
+  // userRef.set({
+  //   details: {
+  //     uid: receiverObj.uid,
+  //     displayName: receiverObj.displayName,
+  //     photoURL: receiverObj.photoURL,
+  //   },
+  //   0: {
+  //     message,
+  //     timestamp: Date.now(),
+  //     read: true,
+  //     uid,
+  //     displayName,
+  //     photoURL,
+  //   },
+  // });
+  receiverRef.set({
+    uid,
+    displayName,
+    photoURL,
+    subject: '[no subject]',
+  });
+  // receiverRef.set({
+  //   details: {
+  //     uid,
+  //     displayName,
+  //     photoURL,
+  //   },
+  //   0: {
+  //     message,
+  //     timestamp: Date.now(),
+  //     read: false,
+  //     uid,
+  //     displayName,
+  //     photoURL,
+  //   },
+  // });
+  conversationRef.push({
     message,
-    sender: false,
     timestamp: Date.now(),
-    read: false,
-    senderInfo: {
-      displayName,
-      photoURL,
-      uid,
-    },
+    uid,
+    displayName,
+    photoURL,
   });
   return {
     type: 'MESSAGE_SENT',

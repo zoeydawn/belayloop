@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 
 import { getUser } from '../actions/userActions';
-import { startListeningToUser, sendMessage } from '../actions/firebaseDb';
+import { startListeningToUser, startConversation } from '../actions/firebaseDb';
 
 import Message from './Message';
 
@@ -17,9 +17,9 @@ class Profile extends Component {
   }
 
   render() {
-    const { userDetails } = this.props;
-    // console.log('userDetails:', userDetails);
-    const { userInfo } = this.props;
+    const { userDetails, userInfo } = this.props;
+    // const { userInfo } = this.props;
+    console.log('userInfo:', userInfo);
     let displayName = '';
     let photoURL = '';
 
@@ -90,8 +90,9 @@ class Profile extends Component {
           /> */}
           <Message
             displayName={displayName}
-            submit={this.props.sendMessage}
+            submit={this.props.startConversation}
             userId={this.props.params.userId}
+            photoURL={photoURL}
           />
         </div>
       </div>
@@ -111,8 +112,8 @@ const mapDispatchToProps = dispatch => ({
   startListeningToUser(userId) {
     dispatch(startListeningToUser(userId));
   },
-  sendMessage(userId, obj) {
-    dispatch(sendMessage(userId, obj));
+  startConversation(userId, obj) {
+    dispatch(startConversation(userId, obj));
   },
 });
 

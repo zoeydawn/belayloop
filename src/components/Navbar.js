@@ -40,8 +40,8 @@ class Navbar extends Component {
   }
 
   render() {
-    const { loggedIn, user, signOut } = this.props;
-    console.log('loggedIn:', loggedIn);
+    const { loggedIn, user, signOut, messages } = this.props;
+    console.log('messages:', messages);
 
     const login = (
       <ToolbarGroup>
@@ -54,6 +54,7 @@ class Navbar extends Component {
       <ToolbarGroup>
         <FontIcon
           className="fa fa-bell"
+          onClick={() => browserHistory.push('/messages')}
         />
         {/* <FontIcon
           className="fa fa-comments"
@@ -94,6 +95,7 @@ class Navbar extends Component {
 const mapStateToProps = (state => ({
   loggedIn: state.auth.authenticated,
   user: state.auth.user,
+  messages: state.messages,
 }));
 
 const mapDispatchToProps = dispatch => ({
