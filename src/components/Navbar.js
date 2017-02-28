@@ -16,7 +16,7 @@ import FontIcon from 'material-ui/FontIcon';
 
 import Login from './Login';
 import { signOut } from '../actions/auth';
-import { listenToMessages } from '../actions/firebaseDb';
+import { listenToLoggedUser } from '../actions/firebaseDb';
 
 class Navbar extends Component {
   // state = {
@@ -30,7 +30,7 @@ class Navbar extends Component {
   componentDidMount() {
     // console.log('this.props.user', this.props.user);
     if (this.props.loggedIn) {
-      this.props.listenToMessages();
+      this.props.listenToLoggedUser();
     }
   }
 
@@ -102,8 +102,8 @@ const mapDispatchToProps = dispatch => ({
   signOut() {
     dispatch(signOut());
   },
-  listenToMessages() {
-    dispatch(listenToMessages());
+  listenToLoggedUser() {
+    dispatch(listenToLoggedUser());
   },
 });
 

@@ -10,11 +10,11 @@ function receiveUser(user) {
   };
 }
 
-function receiveMessages(messages) {
-  console.log('messages:', messages);
+function receiveLoggedUser(user) {
+  // console.log('user:', user);
   return {
-    type: 'RECEIVE_MESSAGES',
-    payload: messages,
+    type: 'RECEIVE_LOGGED_USER',
+    payload: user,
   };
 }
 
@@ -29,14 +29,14 @@ export function startListeningToUser(userId) {
   };
 }
 
-export function listenToMessages() {
+export function listenToLoggedUser() {
   return (dispatch) => {
-    console.log('in listenToMessages');
-    const userRef = firebaseDb.ref('messages').child(firebaseAuth.currentUser.uid);
+    // console.log('in listenToLoggedUser');
+    const userRef = firebaseDb.ref('users').child(firebaseAuth.currentUser.uid);
     userRef.off();
     userRef.on('value', (snapshot) => {
       const messages = snapshot.val();
-      dispatch(receiveMessages(messages));
+      dispatch(receiveLoggedUser(messages));
     });
   };
 }

@@ -11,9 +11,9 @@ import PublicInfoModal from './PublicInfoModal';
 
 class Dashboard extends Component {
 
-  componentDidMount() {
-    this.props.startListeningToUser(this.props.user.uid);
-  }
+  // componentDidMount() {
+  //   this.props.startListeningToUser(this.props.user.uid);
+  // }
 
   // editInfo = () => {
   //   this.props.updateUser({ displayName: 'Donovan' });
@@ -118,7 +118,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state => ({
   user: state.auth.user,
-  userDetails: state.userDetails,
+  userDetails: state.loggedUser,
 }));
 
 const mapDispatchToProps = dispatch => ({
