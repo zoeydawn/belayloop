@@ -72,6 +72,16 @@ export function updateUserInfo(userId, obj) {
   };
 }
 
+export function sendMessage(conversationId, obj) {
+  const userRef = firebaseDb.ref('conversations').child(conversationId);
+  userRef.push(obj);
+
+  return {
+    type: 'SENT_MESSAGE',
+    payload: obj,
+  };
+}
+
 export function startConversation(receiverObj, message) {
   const { uid, displayName, photoURL } = firebaseAuth.currentUser;
   const conversationId = uuidV1();

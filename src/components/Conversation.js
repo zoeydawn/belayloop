@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -9,7 +9,9 @@ import FontIcon from 'material-ui/FontIcon';
 import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 
-import { listenToConversation } from '../actions/firebaseDb';
+import MessageForm from './MessageForm';
+
+import { listenToConversation, sendMessage } from '../actions/firebaseDb';
 
 class Conversation extends Component {
   componentDidMount() {
@@ -18,13 +20,13 @@ class Conversation extends Component {
   }
 
   render() {
-    const { loggedUser, conversation } = this.props;
+    const { user, conversation, sendMessage } = this.props;
     console.log('conversation:', conversation);
     let conversationList = '';
     if (conversation) {
       conversationList = Object.keys(conversation).map((messageId) => {
         const { displayName, message, photoURL, timestamp, uid } = conversation[messageId];
-        console.log('messageId:', messageId);
+        // console.log('messageId:', messageId);
         return (
           <ListItem
             key={messageId}
@@ -41,9 +43,18 @@ class Conversation extends Component {
 
     return (
       <div>
+        <div className="pointer" onClick={() => browserHistory.push('/messages')}>
+          <FontIcon className="fa fa-chevron-left" />
+          Back to conversations
+        </div>
         <List>
           {conversationList}
         </List>
+        <MessageForm
+          conversation={this.props.params.id}
+          submit={sendMessage}
+          user={user}
+        />
       </div>
     );
   }
@@ -51,11 +62,15 @@ class Conversation extends Component {
 
 const mapStateToProps = (state => ({
   conversation: state.conversation,
+  user: state.auth.user,
 }));
 
 const mapDispatchToProps = dispatch => ({
   listenToConversation(id) {
     dispatch(listenToConversation(id));
+  },
+  sendMessage(id, obj) {
+    dispatch(sendMessage(id, obj));
   },
 });
 
