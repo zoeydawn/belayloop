@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 
 import { firebaseAuth } from '../firebase';
+// import { listenToMessages } from './firebaseDb';
 
 export function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
@@ -80,6 +81,7 @@ export function initAuth(dispatch) {
       (user) => {
         if (user) {
           // console.log('user (in actions):', user);
+          // listenToMessages();
           dispatch(initAuthSuccess(user));
         }
         res();

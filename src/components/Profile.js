@@ -5,7 +5,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 
 import { getUser } from '../actions/userActions';
-import { startListeningToUser } from '../actions/firebaseDb';
+import { startListeningToUser, sendMessage } from '../actions/firebaseDb';
+
+import Message from './Message';
 
 class Profile extends Component {
   componentWillMount() {
@@ -16,7 +18,7 @@ class Profile extends Component {
 
   render() {
     const { userDetails } = this.props;
-    console.log('userDetails:', userDetails);
+    // console.log('userDetails:', userDetails);
     const { userInfo } = this.props;
     let displayName = '';
     let photoURL = '';
@@ -81,10 +83,15 @@ class Profile extends Component {
           <p>{details.bio}</p>
         </div>
         <div className="profileRight">
-          <RaisedButton
+          {/* <RaisedButton
             icon={<FontIcon className="fa fa-comment-o" />}
             label="Message"
             style={{ height: 36 }}
+          /> */}
+          <Message
+            displayName={displayName}
+            submit={this.props.sendMessage}
+            userId={this.props.params.userId}
           />
         </div>
       </div>
@@ -103,6 +110,9 @@ const mapDispatchToProps = dispatch => ({
   },
   startListeningToUser(userId) {
     dispatch(startListeningToUser(userId));
+  },
+  sendMessage(userId, obj) {
+    dispatch(sendMessage(userId, obj));
   },
 });
 
