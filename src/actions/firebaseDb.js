@@ -82,7 +82,8 @@ export function sendMessage(conversationId, obj) {
   };
 }
 
-export function startConversation(receiverObj, message) {
+export function startConversation(receiverObj, messageObj) {
+  const { message, subject } = messageObj;
   const { uid, displayName, photoURL } = firebaseAuth.currentUser;
   const conversationId = uuidV1();
   const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId);
@@ -93,44 +94,16 @@ export function startConversation(receiverObj, message) {
     uid: receiverObj.uid,
     displayName: receiverObj.displayName,
     photoURL: receiverObj.photoURL,
-    subject: '[no subject]',
+    subject,
+    read: true,
   });
-  // userRef.set({
-  //   details: {
-  //     uid: receiverObj.uid,
-  //     displayName: receiverObj.displayName,
-  //     photoURL: receiverObj.photoURL,
-  //   },
-  //   0: {
-  //     message,
-  //     timestamp: Date.now(),
-  //     read: true,
-  //     uid,
-  //     displayName,
-  //     photoURL,
-  //   },
-  // });
   receiverRef.set({
     uid,
     displayName,
     photoURL,
-    subject: '[no subject]',
+    subject,
+    read: false,
   });
-  // receiverRef.set({
-  //   details: {
-  //     uid,
-  //     displayName,
-  //     photoURL,
-  //   },
-  //   0: {
-  //     message,
-  //     timestamp: Date.now(),
-  //     read: false,
-  //     uid,
-  //     displayName,
-  //     photoURL,
-  //   },
-  // });
   conversationRef.push({
     message,
     timestamp: Date.now(),

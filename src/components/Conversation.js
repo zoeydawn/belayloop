@@ -30,7 +30,8 @@ class Conversation extends Component {
         return (
           <ListItem
             key={messageId}
-            disabled={true}
+            // disabled={true}
+            onClick={() => browserHistory.push(`/profile/${uid}`)}
             leftAvatar={<Avatar src={photoURL} />}
             primaryText={message}
             secondaryText={`${displayName} - ${moment(timestamp).fromNow()}`}

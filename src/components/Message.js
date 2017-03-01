@@ -5,8 +5,15 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 
+import Bar from './Bar';
+
 export default class Message extends Component {
-  state = { open: false, message: '' }
+  state = {
+    open: false,
+    message: '',
+    subject: '[no subject]',
+    snackbarOpen: false,
+  }
 
   handleOpen = () => {
     this.setState({ open: true });
@@ -17,20 +24,31 @@ export default class Message extends Component {
   }
 
   _onType = (e) => {
-    const { value } = e.target;
-    this.setState({ message: value });
+    const { value, name } = e.target;
+    this.setState({ [name]: value });
+    // console.log('this.state:', this.state);
   }
 
   _onSubmit = () => {
     const { submit, userId, displayName, photoURL } = this.props;
+    const { message, subject } = this.state;
     const receiverObj = {
       uid: userId,
       displayName,
       photoURL,
-    }
-    submit(receiverObj, this.state.message);
+    };
+    const messageObj = {
+      subject,
+      message,
+    };
+    submit(receiverObj, messageObj);
     // console.log('this.state:', this.state);
-    this.setState({ open: false });
+    this.setState({
+      open: false,
+      message: '',
+      subject: '[no subject]',
+      snackbarOpen: true,
+    });
   }
 
   render() {
@@ -64,14 +82,27 @@ export default class Message extends Component {
           onRequestClose={this.handleClose}
         >
           <TextField
+            name="subject"
+            // defaultValue={bio}
+            floatingLabelText="Subject"
+            // multiLine={true}
+            // rows={2}
+            onChange={this._onType}
+          />
+          <br />
+          <TextField
             name="message"
             // defaultValue={bio}
-            floatingLabelText={`Send message to ${displayName}`}
+            floatingLabelText="Message"
             multiLine={true}
             rows={2}
             onChange={this._onType}
           />
         </Dialog>
+        <Bar
+          open={this.state.snackbarOpen}
+          text="Message sent"
+        />
       </div>
     );
   }

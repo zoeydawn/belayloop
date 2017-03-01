@@ -12,10 +12,10 @@ class Messages extends Component {
 
   render() {
     const { loggedUser } = this.props;
-    console.log('loggedUser:', loggedUser);
-    let messageList = 'messageList';
+    // console.log('loggedUser:', loggedUser);
+    let messageList = 'Your inbox in empty';
     let messages;
-    if (loggedUser) {
+    if (loggedUser && loggedUser.messages) {
       messages = loggedUser.messages;
       // console.log('messages:', messages);
       messageList = Object.keys(messages).map((conversationId, i) => {

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
+import Badge from 'material-ui/Badge';
 // import FlatButton from 'material-ui/FlatButton';
 // import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
@@ -40,8 +41,37 @@ class Navbar extends Component {
   }
 
   render() {
-    const { loggedIn, user, signOut, messages } = this.props;
-    console.log('messages:', messages);
+    const { loggedIn, user, signOut, loggedUser } = this.props;
+    console.log('loggedUser:', loggedUser);
+    let messageCount = 0;
+    if (loggedUser && loggedUser.messages) {
+      messageCount = Object.keys(loggedUser.messages).filter((key) => {
+        return loggedUser.messages[key].read === false;
+      }).length;
+      console.log('messageCount:', messageCount);
+    }
+
+    let notificationIcon = (
+      <FontIcon
+        className="fa fa-comments"
+        onClick={() => browserHistory.push('/messages')}
+      />
+    );
+
+    if (messageCount) {
+      notificationIcon = (
+        <Badge
+          className="pointer"
+          badgeContent={messageCount}
+          primary={true}
+        >
+          <FontIcon
+            className="fa fa-comments"
+            onClick={() => browserHistory.push('/messages')}
+          />
+        </Badge>
+      );
+    }
 
     const login = (
       <ToolbarGroup>
@@ -52,10 +82,7 @@ class Navbar extends Component {
 
     const logged = (
       <ToolbarGroup>
-        <FontIcon
-          className="fa fa-bell"
-          onClick={() => browserHistory.push('/messages')}
-        />
+        {notificationIcon}
         {/* <FontIcon
           className="fa fa-comments"
         />
@@ -95,7 +122,7 @@ class Navbar extends Component {
 const mapStateToProps = (state => ({
   loggedIn: state.auth.authenticated,
   user: state.auth.user,
-  messages: state.messages,
+  loggedUser: state.loggedUser,
 }));
 
 const mapDispatchToProps = dispatch => ({

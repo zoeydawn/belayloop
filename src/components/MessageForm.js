@@ -52,6 +52,7 @@ export default class MessageForm extends Component {
           name="message"
           // defaultValue={bio}
           // floatingLabelText={`Send message to ${displayName}`}
+          value={this.state.message}
           multiLine={true}
           rows={2}
           onChange={this._onType}
