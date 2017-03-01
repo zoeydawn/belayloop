@@ -15,7 +15,7 @@ export default class MessageForm extends Component {
 
   _onSubmit = () => {
     // console.log('this.props.user:', this.props.user);
-    const { submit, user, conversation } = this.props;
+    const { submit, user, conversation, otherPartyUid } = this.props;
     const { uid, displayName, photoURL } = user;
     const { message } = this.state;
     const messageObj = {
@@ -27,7 +27,7 @@ export default class MessageForm extends Component {
     };
     // console.log('messageObj:', messageObj);
     // console.log('conversation:', conversation);
-    submit(conversation, messageObj);
+    submit(conversation, messageObj, otherPartyUid);
     this.setState({ message: '' });
   }
 

@@ -11,22 +11,26 @@ import ListItem from 'material-ui/List/ListItem';
 
 import MessageForm from './MessageForm';
 
-import { listenToConversation, sendMessage } from '../actions/firebaseDb';
+import { listenToConversation, sendMessage, markAsRead } from '../actions/firebaseDb';
 
 class Conversation extends Component {
   componentDidMount() {
-    // console.log('this.props.params.id:', this.props.params.id);
+    this.props.markAsRead(this.props.params.id);
     this.props.listenToConversation(this.props.params.id);
   }
 
   render() {
-    const { user, conversation, sendMessage } = this.props;
-    console.log('conversation:', conversation);
+    const { user, conversation, sendMessage, loggedUser } = this.props;
+    let otherPartyUid;
+    if (loggedUser) {
+      otherPartyUid = loggedUser.messages[this.props.params.id].uid;
+      // console.log('loggedUser.messages[this.props.params.id].uid:', loggedUser.messages[this.props.params.id].uid);
+    }
     let conversationList = '';
     if (conversation) {
       conversationList = Object.keys(conversation).map((messageId) => {
         const { displayName, message, photoURL, timestamp, uid } = conversation[messageId];
-        // console.log('messageId:', messageId);
+        console.log('conversation:', conversation);
         return (
           <ListItem
             key={messageId}
@@ -55,6 +59,7 @@ class Conversation extends Component {
           conversation={this.props.params.id}
           submit={sendMessage}
           user={user}
+          otherPartyUid={otherPartyUid}
         />
       </div>
     );
@@ -64,14 +69,18 @@ class Conversation extends Component {
 const mapStateToProps = (state => ({
   conversation: state.conversation,
   user: state.auth.user,
+  loggedUser: state.loggedUser,
 }));
 
 const mapDispatchToProps = dispatch => ({
   listenToConversation(id) {
     dispatch(listenToConversation(id));
   },
-  sendMessage(id, obj) {
-    dispatch(sendMessage(id, obj));
+  sendMessage(conId, obj, uid) {
+    dispatch(sendMessage(conId, obj, uid));
+  },
+  markAsRead(conId) {
+    dispatch(markAsRead(conId));
   },
 });
 

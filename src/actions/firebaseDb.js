@@ -51,7 +51,7 @@ export function listenToLoggedUser() {
 
 export function listenToConversation(id) {
   return (dispatch) => {
-    console.log('in listenToConversation');
+    // console.log('in listenToConversation');
     const ref = firebaseDb.ref('conversations').child(id);
     ref.off();
     ref.on('value', (snapshot) => {
@@ -72,13 +72,26 @@ export function updateUserInfo(userId, obj) {
   };
 }
 
-export function sendMessage(conversationId, obj) {
-  const userRef = firebaseDb.ref('conversations').child(conversationId);
-  userRef.push(obj);
+export function sendMessage(conversationId, obj, uid) {
+  const conRef = firebaseDb.ref('conversations').child(conversationId);
+  const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId).child('read');
+  conRef.push(obj);
+  userRef.set(false);
 
   return {
     type: 'SENT_MESSAGE',
     payload: obj,
+  };
+}
+
+export function markAsRead(conversationId) {
+  const { uid } = firebaseAuth.currentUser;
+  const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId).child('read');
+  userRef.set(true);
+
+  return {
+    type: 'MARKED_AS_READ',
+    payload: conversationId,
   };
 }
 
