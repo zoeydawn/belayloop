@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 // import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import { connect } from 'react-redux';
 // import RaisedButton from 'material-ui/RaisedButton';
 // import FontIcon from 'material-ui/FontIcon';
+import { List, ListItem } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Avatar from 'material-ui/Avatar';
+import FontIcon from 'material-ui/FontIcon';
 //
 // import { getUser } from '../actions/userActions';
 // import { startListeningToUser, startConversation } from '../actions/firebaseDb';
-import MessageCard from './MessageCard';
+// import MessageCard from './MessageCard';
 
 class Messages extends Component {
 
@@ -18,13 +23,29 @@ class Messages extends Component {
     if (loggedUser && loggedUser.messages) {
       messages = loggedUser.messages;
       // console.log('messages:', messages);
-      messageList = Object.keys(messages).map((conversationId, i) => {
-        // console.log('messages[message]:', messages[message]);
+      messageList = Object.keys(messages).map((conversationId) => {
+        console.log('messages[conversationId]:', messages[conversationId]);
+        const { displayName, photoURL, subject, read } = messages[conversationId];
+        if (read) {
+          return (
+            <ListItem
+              key={conversationId}
+              onClick={() => browserHistory.push(`conversation/${conversationId}`)}
+              primaryText={displayName}
+              secondaryText={subject}
+              leftAvatar={<Avatar src={photoURL} />}
+              // rightIcon={<CommunicationChatBubble />}
+            />
+          );
+        }
         return (
-          <MessageCard
-            details={messages[conversationId]}
-            conversationId={conversationId}
-            key={i}
+          <ListItem
+            key={conversationId}
+            onClick={() => browserHistory.push(`conversation/${conversationId}`)}
+            primaryText={displayName}
+            secondaryText={subject}
+            leftAvatar={<Avatar src={photoURL} />}
+            rightIcon={<FontIcon className="fa fa-comments" />}
           />
         );
       });
@@ -32,7 +53,10 @@ class Messages extends Component {
 
     return (
       <div>
-        {messageList}
+        <Subheader inset={true}>Your Conversations:</Subheader>
+        <List>
+          {messageList}
+        </List>
       </div>
     );
   }
