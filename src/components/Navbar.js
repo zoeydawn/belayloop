@@ -42,7 +42,7 @@ class Navbar extends Component {
 
   render() {
     const { loggedIn, user, signOut, loggedUser } = this.props;
-    console.log('loggedUser:', loggedUser);
+    console.log('user:', user);
     let messageCount = 0;
     if (loggedUser && loggedUser.messages) {
       messageCount = Object.keys(loggedUser.messages).filter((key) => {
@@ -53,7 +53,7 @@ class Navbar extends Component {
 
     let notificationIcon = (
       <FontIcon
-        className="fa fa-comments"
+        className="fa fa-envelope"
         onClick={() => browserHistory.push('/messages')}
       />
     );
@@ -66,7 +66,7 @@ class Navbar extends Component {
           primary={true}
         >
           <FontIcon
-            className="fa fa-comments"
+            className="fa fa-envelope"
             onClick={() => browserHistory.push('/messages')}
           />
         </Badge>
@@ -90,14 +90,17 @@ class Navbar extends Component {
         <ToolbarSeparator />
         <IconMenu
           iconButtonElement={
-            <IconButton><MoreVertIcon /></IconButton>
+            // <IconButton><MoreVertIcon /></IconButton>
+            <Avatar src={user.photoURL} id="navbarAvitar" className="pointer" />
           }
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
         >
-          <MenuItem primaryText="Dashboard" onClick={() => browserHistory.push('/dashboard')} />
-          <MenuItem primaryText="Profile" onClick={() => browserHistory.push(`/profile/${user.uid}`)} />
-          <MenuItem primaryText="Sign out" onClick={this.logOut} />
+          <MenuItem primaryText="Dashboard" leftIcon={<FontIcon className="fa fa-tachometer" />} onClick={() => browserHistory.push('/dashboard')} />
+          <MenuItem primaryText="Profile" leftIcon={<FontIcon className="fa fa-user" />} onClick={() => browserHistory.push(`/profile/${user.uid}`)} />
+          <MenuItem primaryText="Climbing Gyms" leftIcon={<FontIcon className="fa fa-building" />} onClick={() => browserHistory.push('/dashboard')} />
+          <MenuItem primaryText="Groups" leftIcon={<FontIcon className="fa fa-users" />} onClick={() => browserHistory.push('/dashboard')} />
+          <MenuItem primaryText="Sign out" leftIcon={<FontIcon className="fa fa-sign-out" />} onClick={this.logOut} />
         </IconMenu>
       </ToolbarGroup>
     );
@@ -108,7 +111,7 @@ class Navbar extends Component {
       <div>
         <Toolbar>
           <ToolbarGroup firstChild>
-            <img className="pointer" id="topLogo" src="" alt="" onClick={() => browserHistory.push('/')} />
+            <img className="pointer" id="topLogo" src="/simplelogo.png" alt="" onClick={() => browserHistory.push('/')} />
           </ToolbarGroup>
           {/* <ToolbarGroup> */}
             {rightMenu}

@@ -7,7 +7,7 @@
 }
 
 #topLogo {
-  height: 75px;
+  max-height: 56px;
 }
 
 .logInButton {
