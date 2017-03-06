@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import AddGym from './AddGym';
+import SimpleList from './SimpleList';
 
 import { addGym, listenToGyms } from '../actions/firebaseDb';
 
@@ -12,11 +13,13 @@ class Gyms extends Component {
   }
 
   render() {
-    console.log('this.props.gyms:', this.props.gyms);
+    const { addGym, gyms } = this.props;
+    // console.log('this.props.gyms:', this.props.gyms);
     return (
       <div>
         {/* <RaisedButton label="Add a Gym" style={{ margin: 12 }} /> */}
-        <AddGym submit={this.props.addGym} />
+        <SimpleList listObj={gyms} />
+        <AddGym submit={addGym} />
       </div>
     );
   }
