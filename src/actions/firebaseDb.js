@@ -3,7 +3,7 @@ import uuidV1 from 'uuid/v1';
 import { firebaseDb, firebaseAuth } from '../firebase';
 
 function receiveUser(user) {
-  console.log('user:', user);
+  // console.log('user:', user);
   return {
     type: 'RECEIVE_USER',
     payload: user,
@@ -23,6 +23,13 @@ function receiveConversation(con) {
   return {
     type: 'RECEIVE_CONVERSATION',
     payload: con,
+  };
+}
+
+function receiveGyms(data) {
+  return {
+    type: 'RECEIVE_GYMS',
+    payload: data,
   };
 }
 
@@ -56,7 +63,7 @@ export function listenToConversation(id) {
     ref.off();
     ref.on('value', (snapshot) => {
       const con = snapshot.val();
-      console.log('con:', con);
+      // console.log('con:', con);
       dispatch(receiveConversation(con));
     });
   };
@@ -102,7 +109,7 @@ export function startConversation(receiverObj, messageObj) {
   const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId);
   const receiverRef = firebaseDb.ref('users').child(receiverObj.uid).child('messages').child(conversationId);
   const conversationRef = firebaseDb.ref('conversations').child(conversationId);
-  console.log('conversationId:', conversationId);
+  // console.log('conversationId:', conversationId);
   userRef.set({
     uid: receiverObj.uid,
     displayName: receiverObj.displayName,
@@ -127,5 +134,28 @@ export function startConversation(receiverObj, messageObj) {
   return {
     type: 'MESSAGE_SENT',
     payload: message,
+  };
+}
+
+export function addGym(obj) {
+  const ref = firebaseDb.ref('gyms');
+  ref.push(obj);
+
+  return {
+    type: 'GYM_ADDED',
+    payload: obj,
+  };
+}
+
+export function listenToGyms() {
+  return (dispatch) => {
+    // console.log('in listenToGyms');
+    const ref = firebaseDb.ref('gyms');
+    ref.off();
+    ref.on('value', (snapshot) => {
+      const gyms = snapshot.val();
+      // console.log('gyms:', gyms);
+      dispatch(receiveGyms(gyms));
+    });
   };
 }

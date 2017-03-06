@@ -90,15 +90,19 @@ class Navbar extends Component {
         <ToolbarSeparator />
         <IconMenu
           iconButtonElement={
-            // <IconButton><MoreVertIcon /></IconButton>
-            <Avatar src={user.photoURL} id="navbarAvitar" className="pointer" />
+            <IconButton><MoreVertIcon /></IconButton>
+            // <Avatar
+            //   src={user.photoURL}
+            //   id="navbarAvitar"
+            //   className="pointer"
+            // />
           }
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
         >
           <MenuItem primaryText="Dashboard" leftIcon={<FontIcon className="fa fa-tachometer" />} onClick={() => browserHistory.push('/dashboard')} />
           <MenuItem primaryText="Profile" leftIcon={<FontIcon className="fa fa-user" />} onClick={() => browserHistory.push(`/profile/${user.uid}`)} />
-          <MenuItem primaryText="Climbing Gyms" leftIcon={<FontIcon className="fa fa-building" />} onClick={() => browserHistory.push('/dashboard')} />
+          <MenuItem primaryText="Climbing Gyms" leftIcon={<FontIcon className="fa fa-building" />} onClick={() => browserHistory.push('/gyms')} />
           <MenuItem primaryText="Groups" leftIcon={<FontIcon className="fa fa-users" />} onClick={() => browserHistory.push('/dashboard')} />
           <MenuItem primaryText="Sign out" leftIcon={<FontIcon className="fa fa-sign-out" />} onClick={this.logOut} />
         </IconMenu>
