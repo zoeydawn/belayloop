@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import AddGym from './AddGym';
-import SimpleList from './SimpleList';
+import GymList from './GymList';
 
 import { addGym, listenToGyms } from '../actions/firebaseDb';
 
@@ -18,7 +18,7 @@ class Gyms extends Component {
     return (
       <div>
         {/* <RaisedButton label="Add a Gym" style={{ margin: 12 }} /> */}
-        <SimpleList listObj={gyms} />
+        <GymList listObj={gyms} />
         <AddGym submit={addGym} />
       </div>
     );

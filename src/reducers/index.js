@@ -6,6 +6,7 @@ import userDetails from './userDetails';
 import loggedUser from './loggedUser';
 import conversation from './conversation';
 import gyms from './gyms';
+import currentGym from './currentGym';
 
 export default combineReducers({
   auth,
@@ -14,4 +15,5 @@ export default combineReducers({
   loggedUser,
   conversation,
   gyms,
+  currentGym,
 });

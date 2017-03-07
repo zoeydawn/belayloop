@@ -33,6 +33,13 @@ function receiveGyms(data) {
   };
 }
 
+function receiveGym(data) {
+  return {
+    type: 'RECEIVE_GYM',
+    payload: data,
+  };
+}
+
 export function startListeningToUser(userId) {
   return (dispatch) => {
     const userRef = firebaseDb.ref('users').child(userId);
@@ -156,6 +163,19 @@ export function listenToGyms() {
       const gyms = snapshot.val();
       // console.log('gyms:', gyms);
       dispatch(receiveGyms(gyms));
+    });
+  };
+}
+
+export function listenToGym(id) {
+  return (dispatch) => {
+    // console.log('in listenToGyms');
+    const ref = firebaseDb.ref('gyms').child(id);
+    ref.off();
+    ref.on('value', (snapshot) => {
+      const gym = snapshot.val();
+      // console.log('gyms:', gyms);
+      dispatch(receiveGym(gym));
     });
   };
 }

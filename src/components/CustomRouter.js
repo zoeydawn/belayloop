@@ -10,6 +10,7 @@ import Profile from './Profile';
 import Messages from './Messages';
 import Conversation from './Conversation';
 import Gyms from './Gyms';
+import Gym from './Gym';
 
 function authCheck(nextState, transition) {
   // console.log('nextState:', nextState);
@@ -34,6 +35,7 @@ export default class CustomRouter extends Component {
           <Route path="/messages" component={Messages} />
           <Route path="/conversation/:id" component={Conversation} />
           <Route path="/gyms" component={Gyms} />
+          <Route path="/gym/:id" component={Gym} />
         </Route>
       </Router>
     );

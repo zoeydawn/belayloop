@@ -5,8 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 import AutoComplete from 'material-ui/AutoComplete';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+// import SelectField from 'material-ui/SelectField';
+// import MenuItem from 'material-ui/MenuItem';
 import Checkbox from 'material-ui/Checkbox';
 
 import Bar from './Bar';
@@ -38,13 +38,13 @@ export default class AddGym extends Component {
       [name]: value,
       snackbarOpen: false,
     });
-    console.log('this.state:', this.state);
+    // console.log('this.state:', this.state);
   }
 
   _handleCheck = (name) => {
     if (this.state[name]) {
       this.setState({ [name]: false });
-      console.log('this.state[name]:', this.state[name]);
+      // console.log('this.state[name]:', this.state[name]);
     } else {
       this.setState({
         [name]: true,
@@ -73,8 +73,10 @@ export default class AddGym extends Component {
       website,
     } = this.state;
     // const { userDetails } = this.props;
+    // const fullAddress = `${address} ${city} ${state.substring(0, 2)}`
     const obj = {
-      address: address || '',
+      streetAddress: address || '',
+      address: `${address} ${city}, ${state.substring(0, 2)}`,
       city: city || '',
       description: description || '',
       image: image || '',
@@ -106,7 +108,7 @@ export default class AddGym extends Component {
       wallHeight: '',
       website: '',
     });
-    // console.log('this.state:', this.state);
+    // console.log('obj:', obj);
   }
 
   render() {
@@ -203,7 +205,7 @@ export default class AddGym extends Component {
           <TextField
             id="text-field-default"
             name="wallHeight"
-            floatingLabelText="Height of largest wall"
+            floatingLabelText="Height of largest wall (feet)"
             onChange={this._onType}
           />
           <br />
