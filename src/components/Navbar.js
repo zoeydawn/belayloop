@@ -103,7 +103,7 @@ class Navbar extends Component {
           <MenuItem primaryText="Dashboard" leftIcon={<FontIcon className="fa fa-tachometer" />} onClick={() => browserHistory.push('/dashboard')} />
           <MenuItem primaryText="Profile" leftIcon={<FontIcon className="fa fa-user" />} onClick={() => browserHistory.push(`/profile/${user.uid}`)} />
           <MenuItem primaryText="Climbing Gyms" leftIcon={<FontIcon className="fa fa-building" />} onClick={() => browserHistory.push('/gyms')} />
-          <MenuItem primaryText="Groups" leftIcon={<FontIcon className="fa fa-users" />} onClick={() => browserHistory.push('/dashboard')} />
+          <MenuItem primaryText="Groups" leftIcon={<FontIcon className="fa fa-users" />} onClick={() => browserHistory.push('/groups')} />
           <MenuItem primaryText="Sign out" leftIcon={<FontIcon className="fa fa-sign-out" />} onClick={this.logOut} />
         </IconMenu>
       </ToolbarGroup>

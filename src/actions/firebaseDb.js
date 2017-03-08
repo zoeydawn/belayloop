@@ -40,6 +40,13 @@ function receiveGym(data) {
   };
 }
 
+function receiveGroups(data) {
+  return {
+    type: 'RECEIVE_GROUPS',
+    payload: data,
+  };
+}
+
 export function startListeningToUser(userId) {
   return (dispatch) => {
     const userRef = firebaseDb.ref('users').child(userId);
@@ -179,3 +186,59 @@ export function listenToGym(id) {
     });
   };
 }
+
+export function addGroup(groupObj) {
+  const { uid, displayName, photoURL } = firebaseAuth.currentUser;
+  const obj = {
+    name: groupObj.name,
+    description: groupObj.description,
+    leader: {
+      uid,
+      displayName,
+      photoURL,
+    },
+    members: {
+      [uid]: {
+        displayName,
+        photoURL,
+      },
+    },
+  };
+  const groupId = uuidV1();
+  const groupRef = firebaseDb.ref('groups').child(groupId);
+  const userRef = firebaseDb.ref('users').child(uid).child('groups').child(groupId);
+
+  groupRef.set(obj);
+  userRef.set(groupObj);
+
+  return {
+    type: 'GROUP_ADDED',
+    payload: obj,
+  };
+}
+
+export function listenToGroups() {
+  return (dispatch) => {
+    // console.log('in listenToGroups');
+    const ref = firebaseDb.ref('groups');
+    ref.off();
+    ref.on('value', (snapshot) => {
+      const groups = snapshot.val();
+      // console.log('groups:', groups);
+      dispatch(receiveGroups(groups));
+    });
+  };
+}
+//
+// export function listenToGroup(id) {
+//   return (dispatch) => {
+//     // console.log('in listenToGroups');
+//     const ref = firebaseDb.ref('gyms').child(id);
+//     ref.off();
+//     ref.on('value', (snapshot) => {
+//       const gym = snapshot.val();
+//       // console.log('gyms:', gyms);
+//       dispatch(receiveGroup(gym));
+//     });
+//   };
+// }

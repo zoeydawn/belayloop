@@ -11,6 +11,7 @@ import Messages from './Messages';
 import Conversation from './Conversation';
 import Gyms from './Gyms';
 import Gym from './Gym';
+import Groups from './Groups';
 
 function authCheck(nextState, transition) {
   // console.log('nextState:', nextState);
@@ -28,14 +29,14 @@ export default class CustomRouter extends Component {
       <Router history={browserHistory}>
         <Route path="/" component={Layout}>
           <IndexRoute component={Home} />
-          {/* <Route path="/detail/:id" component={ImageDetail} /> */}
-          {/* <Route path="/search/:searchQuery" component={SearchResults} /> */}
           <Route path="/dashboard" component={Dashboard} onEnter={authCheck} />
           <Route path="/profile/:userId" component={Profile} />
           <Route path="/messages" component={Messages} />
           <Route path="/conversation/:id" component={Conversation} />
           <Route path="/gyms" component={Gyms} />
           <Route path="/gym/:id" component={Gym} />
+          <Route path="/groups" component={Groups} />
+          {/* <Route path="/gym/:id" component={Gym} /> */}
         </Route>
       </Router>
     );
