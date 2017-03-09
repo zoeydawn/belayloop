@@ -2,37 +2,34 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
-// import AppBar from 'material-ui/AppBar';
+import { Menu, Form, Input } from 'semantic-ui-react';
+
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Badge from 'material-ui/Badge';
-// import FlatButton from 'material-ui/FlatButton';
-// import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-// import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
-import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
 
 import Login from './Login';
+import Auth from './Auth';
 import { signOut } from '../actions/auth';
 import { listenToLoggedUser } from '../actions/firebaseDb';
 
 class Navbar extends Component {
-  // state = {
-  //   logged: false,
-  // };
-
-  // handleChange = (event, logged) => {
-  //   this.setState({logged: logged});
-  // };
+  state = {}
 
   componentDidMount() {
     // console.log('this.props.user', this.props.user);
     if (this.props.loggedIn) {
       this.props.listenToLoggedUser();
     }
+  }
+
+  handleItemClick = (name, path) => {
+    this.setState({ activeItem: name });
+    browserHistory.push(path)
   }
 
   logOut = () => {
@@ -113,14 +110,22 @@ class Navbar extends Component {
 
     return (
       <div>
-        <Toolbar>
-          <ToolbarGroup firstChild>
+        <Menu>
+          <Menu.Item>
+            <img className="pointer" id="topLogo" src="/simplelogo.png" alt="" onClick={() => browserHistory.push('/')} />
+          </Menu.Item>
+          <Menu.Item position="right">
+            <Auth loggedIn={loggedIn} user={user} handleItemClick={this.handleItemClick} signOut={this.logOut} />
+          </Menu.Item>
+          {/* <ToolbarGroup> */}
+          {/* </ToolbarGroup> */}
+        </Menu>
+        {/* <Toolbar>
+        Menu.Item  <ToolbarGroup firstChild>
             <img className="pointer" id="topLogo" src="/simplelogo.png" alt="" onClick={() => browserHistory.push('/')} />
           </ToolbarGroup>
-          {/* <ToolbarGroup> */}
             {rightMenu}
-          {/* </ToolbarGroup> */}
-        </Toolbar>
+        </Toolbar> */}
       </div>
     );
   }
