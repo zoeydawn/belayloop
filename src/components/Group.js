@@ -21,17 +21,15 @@ const styles = {
 };
 
 class Group extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 'a',
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     value: 'a',
+  //   };
+  // }
 
   componentDidMount() {
     this.props.listenToGroup(this.props.params.id);
-    // console.log('this.props.params:', this.props.params);
-    // console.log('this.props.gyms:', this.props.gyms);
   }
 
   handleChange = (value) => {
