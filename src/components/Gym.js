@@ -98,31 +98,6 @@ class Gym extends Component {
           </div>
           <div className="profileRight"></div>
         </div>
-        <Tabs
-          value={this.state.value}
-          onChange={this.handleChange}
-          >
-          <Tab label="Climbers" value="a" >
-            <div>
-              <h2 style={styles.headline}>Climbers</h2>
-              {/* <p>
-                Tabs are also controllable if you want to programmatically pass them their values.
-                This allows for more functionality in Tabs such as not
-                having any Tab selected or assigning them different values.
-              </p> */}
-            </div>
-          </Tab>
-          <Tab label="Reviews" value="b">
-            <div>
-              <h2 style={styles.headline}>Reviews</h2>
-              {/* <p>
-                This is another example of a controllable tab. Remember, if you
-                use controllable Tabs, you need to give all of your tabs values or else
-                you wont be able to select them.
-              </p> */}
-            </div>
-          </Tab>
-        </Tabs>
 
       </div>
     );

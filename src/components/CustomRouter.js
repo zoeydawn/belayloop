@@ -12,6 +12,7 @@ import Conversation from './Conversation';
 import Gyms from './Gyms';
 import Gym from './Gym';
 import Groups from './Groups';
+import Group from './Group';
 
 function authCheck(nextState, transition) {
   // console.log('nextState:', nextState);
@@ -36,7 +37,7 @@ export default class CustomRouter extends Component {
           <Route path="/gyms" component={Gyms} />
           <Route path="/gym/:id" component={Gym} />
           <Route path="/groups" component={Groups} />
-          {/* <Route path="/gym/:id" component={Gym} /> */}
+          <Route path="/group/:id" component={Group} />
         </Route>
       </Router>
     );

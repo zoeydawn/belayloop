@@ -8,6 +8,7 @@ import conversation from './conversation';
 import gyms from './gyms';
 import currentGym from './currentGym';
 import groups from './groups';
+import currentGroup from './currentGroup';
 
 export default combineReducers({
   auth,
@@ -18,4 +19,5 @@ export default combineReducers({
   gyms,
   currentGym,
   groups,
+  currentGroup,
 });

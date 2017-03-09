@@ -47,6 +47,14 @@ function receiveGroups(data) {
   };
 }
 
+function receiveGroup(data) {
+  // console.log('group data:', data);
+  return {
+    type: 'RECEIVE_GROUP',
+    payload: data,
+  };
+}
+
 export function startListeningToUser(userId) {
   return (dispatch) => {
     const userRef = firebaseDb.ref('users').child(userId);
@@ -229,16 +237,14 @@ export function listenToGroups() {
     });
   };
 }
-//
-// export function listenToGroup(id) {
-//   return (dispatch) => {
-//     // console.log('in listenToGroups');
-//     const ref = firebaseDb.ref('gyms').child(id);
-//     ref.off();
-//     ref.on('value', (snapshot) => {
-//       const gym = snapshot.val();
-//       // console.log('gyms:', gyms);
-//       dispatch(receiveGroup(gym));
-//     });
-//   };
-// }
+
+export function listenToGroup(id) {
+  return (dispatch) => {
+    const ref = firebaseDb.ref('groups').child(id);
+    ref.off();
+    ref.on('value', (snapshot) => {
+      const group = snapshot.val();
+      dispatch(receiveGroup(group));
+    });
+  };
+}
