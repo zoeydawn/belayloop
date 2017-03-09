@@ -215,7 +215,7 @@ export function addGroup(groupObj) {
   const groupId = uuidV1();
   const groupRef = firebaseDb.ref('groups').child(groupId);
   const userRef = firebaseDb.ref('users').child(uid).child('groups').child(groupId);
-
+  // this isn't anything
   groupRef.set(obj);
   userRef.set(groupObj);
 
