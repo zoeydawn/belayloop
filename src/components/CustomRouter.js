@@ -13,13 +13,14 @@ import Gyms from './Gyms';
 import Gym from './Gym';
 import Groups from './Groups';
 import Group from './Group';
+import Login from './Login';
 
 function authCheck(nextState, transition) {
-  // console.log('nextState:', nextState);
-  // console.log('transition:', transition);
+  console.log('nextState:', nextState);
+  console.log('transition:', transition);
   const user = firebaseAuth.currentUser;
   if (!user) {
-    transition('/signin');
+    transition(`/login${nextState.location.pathname}`);
   }
 }
 
@@ -32,12 +33,13 @@ export default class CustomRouter extends Component {
           <IndexRoute component={Home} />
           <Route path="/dashboard" component={Dashboard} onEnter={authCheck} />
           <Route path="/profile/:userId" component={Profile} />
-          <Route path="/messages" component={Messages} />
-          <Route path="/conversation/:id" component={Conversation} />
+          <Route path="/messages" onEnter={authCheck} component={Messages} />
+          <Route path="/conversation/:id" component={Conversation} onEnter={authCheck} />
           <Route path="/gyms" component={Gyms} />
           <Route path="/gym/:id" component={Gym} />
           <Route path="/groups" component={Groups} />
           <Route path="/group/:id" component={Group} />
+          <Route path="/login/:path" component={Login} />
         </Route>
       </Router>
     );

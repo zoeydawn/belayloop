@@ -15,7 +15,7 @@ import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-
 import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
 
-import Login from './Login';
+import LoginModal from './LoginModal';
 import { signOut, signInWithGoogle, signInWithFacebook } from '../actions/auth';
 import { listenToLoggedUser } from '../actions/firebaseDb';
 
@@ -83,8 +83,7 @@ class Navbar extends Component {
 
     const login = (
       <ToolbarGroup>
-        {/* <FlatButton label="Login/Join" /> */}
-        <Login
+        <LoginModal
           googleSignIn={signInWithGoogle}
           facebookSignIn={signInWithFacebook}
         />

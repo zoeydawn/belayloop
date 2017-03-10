@@ -1,50 +1,37 @@
 import React, { Component } from 'react';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
 import Auth from './Auth';
 
-export default class Login extends Component {
-  state = {
-    open: false,
-  };
+import { signInWithGoogle, signInWithFacebook } from '../actions/auth';
 
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+class Login extends Component {
 
   _googleSignIn = () => {
-    const { googleSignIn, hideModal } = this.props;
-    googleSignIn();
-    this.setState({ open: false });
-    // if (hideModal) {
-    //   hideModal();
-    // }
-    // browserHistory.push('/');
+    const { signInWithGoogle } = this.props;
+    signInWithGoogle();
+    browserHistory.push('/');
+    // browserHistory.push(`/${this.props.params.path}`);
   }
 
   render() {
     return (
       <div>
-        <FlatButton
-          label="Login/Join"
-          onTouchTap={this.handleOpen}
-        />
-        <Dialog
-          title="Sign In to BelayLoop:"
-          // actions={actions}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-        >
-          <Auth googleSignIn={this._googleSignIn} />
-        </Dialog>
+        <h1>Sign in to BelayLoop:</h1>
+        <Auth googleSignIn={this._googleSignIn} />
       </div>
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  signInWithGoogle() {
+    dispatch(signInWithGoogle());
+  },
+  signInWithFacebook() {
+    dispatch(signInWithFacebook());
+  },
+});
+
+export default connect(null, mapDispatchToProps)(Login);
