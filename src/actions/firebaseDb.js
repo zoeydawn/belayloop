@@ -264,3 +264,16 @@ export function joinGroup(obj) {
     payload: id,
   };
 }
+
+export function leaveGroup(groupId) {
+  const { uid } = firebaseAuth.currentUser;
+  const groupRef = firebaseDb.ref('groups').child(groupId).child('members').child(uid);
+  const userRef = firebaseDb.ref('users').child(uid).child('groups').child(groupId);
+  groupRef.remove();
+  userRef.remove();
+
+  return {
+    type: 'GROUP_REMOVED',
+    payload: groupId,
+  };
+}

@@ -10,7 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 
-import { listenToGroup, joinGroup } from '../actions/firebaseDb';
+import { listenToGroup, joinGroup, leaveGroup } from '../actions/firebaseDb';
 // import { startListeningToUser, updateUserInfo } from '../actions/firebaseDb';
 // import EditInfo from './EditInfo';
 // import PublicInfoModal from './PublicInfoModal';
@@ -45,7 +45,6 @@ class Group extends Component {
   join = () => {
     const { currentGroup, joinGroup } = this.props;
     const { name, description } = currentGroup;
-    // console.log('currentGroup:', currentGroup);
     const obj = {
       name,
       description,
@@ -55,11 +54,13 @@ class Group extends Component {
   }
 
   render() {
-    const { currentGroup, joinGroup } = this.props;
+    const { currentGroup, joinGroup, leaveGroup, uid } = this.props;
+    // console.log('uid:', uid);
     let name = '';
     let description = '';
     let membersList = '';
     let leader = '';
+    let joinButton = '';
 
     if (currentGroup) {
       name = currentGroup.name;
@@ -77,9 +78,29 @@ class Group extends Component {
           </ListItem>
         )
       })
-      // leader = currentGroup.leader;
-      console.log('currentGroup:', currentGroup);
+
+      if (Object.keys(members).includes(uid)) {
+        joinButton = (
+          <RaisedButton
+            icon={<FontIcon className="fa fa-user-times" />}
+            label="Leave group"
+            style={{ height: 36 }}
+            onTouchTap={() => {leaveGroup(this.props.params.id)}}
+          />
+        );
+      } else {
+        joinButton = (
+          <RaisedButton
+            icon={<FontIcon className="fa fa-user-plus" />}
+            label="Join"
+            style={{ height: 36 }}
+            onTouchTap={this.join}
+          />
+        );
+      }
+      // console.log('currentGroup:', currentGroup);
     }
+
     return (
       <div>
         <div className="profile">
@@ -92,12 +113,7 @@ class Group extends Component {
           <div className="profileCenter">
             <h1>{name}</h1>
             <p>{description}</p>
-            <RaisedButton
-              icon={<FontIcon className="fa fa-user-plus" />}
-              label="Join"
-              style={{ height: 36 }}
-              onTouchTap={this.join}
-            />
+            {joinButton}
           </div>
           <div className="profileRight"></div>
         </div>
@@ -109,6 +125,7 @@ class Group extends Component {
 
 const mapStateToProps = (state => ({
   currentGroup: state.currentGroup,
+  uid: state.auth.user.uid,
 }));
 
 const mapDispatchToProps = dispatch => ({
@@ -117,6 +134,9 @@ const mapDispatchToProps = dispatch => ({
   },
   joinGroup(obj) {
     dispatch(joinGroup(obj));
+  },
+  leaveGroup(id) {
+    dispatch(leaveGroup(id));
   },
 });
 
