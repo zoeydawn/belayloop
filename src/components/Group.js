@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
+import RaisedButton from 'material-ui/RaisedButton';
 
-import { listenToGroup } from '../actions/firebaseDb';
+import { listenToGroup, joinGroup } from '../actions/firebaseDb';
 // import { startListeningToUser, updateUserInfo } from '../actions/firebaseDb';
 // import EditInfo from './EditInfo';
 // import PublicInfoModal from './PublicInfoModal';
@@ -36,26 +37,45 @@ class Group extends Component {
     this.setState({
       value,
     });
-  };
+  }
+
+  join = () => {
+    const { currentGroup, joinGroup } = this.props;
+    const { name, description } = currentGroup;
+    // console.log('currentGroup:', currentGroup);
+    const obj = {
+      name,
+      description,
+      id: this.props.params.id,
+    };
+    joinGroup(obj);
+  }
 
   render() {
-    const { currentGroup } = this.props;
+    const { currentGroup, joinGroup } = this.props;
     let name = '';
     let description = '';
 
     if (currentGroup) {
       name = currentGroup.name;
       description = currentGroup.description;
+      console.log('currentGroup:', currentGroup);
     }
     return (
       <div>
         <div className="profile">
-          {/* <h1>Gym</h1> */}
+          <h2>Members</h2>
           <div className="profileLeft">
           </div>
           <div className="profileCenter">
             <h1>{name}</h1>
             <p>{description}</p>
+            <RaisedButton
+              icon={<FontIcon className="fa fa-user-plus" />}
+              label="Join"
+              style={{ height: 36 }}
+              onTouchTap={this.join}
+            />
           </div>
           <div className="profileRight"></div>
         </div>
@@ -72,6 +92,9 @@ const mapStateToProps = (state => ({
 const mapDispatchToProps = dispatch => ({
   listenToGroup(id) {
     dispatch(listenToGroup(id));
+  },
+  joinGroup(obj) {
+    dispatch(joinGroup(obj));
   },
 });
 

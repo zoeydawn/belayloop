@@ -248,3 +248,19 @@ export function listenToGroup(id) {
     });
   };
 }
+
+export function joinGroup(obj) {
+  const { name, id, description } = obj;
+  const { uid, displayName, photoURL } = firebaseAuth.currentUser;
+  const groupRef = firebaseDb.ref('groups').child(id).child('members').child(uid);
+  const userRef = firebaseDb.ref('users').child(uid).child('groups').child(id);
+  const newMember = { displayName, photoURL };
+  const groupObj = { name, description };
+  groupRef.set(newMember);
+  userRef.set(groupObj);
+
+  return {
+    type: 'JOINED_GROUP',
+    payload: id,
+  };
+}
