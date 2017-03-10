@@ -85,7 +85,7 @@ class Group extends Component {
             icon={<FontIcon className="fa fa-user-times" />}
             label="Leave group"
             style={{ height: 36 }}
-            onTouchTap={() => {leaveGroup(this.props.params.id)}}
+            onTouchTap={() => { leaveGroup(this.props.params.id); }}
           />
         );
       } else {
