@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import { connect } from 'react-redux';
-import FlatButton from 'material-ui/FlatButton';
-import FontIcon from 'material-ui/FontIcon';
+// import FlatButton from 'material-ui/FlatButton';
+// import FontIcon from 'material-ui/FontIcon';
 
 import { updateUser } from '../actions/userActions';
-import { startListeningToUser, updateUserInfo } from '../actions/firebaseDb';
+import { updateUserInfo } from '../actions/firebaseDb';
 import EditInfo from './EditInfo';
 import PublicInfoModal from './PublicInfoModal';
 
@@ -125,9 +125,9 @@ const mapDispatchToProps = dispatch => ({
   updateUser(obj) {
     dispatch(updateUser(obj));
   },
-  startListeningToUser(userId) {
-    dispatch(startListeningToUser(userId));
-  },
+  // startListeningToUser(userId) {
+  //   dispatch(startListeningToUser(userId));
+  // },
   updateUserInfo(userId, obj) {
     dispatch(updateUserInfo(userId, obj));
   },

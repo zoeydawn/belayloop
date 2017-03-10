@@ -15,8 +15,9 @@ import { startListeningToUser, startConversation } from '../actions/firebaseDb';
 import Message from './Message';
 
 class Profile extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { userId } = this.props.params;
+    // console.log('in cwm');
     this.props.getUser(userId);
     this.props.startListeningToUser(userId);
   }
@@ -24,7 +25,7 @@ class Profile extends Component {
   render() {
     const { userDetails, userInfo } = this.props;
     // const { userInfo } = this.props;
-    console.log('userInfo:', userInfo);
+    // console.log('userInfo:', userInfo);
     let displayName = '';
     let photoURL = '';
     let groupsList = '';
@@ -34,7 +35,7 @@ class Profile extends Component {
       photoURL = userInfo.photoURL;
       groupsList = `${displayName} is not in any groups`;
     }
-    console.log('userDetails:', userDetails);
+    // console.log('userDetails:', userDetails);
 
     let details = {
       belay: '',

@@ -3,7 +3,7 @@ import uuidV1 from 'uuid/v1';
 import { firebaseDb, firebaseAuth } from '../firebase';
 
 function receiveUser(user) {
-  // console.log('user:', user);
+  // console.log('user in receiveUser:', user);
   return {
     type: 'RECEIVE_USER',
     payload: user,
