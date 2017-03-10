@@ -16,7 +16,7 @@ import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
 
 import Login from './Login';
-import { signOut } from '../actions/auth';
+import { signOut, signInWithGoogle, signInWithFacebook } from '../actions/auth';
 import { listenToLoggedUser } from '../actions/firebaseDb';
 
 class Navbar extends Component {
@@ -41,7 +41,15 @@ class Navbar extends Component {
   }
 
   render() {
-    const { loggedIn, user, signOut, loggedUser } = this.props;
+    const {
+      loggedIn,
+      user,
+      signOut,
+      loggedUser,
+      signInWithGoogle,
+      signInWithFacebook,
+    } = this.props;
+
     console.log('user:', user);
     let messageCount = 0;
     if (loggedUser && loggedUser.messages) {
@@ -76,7 +84,10 @@ class Navbar extends Component {
     const login = (
       <ToolbarGroup>
         {/* <FlatButton label="Login/Join" /> */}
-        <Login />
+        <Login
+          googleSignIn={signInWithGoogle}
+          facebookSignIn={signInWithFacebook}
+        />
       </ToolbarGroup>
     );
 
@@ -138,6 +149,12 @@ const mapDispatchToProps = dispatch => ({
   },
   listenToLoggedUser() {
     dispatch(listenToLoggedUser());
+  },
+  signInWithGoogle() {
+    dispatch(signInWithGoogle());
+  },
+  signInWithFacebook() {
+    dispatch(signInWithFacebook());
   },
 });
 

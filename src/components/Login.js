@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import FontIcon from 'material-ui/FontIcon';
 import { connect } from 'react-redux';
 
-import { signInWithGoogle, signInWithFacebook } from '../actions/auth';
+import Auth from './Auth';
 
-class Login extends React.Component {
+export default class Login extends Component {
   state = {
     open: false,
   };
@@ -33,7 +31,6 @@ class Login extends React.Component {
   render() {
     return (
       <div>
-        {/* <RaisedButton label="Dialog" onTouchTap={this.handleOpen} /> */}
         <FlatButton
           label="Login/Join"
           onTouchTap={this.handleOpen}
@@ -45,39 +42,9 @@ class Login extends React.Component {
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
-          <RaisedButton
-            className="logInButton"
-            label="Sign In with Google"
-            backgroundColor="rgb(220, 74, 56)"
-            icon={<FontIcon className="fa fa-google" />}
-            onTouchTap={this._googleSignIn}
-          />
-          <RaisedButton
-            className="logInButton"
-            label="Sign In with Facebook"
-            backgroundColor="rgb(59, 89, 152)"
-            icon={<FontIcon className="fa fa-facebook-f" />}
-          />
-          <RaisedButton
-            className="logInButton"
-            label="Sign In with Email"
-            icon={<FontIcon className="fa fa-envelope" />}
-          />
+          <Auth googleSignIn={this._googleSignIn} />
         </Dialog>
       </div>
     );
   }
 }
-
-const mapStateToProps = null;
-
-const mapDispatchToProps = dispatch => ({
-  googleSignIn() {
-    dispatch(signInWithGoogle());
-  },
-  facebookSignIn() {
-    dispatch(signInWithFacebook());
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
