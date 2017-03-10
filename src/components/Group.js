@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
+import Avatar from 'material-ui/Avatar';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
+import List from 'material-ui/List/List';
+import ListItem from 'material-ui/List/ListItem';
 
 import { listenToGroup, joinGroup } from '../actions/firebaseDb';
 // import { startListeningToUser, updateUserInfo } from '../actions/firebaseDb';
@@ -55,17 +58,36 @@ class Group extends Component {
     const { currentGroup, joinGroup } = this.props;
     let name = '';
     let description = '';
+    let membersList = '';
+    let leader = '';
 
     if (currentGroup) {
       name = currentGroup.name;
       description = currentGroup.description;
+      const members = currentGroup.members;
+      membersList = Object.keys(members).map((memberId) => {
+        const { displayName, photoURL } = members[memberId];
+        return (
+          <ListItem
+            key={memberId}
+            leftAvatar={<Avatar src={photoURL} />}
+            primaryText={displayName}
+            onClick={() => browserHistory.push(`/profile/${memberId}`)}
+          >
+          </ListItem>
+        )
+      })
+      // leader = currentGroup.leader;
       console.log('currentGroup:', currentGroup);
     }
     return (
       <div>
         <div className="profile">
-          <h2>Members</h2>
           <div className="profileLeft">
+            <h2>Members:</h2>
+            <List>
+              {membersList}
+            </List>
           </div>
           <div className="profileCenter">
             <h1>{name}</h1>
