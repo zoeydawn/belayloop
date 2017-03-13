@@ -10,6 +10,7 @@ import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 
 import MessageForm from './MessageForm';
+import ConversationList from './ConversationList';
 
 import { listenToConversation, sendMessage, markAsRead } from '../actions/firebaseDb';
 
@@ -24,26 +25,6 @@ class Conversation extends Component {
     let otherPartyUid;
     if (loggedUser) {
       otherPartyUid = loggedUser.messages[this.props.params.id].uid;
-      // console.log('loggedUser.messages[this.props.params.id].uid:', loggedUser.messages[this.props.params.id].uid);
-    }
-    let conversationList = '';
-    if (conversation) {
-      conversationList = Object.keys(conversation).map((messageId) => {
-        const { displayName, message, photoURL, timestamp, uid } = conversation[messageId];
-        console.log('conversation:', conversation);
-        return (
-          <ListItem
-            key={messageId}
-            // disabled={true}
-            onClick={() => browserHistory.push(`/profile/${uid}`)}
-            leftAvatar={<Avatar src={photoURL} />}
-            primaryText={message}
-            secondaryText={`${displayName} - ${moment(timestamp).fromNow()}`}
-          >
-            {/* {message} */}
-          </ListItem>
-        )
-      });
     }
 
     return (
@@ -52,9 +33,7 @@ class Conversation extends Component {
           <FontIcon className="fa fa-chevron-left" />
           Back to conversations
         </div>
-        <List>
-          {conversationList}
-        </List>
+        <ConversationList conversation={conversation} />
         <MessageForm
           conversation={this.props.params.id}
           submit={sendMessage}
