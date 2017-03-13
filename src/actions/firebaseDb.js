@@ -124,35 +124,86 @@ export function markAsRead(conversationId) {
   };
 }
 
+function addMessageToUserRef(conversationId, userId, messageObj) {
+  return new Promise((res, rej) => {
+    const newRef = firebaseDb.ref('users').child(userId).child('messages').child(conversationId).set(messageObj);
+    if (newRef) {
+      res(conversationId);
+    } else {
+      rej('Write operation failed');
+    }
+  });
+}
+
+function addMessageToConversationRef(messageObj) {
+  return new Promise((res, rej) => {
+    const conversationRef = firebaseDb.ref('conversations').push(messageObj);
+    if (conversationRef) {
+      res(conversationRef.key);
+    } else {
+      rej('Write to conversationRef failed');
+    }
+  });
+}
+
 export function startConversation(receiverObj, messageObj) {
   const { message, subject } = messageObj;
   const { uid, displayName, photoURL } = firebaseAuth.currentUser;
-  const conversationId = uuidV1();
-  const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId);
-  const receiverRef = firebaseDb.ref('users').child(receiverObj.uid).child('messages').child(conversationId);
-  const conversationRef = firebaseDb.ref('conversations').child(conversationId);
+  // const conversationId = uuidV1();
+  // const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId);
+  // const receiverRef = firebaseDb.ref('users').child(receiverObj.uid).child('messages').child(conversationId);
+  // const conversationRef = firebaseDb.ref('conversations').child(conversationId);
   // console.log('conversationId:', conversationId);
-  userRef.set({
+  const conObj = {
+    0: {
+      message,
+      timestamp: Date.now(),
+      uid,
+      displayName,
+      photoURL,
+    },
+  };
+  const userObj = {
     uid: receiverObj.uid,
     displayName: receiverObj.displayName,
     photoURL: receiverObj.photoURL,
     subject,
     read: true,
-  });
-  receiverRef.set({
+  };
+  const recObj = {
     uid,
     displayName,
     photoURL,
     subject,
     read: false,
-  });
-  conversationRef.push({
-    message,
-    timestamp: Date.now(),
-    uid,
-    displayName,
-    photoURL,
-  });
+  };
+  addMessageToConversationRef(conObj)
+    .then(newConKey => addMessageToUserRef(newConKey, uid, userObj))
+    .then(conversationKey => addMessageToUserRef(conversationKey, receiverObj.uid, recObj))
+    .catch(console.error);
+
+
+  // userRef.set({
+  //   uid: receiverObj.uid,
+  //   displayName: receiverObj.displayName,
+  //   photoURL: receiverObj.photoURL,
+  //   subject,
+  //   read: true,
+  // });
+  // receiverRef.set({
+  //   uid,
+  //   displayName,
+  //   photoURL,
+  //   subject,
+  //   read: false,
+  // });
+  // conversationRef.push({
+  //   message,
+  //   timestamp: Date.now(),
+  //   uid,
+  //   displayName,
+  //   photoURL,
+  // });
   return {
     type: 'MESSAGE_SENT',
     payload: message,
