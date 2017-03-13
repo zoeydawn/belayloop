@@ -113,13 +113,10 @@ function addMessageToConversation(conId, messageObj) {
 }
 
 export function sendMessage(conversationId, obj, uid) {
-  // const conRef = firebaseDb.ref('conversations').child(conversationId);
   const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId).child('read');
-  // conRef.push(obj);
   addMessageToConversation(conversationId, obj)
     .then(() => userRef.set(false))
     .catch(error => console.error('error in sendMessage:', error));
-  // userRef.set(false);
 
   return {
     type: 'SENT_MESSAGE',
