@@ -101,11 +101,25 @@ export function updateUserInfo(userId, obj) {
   };
 }
 
+function addMessageToConversation(conId, messageObj) {
+  return new Promise((res, rej) => {
+    const conversationRef = firebaseDb.ref('conversations').child(conId).push(messageObj);
+    if (conversationRef) {
+      res(conversationRef.key);
+    } else {
+      rej('Write to conversationRef failed');
+    }
+  });
+}
+
 export function sendMessage(conversationId, obj, uid) {
-  const conRef = firebaseDb.ref('conversations').child(conversationId);
+  // const conRef = firebaseDb.ref('conversations').child(conversationId);
   const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId).child('read');
-  conRef.push(obj);
-  userRef.set(false);
+  // conRef.push(obj);
+  addMessageToConversation(conversationId, obj)
+    .then(() => userRef.set(false))
+    .catch(error => console.error('error in sendMessage:', error));
+  // userRef.set(false);
 
   return {
     type: 'SENT_MESSAGE',
@@ -124,7 +138,7 @@ export function markAsRead(conversationId) {
   };
 }
 
-function addMessageToUserRef(conversationId, userId, messageObj) {
+function addConversationToUserRef(conversationId, userId, messageObj) {
   return new Promise((res, rej) => {
     const newRef = firebaseDb.ref('users').child(userId).child('messages').child(conversationId).set(messageObj);
     if (newRef) {
@@ -135,7 +149,7 @@ function addMessageToUserRef(conversationId, userId, messageObj) {
   });
 }
 
-function addMessageToConversationRef(messageObj) {
+function createNewConversation(messageObj) {
   return new Promise((res, rej) => {
     const conversationRef = firebaseDb.ref('conversations').push(messageObj);
     if (conversationRef) {
@@ -149,11 +163,6 @@ function addMessageToConversationRef(messageObj) {
 export function startConversation(receiverObj, messageObj) {
   const { message, subject } = messageObj;
   const { uid, displayName, photoURL } = firebaseAuth.currentUser;
-  // const conversationId = uuidV1();
-  // const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId);
-  // const receiverRef = firebaseDb.ref('users').child(receiverObj.uid).child('messages').child(conversationId);
-  // const conversationRef = firebaseDb.ref('conversations').child(conversationId);
-  // console.log('conversationId:', conversationId);
   const conObj = {
     0: {
       message,
@@ -177,33 +186,11 @@ export function startConversation(receiverObj, messageObj) {
     subject,
     read: false,
   };
-  addMessageToConversationRef(conObj)
-    .then(newConKey => addMessageToUserRef(newConKey, uid, userObj))
-    .then(conversationKey => addMessageToUserRef(conversationKey, receiverObj.uid, recObj))
+  createNewConversation(conObj)
+    .then(newConKey => addConversationToUserRef(newConKey, uid, userObj))
+    .then(conversationKey => addConversationToUserRef(conversationKey, receiverObj.uid, recObj))
     .catch(console.error);
 
-
-  // userRef.set({
-  //   uid: receiverObj.uid,
-  //   displayName: receiverObj.displayName,
-  //   photoURL: receiverObj.photoURL,
-  //   subject,
-  //   read: true,
-  // });
-  // receiverRef.set({
-  //   uid,
-  //   displayName,
-  //   photoURL,
-  //   subject,
-  //   read: false,
-  // });
-  // conversationRef.push({
-  //   message,
-  //   timestamp: Date.now(),
-  //   uid,
-  //   displayName,
-  //   photoURL,
-  // });
   return {
     type: 'MESSAGE_SENT',
     payload: message,
