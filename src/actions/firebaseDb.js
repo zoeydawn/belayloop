@@ -277,3 +277,25 @@ export function leaveGroup(groupId) {
     payload: groupId,
   };
 }
+
+export function startGroupDiscussion(groupId, obj) {
+  const { uid, displayName, photoURL } = firebaseAuth.currentUser;
+  const { title, initialComment } = obj;
+  // const conversationId = uuidV1();
+  const groupRef = firebaseDb.ref('groups').child(groupId).child('discussions');
+  // const conversationRef = firebaseDb.ref('conversations').child(conversationId);
+  console.log('groupId:', groupId);
+  groupRef.push({
+    title,
+    initialComment,
+    uid,
+    displayName,
+    photoURL,
+    timestamp: Date.now(),
+  });
+
+  return {
+    type: 'DISCUSSION_STARTED',
+    payload: obj,
+  };
+}

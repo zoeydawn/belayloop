@@ -10,10 +10,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 
-import { listenToGroup, joinGroup, leaveGroup } from '../actions/firebaseDb';
-// import { startListeningToUser, updateUserInfo } from '../actions/firebaseDb';
-// import EditInfo from './EditInfo';
-// import PublicInfoModal from './PublicInfoModal';
+import { listenToGroup, joinGroup, leaveGroup, startGroupDiscussion } from '../actions/firebaseDb';
+
+import GroupDiscussions from './GroupDiscussions';
+import StartDiscussion from './StartDiscussion';
 
 const styles = {
   headline: {
@@ -54,17 +54,19 @@ class Group extends Component {
   }
 
   render() {
-    const { currentGroup, joinGroup, leaveGroup, uid } = this.props;
+    const { currentGroup, joinGroup, leaveGroup, uid, startGroupDiscussion } = this.props;
     // console.log('uid:', uid);
     let name = '';
     let description = '';
     let membersList = '';
     let leader = '';
     let joinButton = '';
+    let discussions;
 
     if (currentGroup) {
       name = currentGroup.name;
       description = currentGroup.description;
+      discussions = currentGroup.discussions;
       const members = currentGroup.members;
       membersList = Object.keys(members).map((memberId) => {
         const { displayName, photoURL } = members[memberId];
@@ -114,6 +116,10 @@ class Group extends Component {
             <h1>{name}</h1>
             <p>{description}</p>
             {joinButton}
+            <br />
+            <h3>Discussions:</h3>
+            <StartDiscussion submit={startGroupDiscussion} groupId={this.props.params.id} />
+            <GroupDiscussions discussions={discussions} />
           </div>
           <div className="profileRight"></div>
         </div>
@@ -137,6 +143,9 @@ const mapDispatchToProps = dispatch => ({
   },
   leaveGroup(id) {
     dispatch(leaveGroup(id));
+  },
+  startGroupDiscussion(groupId, obj) {
+    dispatch(startGroupDiscussion(groupId, obj));
   },
 });
 
