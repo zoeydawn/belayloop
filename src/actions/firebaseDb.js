@@ -1,5 +1,3 @@
-import uuidV1 from 'uuid/v1';
-
 import { firebaseDb, firebaseAuth } from '../firebase';
 
 function receiveUser(user) {
@@ -230,6 +228,39 @@ export function listenToGym(id) {
   };
 }
 
+function addNewGroupRef(groupObj) {
+  return new Promise((res, rej) => {
+    const groupRef = firebaseDb.ref('groups').push(groupObj);
+    if (groupRef) {
+      res(groupRef.key);
+    } else {
+      rej('Write to groupRef failed');
+    }
+  });
+}
+
+function addGroupToUser(groupId, userId, groupObj) {
+  return new Promise((res, rej) => {
+    const userRef = firebaseDb.ref('users').child(userId).child('groups').child(groupId).set(groupObj);
+    if (userRef) {
+      res(userRef);
+    } else {
+      rej('Write to userRef failed');
+    }
+  });
+}
+
+function addUserToGroup(groupId, userId, memberObj) {
+  return new Promise((res, rej) => {
+    const groupRef = firebaseDb.ref('groups').child(groupId).child('members').child(userId).set(memberObj);
+    if (groupRef) {
+      res(groupRef);
+    } else {
+      rej('Write to groupRef failed');
+    }
+  });
+}
+
 export function addGroup(groupObj) {
   const { uid, displayName, photoURL } = firebaseAuth.currentUser;
   const obj = {
@@ -247,12 +278,10 @@ export function addGroup(groupObj) {
       },
     },
   };
-  const groupId = uuidV1();
-  const groupRef = firebaseDb.ref('groups').child(groupId);
-  const userRef = firebaseDb.ref('users').child(uid).child('groups').child(groupId);
 
-  groupRef.set(obj);
-  userRef.set(groupObj);
+  addNewGroupRef(obj)
+    .then(newGroupId => addGroupToUser(newGroupId, uid, groupObj))
+    .catch(err => console.error('Error adding group:', err));
 
   return {
     type: 'GROUP_ADDED',
@@ -291,8 +320,10 @@ export function joinGroup(obj) {
   const userRef = firebaseDb.ref('users').child(uid).child('groups').child(id);
   const newMember = { displayName, photoURL };
   const groupObj = { name, description };
-  groupRef.set(newMember);
-  userRef.set(groupObj);
+
+  addUserToGroup(id, uid, newMember)
+    .then(() => addGroupToUser(id, uid, groupObj))
+    .catch(err => console.log('error adding user to group', err));
 
   return {
     type: 'JOINED_GROUP',
@@ -304,8 +335,8 @@ export function leaveGroup(groupId) {
   const { uid } = firebaseAuth.currentUser;
   const groupRef = firebaseDb.ref('groups').child(groupId).child('members').child(uid);
   const userRef = firebaseDb.ref('users').child(uid).child('groups').child(groupId);
-  groupRef.remove();
   userRef.remove();
+  groupRef.remove();
 
   return {
     type: 'GROUP_REMOVED',
@@ -319,7 +350,7 @@ export function startGroupDiscussion(groupId, obj) {
   // const conversationId = uuidV1();
   const groupRef = firebaseDb.ref('groups').child(groupId).child('discussions');
   // const conversationRef = firebaseDb.ref('conversations').child(conversationId);
-  console.log('groupId:', groupId);
+  // console.log('groupId:', groupId);
   groupRef.push({
     title,
     initialComment,
