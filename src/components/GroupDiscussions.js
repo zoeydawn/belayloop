@@ -10,7 +10,7 @@ import Avatar from 'material-ui/Avatar';
 // import ConversationList from './ConversationList';
 
 const GroupDiscussions = (props) => {
-  const { discussions } = props;
+  const { discussions, groupId } = props;
   let discussionList = 'This group does not yet have any discussions';
   if (discussions) {
     discussionList = Object.keys(discussions).map((conversationId) => {
@@ -18,7 +18,7 @@ const GroupDiscussions = (props) => {
       return (
         <ListItem
           key={conversationId}
-          onClick={() => browserHistory.push(`conversation/${conversationId}`)}
+          onClick={() => browserHistory.push(`/discussion/${conversationId}/${groupId}`)}
           primaryText={displayName}
           secondaryText={title}
           leftAvatar={<Avatar src={photoURL} />}

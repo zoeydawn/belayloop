@@ -14,6 +14,7 @@ import Gym from './Gym';
 import Groups from './Groups';
 import Group from './Group';
 import Login from './Login';
+import Discussion from './Discussion';
 
 function authCheck(nextState, transition) {
   console.log('nextState:', nextState);
@@ -40,6 +41,7 @@ export default class CustomRouter extends Component {
           <Route path="/groups" component={Groups} />
           <Route path="/group/:id" component={Group} />
           <Route path="/login/:path" component={Login} />
+          <Route path="/discussion/:id/:groupId" component={Discussion} />
         </Route>
       </Router>
     );

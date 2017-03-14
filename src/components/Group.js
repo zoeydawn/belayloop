@@ -119,7 +119,7 @@ class Group extends Component {
             <br />
             <h3>Discussions:</h3>
             <StartDiscussion submit={startGroupDiscussion} groupId={this.props.params.id} />
-            <GroupDiscussions discussions={discussions} />
+            <GroupDiscussions discussions={discussions} groupId={this.props.params.id} />
           </div>
           <div className="profileRight"></div>
         </div>

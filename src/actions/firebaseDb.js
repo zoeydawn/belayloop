@@ -78,12 +78,10 @@ export function listenToLoggedUser() {
 
 export function listenToConversation(id) {
   return (dispatch) => {
-    // console.log('in listenToConversation');
     const ref = firebaseDb.ref('conversations').child(id);
     ref.off();
     ref.on('value', (snapshot) => {
       const con = snapshot.val();
-      // console.log('con:', con);
       dispatch(receiveConversation(con));
     });
   };
@@ -344,21 +342,45 @@ export function leaveGroup(groupId) {
   };
 }
 
+export function addMessageToDiscussion(conversationId, obj) {
+  // const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId).child('read');
+  addMessageToConversation(conversationId, obj)
+    // .then(() => userRef.set(false))
+    .catch(error => console.error('error in addMessageToDiscussion:', error));
+
+  return {
+    type: 'SENT_MESSAGE',
+    payload: obj,
+  };
+}
+
 export function startGroupDiscussion(groupId, obj) {
   const { uid, displayName, photoURL } = firebaseAuth.currentUser;
   const { title, initialComment } = obj;
-  // const conversationId = uuidV1();
-  const groupRef = firebaseDb.ref('groups').child(groupId).child('discussions');
-  // const conversationRef = firebaseDb.ref('conversations').child(conversationId);
-  // console.log('groupId:', groupId);
-  groupRef.push({
-    title,
-    initialComment,
-    uid,
-    displayName,
-    photoURL,
-    timestamp: Date.now(),
-  });
+
+  const messageObj = {
+    0: {
+      displayName,
+      uid,
+      photoURL,
+      message: initialComment,
+      timestamp: Date.now(),
+    },
+  };
+
+  createNewConversation(messageObj)
+    .then((conId) => {
+      const groupRef = firebaseDb.ref('groups').child(groupId).child('discussions').child(conId);
+      groupRef.set({
+        title,
+        // initialComment,
+        uid,
+        displayName,
+        photoURL,
+        timestamp: Date.now(),
+      });
+    })
+    .catch(err => console.error('error creating group discussion', err));
 
   return {
     type: 'DISCUSSION_STARTED',

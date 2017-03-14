@@ -70,7 +70,7 @@ export default class StartDiscussion extends Component {
       <div>
         <RaisedButton
           icon={<FontIcon className="fa fa-comment-o" />}
-          label="Create Discussion"
+          label="Start Discussion"
           style={{ height: 36 }}
           onTouchTap={this.handleOpen}
         />
