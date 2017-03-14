@@ -343,9 +343,7 @@ export function leaveGroup(groupId) {
 }
 
 export function addMessageToDiscussion(conversationId, obj) {
-  // const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId).child('read');
   addMessageToConversation(conversationId, obj)
-    // .then(() => userRef.set(false))
     .catch(error => console.error('error in addMessageToDiscussion:', error));
 
   return {

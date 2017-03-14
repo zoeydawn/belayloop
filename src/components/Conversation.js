@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-// import moment from 'moment';
 
-// import Avatar from 'material-ui/Avatar';
-// import FileFolder from 'material-ui/svg-icons/file/folder';
 import FontIcon from 'material-ui/FontIcon';
-// import List from 'material-ui/List/List';
-// import ListItem from 'material-ui/List/ListItem';
 
 import MessageForm from './MessageForm';
 import ConversationList from './ConversationList';

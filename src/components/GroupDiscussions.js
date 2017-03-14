@@ -2,12 +2,8 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 
 import { List, ListItem } from 'material-ui/List';
-// import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
-// import FontIcon from 'material-ui/FontIcon';
 
-// import MessageForm from './MessageForm';
-// import ConversationList from './ConversationList';
 
 const GroupDiscussions = (props) => {
   const { discussions, groupId } = props;
@@ -22,7 +18,6 @@ const GroupDiscussions = (props) => {
           primaryText={displayName}
           secondaryText={title}
           leftAvatar={<Avatar src={photoURL} />}
-          // rightIcon={<CommunicationChatBubble />}
         />
       )
     })

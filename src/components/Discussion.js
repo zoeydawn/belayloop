@@ -11,18 +11,12 @@ import { listenToConversation, addMessageToDiscussion } from '../actions/firebas
 
 class Discussion extends Component {
   componentDidMount() {
-    // this.props.markAsRead(this.props.params.id);
     this.props.listenToConversation(this.props.params.id);
   }
 
   render() {
     const { user, conversation, sendMessage, loggedUser } = this.props;
     const { groupId, id } = this.props.params;
-    // let otherPartyUid;
-    // if (loggedUser) {
-    //   otherPartyUid = loggedUser.messages[this.props.params.id].uid;
-    // }
-    console.log('conversation:', conversation);
 
     return (
       <div>
