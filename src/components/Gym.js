@@ -7,9 +7,8 @@ import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 
 import { listenToGym } from '../actions/firebaseDb';
-// import { startListeningToUser, updateUserInfo } from '../actions/firebaseDb';
-// import EditInfo from './EditInfo';
-// import PublicInfoModal from './PublicInfoModal';
+
+import Posts from './Posts';
 
 const styles = {
   headline: {
@@ -95,6 +94,13 @@ class Gym extends Component {
             <h1>{name}</h1>
             <h3>{`${city}, ${state.substring(0, 2)}`}</h3>
             <p>{description}</p>
+            <br />
+            <Posts
+              id={this.props.params.id}
+              name={name}
+              city={city}
+              state={state}
+            />
           </div>
           <div className="profileRight"></div>
         </div>
