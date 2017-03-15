@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
-import Avatar from 'material-ui/Avatar';
-import RaisedButton from 'material-ui/RaisedButton';
-import FontIcon from 'material-ui/FontIcon';
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
+// import Avatar from 'material-ui/Avatar';
+// import RaisedButton from 'material-ui/RaisedButton';
+// import FontIcon from 'material-ui/FontIcon';
 import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 
@@ -59,7 +59,7 @@ class Profile extends Component {
         lead: userDetails.lead,
         skill: userDetails.skill,
         state: userDetails.state,
-      }
+      };
       groupsList = (
         Object.keys(userDetails.groups).map((groupId) => {
           const { name, description } = userDetails.groups[groupId];
@@ -72,9 +72,9 @@ class Profile extends Component {
               onClick={() => browserHistory.push(`/group/${groupId}`)}
             >
             </ListItem>
-          )
+          );
         })
-      )
+      );
     }
 
     return (
@@ -119,7 +119,7 @@ class Profile extends Component {
             </TableBody>
           </Table>
           <p>{details.bio}</p>
-          <PostList posts={posts} />
+          <PostList posts={posts} submitMessage={this.props.startConversation} />
         </div>
         <div className="profileRight">
 
@@ -149,5 +149,16 @@ const mapDispatchToProps = dispatch => ({
     dispatch(startConversation(userId, obj));
   },
 });
+
+Profile.propTypes = {
+  startConversation: PropTypes.func,
+  userInfo: PropTypes.object,
+  userDetails: PropTypes.object,
+  posts: PropTypes.object,
+  params: PropTypes.object,
+  getUser: PropTypes.func,
+  startListeningToUser: PropTypes.func,
+  listenToPosts: PropTypes.func,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

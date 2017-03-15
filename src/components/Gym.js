@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import { connect } from 'react-redux';
 
@@ -6,7 +6,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 
-import { listenToGym, listenToPosts, createNewPost } from '../actions/firebaseDb';
+import { listenToGym, listenToPosts, createNewPost, startConversation } from '../actions/firebaseDb';
 
 import Posts from './Posts';
 
@@ -40,7 +40,7 @@ class Gym extends Component {
   };
 
   render() {
-    const { currentGym, createNewPost, posts } = this.props;
+    const { currentGym, createNewPost, posts, startConversation } = this.props;
     // // const { belay, bio, boldering, city, country, lead, skill, state } = userDetails;
     // const { displayName, email, uid, photoURL } = this.props.user;
     // let details = {
@@ -103,6 +103,7 @@ class Gym extends Component {
               state={state}
               createNewPost={createNewPost}
               posts={posts}
+              submitMessage={startConversation}
             />
           </div>
           <div className="profileRight"></div>
@@ -128,6 +129,16 @@ const mapDispatchToProps = dispatch => ({
   createNewPost(obj) {
     dispatch(createNewPost(obj));
   },
+  startConversation(userId, obj) {
+    dispatch(startConversation(userId, obj));
+  },
 });
+
+Gym.propTypes = {
+  currentGym: PropTypes.object,
+  createNewPost: PropTypes.func,
+  posts: PropTypes.object,
+  startConversation: PropTypes.func,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Gym);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import PostCard from './PostCard';
 
 const PostsList = (props) => {
@@ -11,7 +11,7 @@ const PostsList = (props) => {
     list = sortedPosts.map(post => (
       <div key={post}>
         <br />
-        <PostCard post={posts[post]} />
+        <PostCard post={posts[post]} submitMessage={props.submitMessage} />
         <br />
       </div>
     ));
@@ -24,7 +24,8 @@ const PostsList = (props) => {
 };
 
 PostsList.propTypes = {
-  posts: React.PropTypes.object,
+  posts: PropTypes.object,
+  submitMessage: PropTypes.func,
 };
 
 export default PostsList;

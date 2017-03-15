@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 // import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import PostModal from './PostModal';
 import PostList from './PostList';
 
 const Posts = (props) => {
-  const { id, name, city, state, createNewPost, posts } = props;
+  const { id, name, city, state, createNewPost, posts, submitMessage } = props;
 
   return (
     <div>
@@ -16,17 +16,19 @@ const Posts = (props) => {
         state={state}
         submit={createNewPost}
       />
-      <PostList posts={posts} />
+      <PostList posts={posts} submitMessage={submitMessage} />
     </div>
   );
 };
 
-// Posts.propTypes = {
-//   id: React.propTypes.string.isRequired,
-//   name: React.propTypes.string.isRequired,
-//   city: React.propTypes.string.isRequired,
-//   state: React.propTypes.string.isRequired,
-//   createNewPost: React.propTypes.func.isRequired,
-// };
+Posts.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  city: PropTypes.string,
+  state: PropTypes.string,
+  createNewPost: PropTypes.func,
+  posts: PropTypes.object,
+  submitMessage: PropTypes.func,
+};
 
 export default Posts;
