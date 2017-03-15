@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
+// import FontIcon from 'material-ui/FontIcon';
+// import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 
@@ -68,12 +68,12 @@ export default class MessageModal extends Component {
     ];
     return (
       <div>
-        <RaisedButton
+        {/* <RaisedButton
           icon={<FontIcon className="fa fa-comment-o" />}
           label="Message"
           style={{ height: 36 }}
           onTouchTap={handleOpen}
-        />
+        /> */}
         <Dialog
           title={`Send message to ${displayName}`}
           actions={actions}

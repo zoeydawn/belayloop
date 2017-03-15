@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
+import FontIcon from 'material-ui/FontIcon';
+import RaisedButton from 'material-ui/RaisedButton';
+
 import MessageModal from './MessageModal'
 
 export default class Message extends Component {
@@ -18,6 +21,12 @@ export default class Message extends Component {
 
     return (
       <div>
+        <RaisedButton
+          icon={<FontIcon className="fa fa-comment-o" />}
+          label="Message"
+          style={{ height: 36 }}
+          onTouchTap={this.handleOpen}
+        />
         <MessageModal
           displayName={displayName}
           submit={submit}
