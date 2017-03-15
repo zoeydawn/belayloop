@@ -6,7 +6,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 
-import { listenToGym } from '../actions/firebaseDb';
+import { listenToGym, listenToPosts, createNewPost } from '../actions/firebaseDb';
 
 import Posts from './Posts';
 
@@ -28,9 +28,9 @@ class Gym extends Component {
   }
 
   componentDidMount() {
-    this.props.listenToGym(this.props.params.id);
-    // console.log('this.props.params:', this.props.params);
-    // console.log('this.props.gyms:', this.props.gyms);
+    const { id } = this.props.params;
+    this.props.listenToGym(id);
+    this.props.listenToPosts(id);
   }
 
   handleChange = (value) => {
@@ -40,10 +40,11 @@ class Gym extends Component {
   };
 
   render() {
-    const { currentGym } = this.props;
+    const { currentGym, createNewPost, posts } = this.props;
     // // const { belay, bio, boldering, city, country, lead, skill, state } = userDetails;
     // const { displayName, email, uid, photoURL } = this.props.user;
     // let details = {
+    console.log('posts:', posts);
     let address = '';
     let city = '';
     let description = '';
@@ -100,6 +101,8 @@ class Gym extends Component {
               name={name}
               city={city}
               state={state}
+              createNewPost={createNewPost}
+              posts={posts}
             />
           </div>
           <div className="profileRight"></div>
@@ -112,11 +115,18 @@ class Gym extends Component {
 
 const mapStateToProps = (state => ({
   currentGym: state.currentGym,
+  posts: state.posts,
 }));
 
 const mapDispatchToProps = dispatch => ({
   listenToGym(id) {
     dispatch(listenToGym(id));
+  },
+  listenToPosts(id) {
+    dispatch(listenToPosts(id));
+  },
+  createNewPost(obj) {
+    dispatch(createNewPost(obj));
   },
 });
 

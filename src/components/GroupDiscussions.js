@@ -19,8 +19,8 @@ const GroupDiscussions = (props) => {
           secondaryText={title}
           leftAvatar={<Avatar src={photoURL} />}
         />
-      )
-    })
+      );
+    });
   }
   return (
     <div>

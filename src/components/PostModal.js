@@ -9,7 +9,7 @@ import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-import moment from 'moment';
+import Bar from './Bar';
 
 const todaysDate = new Date();
 
@@ -19,35 +19,36 @@ export default class PostModal extends Component {
     date: null,
     message: '',
     climbType: null,
+    snackbarOpen: false,
   };
 
   handleOpen = () => {
-    this.setState({ open: true });
+    this.setState({ open: true, snackbarOpen: false });
   }
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, snackbarOpen: false });
   }
 
   _onType = (e) => {
     const { value, name } = e.target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value, snackbarOpen: false });
   }
 
   _handleDateChange = (e, date) => {
     // console.log('date:', date);
-    this.setState({ date });
+    this.setState({ date, snackbarOpen: false });
   }
 
   _handleSelection = (val) => {
-    this.setState({ climbType: val });
+    this.setState({ climbType: val, snackbarOpen: false });
   }
 
   _submit = () => {
     const { date, message, climbType } = this.state;
-    const { id, name, city, state } = this.props;
+    const { id, name, city, state, submit } = this.props;
     const obj = {
-      date,
+      timestamp: JSON.stringify(date),
       message,
       climbType,
       gym: {
@@ -58,10 +59,18 @@ export default class PostModal extends Component {
       },
     };
     console.log('obj:', obj);
+    submit(obj);
+    this.setState({
+      open: false,
+      date: null,
+      message: '',
+      climbType: null,
+      snackbarOpen: true,
+    });
   }
 
   render() {
-    const { date, climbType } = this.state;
+    const { date, climbType, snackbarOpen } = this.state;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -94,7 +103,7 @@ export default class PostModal extends Component {
             onChange={(e, i, val) => this._handleSelection(val)}
           >
             {/* <MenuItem value={null} primaryText="" /> */}
-            <MenuItem value="Top" primaryText="Top Rope" />
+            <MenuItem value="Top Rope" primaryText="Top Rope" />
             <MenuItem value="Lead" primaryText="Lead" />
             <MenuItem value="Bolder" primaryText="Bolder" />
           </SelectField>
@@ -104,6 +113,7 @@ export default class PostModal extends Component {
             // defaultDate={todaysDate}
             onChange={this._handleDateChange}
             value={date}
+            firstDayOfWeek={0}
           />
           <TimePicker
             hintText="Select time"
@@ -119,6 +129,10 @@ export default class PostModal extends Component {
             onChange={this._onType}
           />
         </Dialog>
+        <Bar
+          open={snackbarOpen}
+          text="Post successfull!"
+        />
       </div>
     );
   }

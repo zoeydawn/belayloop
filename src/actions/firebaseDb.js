@@ -53,6 +53,14 @@ function receiveGroup(data) {
   };
 }
 
+function receivePosts(data) {
+  // console.log('group data:', data);
+  return {
+    type: 'RECEIVE_POSTS',
+    payload: data,
+  };
+}
+
 export function startListeningToUser(userId) {
   return (dispatch) => {
     const userRef = firebaseDb.ref('users').child(userId);
@@ -187,6 +195,48 @@ export function startConversation(receiverObj, messageObj) {
   return {
     type: 'MESSAGE_SENT',
     payload: message,
+  };
+}
+
+function addPost(postObj, userId) {
+  return new Promise((res, rej) => {
+    const postRef = firebaseDb.ref('posts').child(userId).push(postObj);
+    if (postRef) {
+      res(postRef.key);
+    } else {
+      rej('Write to postRef failed');
+    }
+  });
+}
+
+export function createNewPost(obj) {
+  const { id } = obj.gym;
+  const postObj = obj;
+  const { uid, displayName, photoURL } = firebaseAuth.currentUser;
+  postObj.user = { uid, displayName, photoURL };
+  console.log('postObj:', postObj);
+  addPost(postObj, uid)
+    .then((newPostKey) => {
+      const ref = firebaseDb.ref('posts').child(id).child(newPostKey);
+      ref.set(postObj);
+    })
+    .catch(err => console.error('error creating post', err));
+
+  return {
+    type: 'POST_ADDED',
+    payload: postObj,
+  };
+}
+
+export function listenToPosts(id) {
+  return (dispatch) => {
+    const ref = firebaseDb.ref('posts').child(id);
+    ref.off();
+    ref.on('value', (snapshot) => {
+      const posts = snapshot.val();
+      // console.log('posts:', posts);
+      dispatch(receivePosts(posts));
+    });
   };
 }
 
