@@ -10,9 +10,10 @@ import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 
 import { getUser } from '../actions/userActions';
-import { startListeningToUser, startConversation } from '../actions/firebaseDb';
+import { startListeningToUser, startConversation, listenToPosts } from '../actions/firebaseDb';
 
 import Message from './Message';
+import PostList from './PostList';
 
 class Profile extends Component {
   componentDidMount() {
@@ -20,10 +21,11 @@ class Profile extends Component {
     // console.log('in cwm');
     this.props.getUser(userId);
     this.props.startListeningToUser(userId);
+    this.props.listenToPosts(userId);
   }
 
   render() {
-    const { userDetails, userInfo } = this.props;
+    const { userDetails, userInfo, posts } = this.props;
     // const { userInfo } = this.props;
     // console.log('userInfo:', userInfo);
     let displayName = '';
@@ -117,6 +119,7 @@ class Profile extends Component {
             </TableBody>
           </Table>
           <p>{details.bio}</p>
+          <PostList posts={posts} />
         </div>
         <div className="profileRight">
 
@@ -129,6 +132,7 @@ class Profile extends Component {
 const mapStateToProps = (state => ({
   userInfo: state.userInfo,
   userDetails: state.userDetails,
+  posts: state.posts,
 }));
 
 const mapDispatchToProps = dispatch => ({
@@ -137,6 +141,9 @@ const mapDispatchToProps = dispatch => ({
   },
   startListeningToUser(userId) {
     dispatch(startListeningToUser(userId));
+  },
+  listenToPosts(userId) {
+    dispatch(listenToPosts(userId));
   },
   startConversation(userId, obj) {
     dispatch(startConversation(userId, obj));

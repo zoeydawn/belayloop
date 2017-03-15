@@ -6,7 +6,10 @@ const PostsList = (props) => {
   const { posts } = props;
   let list = '';
   if (posts) {
-    list = Object.keys(posts).map(post => (
+    const sortedPosts = Object.keys(posts).sort((a, b) => {
+      return new Date(JSON.parse(posts[a].timestamp)) - new Date(JSON.parse(posts[b].timestamp));
+    });
+    list = sortedPosts.map(post => (
       <div key={post}>
         <br />
         <PostCard post={posts[post]} />

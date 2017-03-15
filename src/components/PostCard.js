@@ -4,6 +4,8 @@ import FlatButton from 'material-ui/FlatButton';
 
 import moment from 'moment';
 
+import Message from './Message';
+
 const PostCard = (props) => {
   const { user, gym, timestamp, message, climbType } = props.post;
   const { uid, photoURL, displayName } = user;
@@ -11,7 +13,7 @@ const PostCard = (props) => {
   // if (user) {
   //   photoURL = user.photoURL;
   // }
-  console.log('timestamp:', moment(JSON.parse(timestamp)).fromNow());
+  console.log('props.post:', props.post);
   return (
     <Card>
       <CardHeader
@@ -31,6 +33,12 @@ const PostCard = (props) => {
           label="Message"
           // primary
         />
+        {/* <Message
+          displayName={displayName}
+          // submit={this.props.startConversation}
+          userId={uid}
+          photoURL={photoURL}
+        /> */}
         <FlatButton
           label="Join"
           primary
