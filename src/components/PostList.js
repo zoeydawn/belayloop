@@ -1,5 +1,4 @@
 import React from 'react';
-// import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import PostCard from './PostCard';
 
 const PostsList = (props) => {
@@ -24,12 +23,8 @@ const PostsList = (props) => {
   );
 };
 
-// PostsList.propTypes = {
-//   id: React.propTypes.string.isRequired,
-//   name: React.propTypes.string.isRequired,
-//   city: React.propTypes.string.isRequired,
-//   state: React.propTypes.string.isRequired,
-//   createNewPost: React.propTypes.func.isRequired,
-// };
+PostsList.propTypes = {
+  posts: React.PropTypes.object,
+};
 
 export default PostsList;
