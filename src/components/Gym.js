@@ -40,7 +40,7 @@ class Gym extends Component {
   };
 
   render() {
-    const { currentGym, createNewPost, posts, startConversation } = this.props;
+    const { currentGym, createNewPost, posts, startConversation, user } = this.props;
     // // const { belay, bio, boldering, city, country, lead, skill, state } = userDetails;
     // const { displayName, email, uid, photoURL } = this.props.user;
     // let details = {
@@ -104,6 +104,7 @@ class Gym extends Component {
               createNewPost={createNewPost}
               posts={posts}
               submitMessage={startConversation}
+              user={user}
             />
           </div>
           <div className="profileRight"></div>
@@ -117,6 +118,7 @@ class Gym extends Component {
 const mapStateToProps = (state => ({
   currentGym: state.currentGym,
   posts: state.posts,
+  user: state.auth.user,
 }));
 
 const mapDispatchToProps = dispatch => ({
@@ -129,13 +131,14 @@ const mapDispatchToProps = dispatch => ({
   createNewPost(obj) {
     dispatch(createNewPost(obj));
   },
-  startConversation(userId, obj) {
-    dispatch(startConversation(userId, obj));
+  startConversation(receiverObj, messageObj) {
+    dispatch(startConversation(receiverObj, messageObj));
   },
 });
 
 Gym.propTypes = {
   currentGym: PropTypes.object,
+  user: PropTypes.object,
   createNewPost: PropTypes.func,
   posts: PropTypes.object,
   startConversation: PropTypes.func,

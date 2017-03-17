@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 import PostCard from './PostCard';
 
 const PostsList = (props) => {
-  const { posts } = props;
+  const { posts, submitMessage, user } = props;
   let list = '';
   const currentTime = new Date();
-  // console.log('currentTime:', currentTime);
+  // console.log('user:', user);
   if (posts) {
     const sortedPosts = Object.keys(posts).sort((a, b) => {
       // console.log(':', new Date(JSON.parse(posts[a].timestamp)));
@@ -17,7 +17,7 @@ const PostsList = (props) => {
         return (
           <div key={post}>
             <br />
-            <PostCard post={posts[post]} submitMessage={props.submitMessage} />
+            <PostCard post={posts[post]} submitMessage={submitMessage} user={user} />
             <br />
           </div>
         );
@@ -34,6 +34,7 @@ const PostsList = (props) => {
 
 PostsList.propTypes = {
   posts: PropTypes.object,
+  user: PropTypes.object,
   submitMessage: PropTypes.func,
 };
 

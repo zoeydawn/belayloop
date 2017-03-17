@@ -25,7 +25,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { userDetails, userInfo, posts } = this.props;
+    const { userDetails, userInfo, posts, user } = this.props;
     // const { userInfo } = this.props;
     // console.log('userInfo:', userInfo);
     let displayName = '';
@@ -119,7 +119,7 @@ class Profile extends Component {
             </TableBody>
           </Table>
           <p>{details.bio}</p>
-          <PostList posts={posts} submitMessage={this.props.startConversation} />
+          <PostList posts={posts} submitMessage={this.props.startConversation} user={user} />
         </div>
         <div className="profileRight">
 
@@ -133,6 +133,7 @@ const mapStateToProps = (state => ({
   userInfo: state.userInfo,
   userDetails: state.userDetails,
   posts: state.posts,
+  user: state.auth.user,
 }));
 
 const mapDispatchToProps = dispatch => ({
@@ -155,6 +156,7 @@ Profile.propTypes = {
   userInfo: PropTypes.object,
   userDetails: PropTypes.object,
   posts: PropTypes.object,
+  user: PropTypes.object,
   params: PropTypes.object,
   getUser: PropTypes.func,
   startListeningToUser: PropTypes.func,
