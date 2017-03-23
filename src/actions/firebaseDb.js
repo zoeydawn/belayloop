@@ -342,7 +342,7 @@ function addNewGroupRef(groupObj, groupId) {
 
 function addGroupDetails(groupObj) {
   return new Promise((res, rej) => {
-    const groupRef = firebaseDb.ref('groupsDetails').push(groupObj);
+    const groupRef = firebaseDb.ref('groupDetails').push(groupObj);
     if (groupRef) {
       res(groupRef.key);
     } else {
@@ -364,7 +364,7 @@ function addGroupToUser(groupId, userId, groupObj) {
 
 function addUserToGroup(groupId, userId, memberObj) {
   return new Promise((res, rej) => {
-    const groupRef = firebaseDb.ref('groups').child(groupId).child('members').child(userId).set(memberObj);
+    const groupRef = firebaseDb.ref('groupDetails').child(groupId).child('members').child(userId).set(memberObj);
     if (groupRef) {
       res(groupRef);
     } else {
@@ -419,7 +419,7 @@ export function listenToGroups() {
 
 export function listenToGroup(id) {
   return (dispatch) => {
-    const ref = firebaseDb.ref('groups').child(id);
+    const ref = firebaseDb.ref('groupDetails').child(id);
     ref.off();
     ref.on('value', (snapshot) => {
       const group = snapshot.val();
@@ -431,8 +431,8 @@ export function listenToGroup(id) {
 export function joinGroup(obj) {
   const { name, id, description } = obj;
   const { uid, displayName, photoURL } = firebaseAuth.currentUser;
-  const groupRef = firebaseDb.ref('groups').child(id).child('members').child(uid);
-  const userRef = firebaseDb.ref('users').child(uid).child('groups').child(id);
+  // const groupRef = firebaseDb.ref('groupDetails').child(id).child('members').child(uid);
+  // const userRef = firebaseDb.ref('userGroups').child(uid).child('groups').child(id);
   const newMember = { displayName, photoURL };
   const groupObj = { name, description };
 
@@ -448,8 +448,8 @@ export function joinGroup(obj) {
 
 export function leaveGroup(groupId) {
   const { uid } = firebaseAuth.currentUser;
-  const groupRef = firebaseDb.ref('groups').child(groupId).child('members').child(uid);
-  const userRef = firebaseDb.ref('users').child(uid).child('groups').child(groupId);
+  const groupRef = firebaseDb.ref('groupDetails').child(groupId).child('members').child(uid);
+  const userRef = firebaseDb.ref('userGroups').child(uid).child('groups').child(groupId);
   userRef.remove();
   groupRef.remove();
 
@@ -485,7 +485,7 @@ export function startGroupDiscussion(groupId, obj) {
 
   createNewConversation(messageObj)
     .then((conId) => {
-      const groupRef = firebaseDb.ref('groups').child(groupId).child('discussions').child(conId);
+      const groupRef = firebaseDb.ref('groupDetails').child(groupId).child('discussions').child(conId);
       groupRef.set({
         title,
         // initialComment,
