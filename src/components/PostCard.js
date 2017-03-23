@@ -63,7 +63,7 @@ export default class PostCard extends Component {
         />
         <JoinModal
           displayName={displayName}
-          submit={this.props.submitMessage}
+          submit={this.props.joinPost}
           userId={uid}
           photoURL={photoURL}
           open={joinOpen}

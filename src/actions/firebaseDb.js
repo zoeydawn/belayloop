@@ -118,6 +118,7 @@ function addMessageToConversation(conId, messageObj) {
 
 export function sendMessage(conversationId, obj, uid) {
   const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId).child('read');
+  // console.log('in sendMessage');
   addMessageToConversation(conversationId, obj)
     .then(() => userRef.set(false))
     .catch(error => console.error('error in sendMessage:', error));
@@ -127,6 +128,19 @@ export function sendMessage(conversationId, obj, uid) {
     payload: obj,
   };
 }
+
+// export function joinPost(conversationId, obj, uid) {
+//   const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId).child('read');
+//   console.log('in sendMessage');
+//   addMessageToConversation(conversationId, obj)
+//     .then(() => userRef.set(false))
+//     .catch(error => console.error('error in sendMessage:', error));
+//
+//   return {
+//     type: 'SENT_MESSAGE',
+//     payload: obj,
+//   };
+// }
 
 export function markAsRead(conversationId) {
   const { uid } = firebaseAuth.currentUser;
@@ -162,6 +176,7 @@ function createNewConversation(messageObj) {
 }
 
 export function startConversation(receiverObj, messageObj) {
+  // console.log('in startConversation');
   const { message, subject } = messageObj;
   const { uid, displayName, photoURL } = firebaseAuth.currentUser;
   const conObj = {
@@ -198,6 +213,44 @@ export function startConversation(receiverObj, messageObj) {
   };
 }
 
+export function joinPost(receiverObj, messageObj) {
+  // console.log('in joinPost');
+  const { message, subject } = messageObj;
+  const { uid, displayName, photoURL } = firebaseAuth.currentUser;
+  const conObj = {
+    0: {
+      message,
+      timestamp: Date.now(),
+      uid,
+      displayName,
+      photoURL,
+    },
+  };
+  const userObj = {
+    uid: receiverObj.uid,
+    displayName: receiverObj.displayName,
+    photoURL: receiverObj.photoURL,
+    subject: `You are climbing with ${receiverObj.displayName} on ${subject}!`,
+    read: true,
+  };
+  const recObj = {
+    uid,
+    displayName,
+    photoURL,
+    subject: `${displayName} is joining you on ${subject}!`,
+    read: false,
+  };
+  createNewConversation(conObj)
+    .then(newConKey => addConversationToUserRef(newConKey, uid, userObj))
+    .then(conversationKey => addConversationToUserRef(conversationKey, receiverObj.uid, recObj))
+    .catch(console.error);
+
+  return {
+    type: 'MESSAGE_SENT',
+    payload: message,
+  };
+}
+
 function addPost(postObj, userId) {
   return new Promise((res, rej) => {
     const postRef = firebaseDb.ref('posts').child(userId).push(postObj);
@@ -214,7 +267,7 @@ export function createNewPost(obj) {
   const postObj = obj;
   const { uid, displayName, photoURL } = firebaseAuth.currentUser;
   postObj.user = { uid, displayName, photoURL };
-  console.log('postObj:', postObj);
+  // console.log('postObj:', postObj);
   addPost(postObj, uid)
     .then((newPostKey) => {
       const ref = firebaseDb.ref('posts').child(id).child(newPostKey);

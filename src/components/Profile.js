@@ -10,7 +10,7 @@ import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 
 import { getUser } from '../actions/userActions';
-import { startListeningToUser, startConversation, listenToPosts } from '../actions/firebaseDb';
+import { startListeningToUser, startConversation, listenToPosts, joinPost } from '../actions/firebaseDb';
 
 import Message from './Message';
 import PostList from './PostList';
@@ -25,7 +25,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { userDetails, userInfo, posts, user } = this.props;
+    const { userDetails, userInfo, posts, user, startConversation, joinPost } = this.props;
     // const { userInfo } = this.props;
     // console.log('userInfo:', userInfo);
     let displayName = '';
@@ -85,7 +85,7 @@ class Profile extends Component {
           <br />
           <Message
             displayName={displayName}
-            submit={this.props.startConversation}
+            submit={startConversation}
             userId={this.props.params.userId}
             photoURL={photoURL}
           />
@@ -119,7 +119,7 @@ class Profile extends Component {
             </TableBody>
           </Table>
           <p>{details.bio}</p>
-          <PostList posts={posts} submitMessage={this.props.startConversation} user={user} />
+          <PostList posts={posts} submitMessage={startConversation} joinPost={joinPost} user={user} />
         </div>
         <div className="profileRight">
 
@@ -148,6 +148,9 @@ const mapDispatchToProps = dispatch => ({
   },
   startConversation(userId, obj) {
     dispatch(startConversation(userId, obj));
+  },
+  joinPost(userId, obj) {
+    dispatch(joinPost(userId, obj));
   },
 });
 

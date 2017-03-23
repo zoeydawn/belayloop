@@ -50,13 +50,13 @@ class Navbar extends Component {
       signInWithFacebook,
     } = this.props;
 
-    console.log('user:', user);
+    // console.log('user:', user);
     let messageCount = 0;
     if (loggedUser && loggedUser.messages) {
       messageCount = Object.keys(loggedUser.messages).filter((key) => {
         return loggedUser.messages[key].read === false;
       }).length;
-      console.log('messageCount:', messageCount);
+      // console.log('messageCount:', messageCount);
     }
 
     let notificationIcon = (
@@ -127,9 +127,7 @@ class Navbar extends Component {
           <ToolbarGroup firstChild>
             <img className="pointer" id="topLogo" src="/simplelogo.png" alt="" onClick={() => browserHistory.push('/')} />
           </ToolbarGroup>
-          {/* <ToolbarGroup> */}
             {rightMenu}
-          {/* </ToolbarGroup> */}
         </Toolbar>
       </div>
     );

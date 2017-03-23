@@ -24,7 +24,7 @@ class Messages extends Component {
       messages = loggedUser.messages;
       // console.log('messages:', messages);
       messageList = Object.keys(messages).map((conversationId) => {
-        console.log('messages[conversationId]:', messages[conversationId]);
+        // console.log('messages[conversationId]:', messages[conversationId]);
         const { displayName, photoURL, subject, read } = messages[conversationId];
         if (read) {
           return (

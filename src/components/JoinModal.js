@@ -29,7 +29,7 @@ export default class JoinModal extends Component {
       photoURL,
     };
     const messageObj = {
-      subject: `${user.displayName} is joining you ${day}!`,
+      subject: day,
       message,
     };
     submit(receiverObj, messageObj);

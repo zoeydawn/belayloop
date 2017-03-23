@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import PostCard from './PostCard';
 
 const PostsList = (props) => {
-  const { posts, submitMessage, user } = props;
+  const { posts, submitMessage, joinPost, user } = props;
   let list = '';
   const currentTime = new Date();
   // console.log('user:', user);
@@ -17,7 +17,7 @@ const PostsList = (props) => {
         return (
           <div key={post}>
             <br />
-            <PostCard post={posts[post]} submitMessage={submitMessage} user={user} />
+            <PostCard post={posts[post]} submitMessage={submitMessage} joinPost={joinPost} user={user} />
             <br />
           </div>
         );

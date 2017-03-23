@@ -6,7 +6,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 
-import { listenToGym, listenToPosts, createNewPost, startConversation } from '../actions/firebaseDb';
+import { listenToGym, listenToPosts, createNewPost, joinPost, startConversation } from '../actions/firebaseDb';
 
 import Posts from './Posts';
 
@@ -40,7 +40,7 @@ class Gym extends Component {
   };
 
   render() {
-    const { currentGym, createNewPost, posts, startConversation, user } = this.props;
+    const { currentGym, createNewPost, posts, joinPost, startConversation, user } = this.props;
     // // const { belay, bio, boldering, city, country, lead, skill, state } = userDetails;
     // const { displayName, email, uid, photoURL } = this.props.user;
     // let details = {
@@ -104,6 +104,7 @@ class Gym extends Component {
               createNewPost={createNewPost}
               posts={posts}
               submitMessage={startConversation}
+              joinPost={joinPost}
               user={user}
             />
           </div>
@@ -130,6 +131,9 @@ const mapDispatchToProps = dispatch => ({
   },
   createNewPost(obj) {
     dispatch(createNewPost(obj));
+  },
+  joinPost(receiverObj, messageObj) {
+    dispatch(joinPost(receiverObj, messageObj));
   },
   startConversation(receiverObj, messageObj) {
     dispatch(startConversation(receiverObj, messageObj));

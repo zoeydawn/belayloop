@@ -4,7 +4,7 @@ import PostModal from './PostModal';
 import PostList from './PostList';
 
 const Posts = (props) => {
-  const { id, name, city, state, createNewPost, posts, submitMessage, user } = props;
+  const { id, name, city, state, createNewPost, posts, submitMessage, user, joinPost } = props;
 
   return (
     <div>
@@ -16,7 +16,7 @@ const Posts = (props) => {
         state={state}
         submit={createNewPost}
       />
-      <PostList posts={posts} submitMessage={submitMessage} user={user} />
+    <PostList posts={posts} submitMessage={submitMessage} user={user} joinPost={joinPost} />
     </div>
   );
 };
