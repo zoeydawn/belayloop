@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 // import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import { connect } from 'react-redux';
@@ -10,27 +10,31 @@ import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
 //
 // import { getUser } from '../actions/userActions';
-// import { startListeningToUser, startConversation } from '../actions/firebaseDb';
+// import { listenToMessages } from '../actions/firebaseDb';
 // import MessageCard from './MessageCard';
 
 class Messages extends Component {
 
+  // componentWillMount() {
+  //   this.props.listenToMessages();
+  // }
+
   render() {
-    const { loggedUser } = this.props;
+    const { messages } = this.props;
     // console.log('loggedUser:', loggedUser);
     let messageList = 'Your inbox in empty';
-    let messages;
-    if (loggedUser && loggedUser.messages) {
-      messages = loggedUser.messages;
+    // let messages;
+    if (messages) {
+      // messages = loggedUser.messages;
       // console.log('messages:', messages);
       messageList = Object.keys(messages).map((conversationId) => {
         // console.log('messages[conversationId]:', messages[conversationId]);
-        const { displayName, photoURL, subject, read } = messages[conversationId];
+        const { displayName, photoURL, subject, read, uid } = messages[conversationId];
         if (read) {
           return (
             <ListItem
               key={conversationId}
-              onClick={() => browserHistory.push(`conversation/${conversationId}`)}
+              onClick={() => browserHistory.push(`conversation/${conversationId}/${uid}`)}
               primaryText={displayName}
               secondaryText={subject}
               leftAvatar={<Avatar src={photoURL} />}
@@ -41,7 +45,7 @@ class Messages extends Component {
         return (
           <ListItem
             key={conversationId}
-            onClick={() => browserHistory.push(`conversation/${conversationId}`)}
+            onClick={() => browserHistory.push(`conversation/${conversationId}/${uid}`)}
             primaryText={displayName}
             secondaryText={subject}
             leftAvatar={<Avatar src={photoURL} />}
@@ -63,7 +67,18 @@ class Messages extends Component {
 }
 
 const mapStateToProps = (state => ({
-  loggedUser: state.loggedUser,
+  messages: state.messages,
 }));
+
+// const mapDispatchToProps = dispatch => ({
+//   // listenToMessages() {
+//   //   dispatch(listenToMessages());
+//   // },
+// });
+
+Messages.propTypes = {
+  // listenToMessages: PropTypes.func,
+  messages: PropTypes.object,
+};
 
 export default connect(mapStateToProps)(Messages);

@@ -60,21 +60,21 @@ class Profile extends Component {
         skill: userDetails.skill,
         state: userDetails.state,
       };
-      groupsList = (
-        Object.keys(userDetails.groups).map((groupId) => {
-          const { name, description } = userDetails.groups[groupId];
-          return (
-            <ListItem
-              key={groupId}
-              // leftAvatar={<Avatar src={photoURL} />}
-              primaryText={name}
-              secondaryText={description}
-              onClick={() => browserHistory.push(`/group/${groupId}`)}
-            >
-            </ListItem>
-          );
-        })
-      );
+      // groupsList = (
+      //   Object.keys(userDetails.groups).map((groupId) => {
+      //     const { name, description } = userDetails.groups[groupId];
+      //     return (
+      //       <ListItem
+      //         key={groupId}
+      //         // leftAvatar={<Avatar src={photoURL} />}
+      //         primaryText={name}
+      //         secondaryText={description}
+      //         onClick={() => browserHistory.push(`/group/${groupId}`)}
+      //       >
+      //       </ListItem>
+      //     );
+      //   })
+      // );
     }
 
     return (

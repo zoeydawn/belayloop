@@ -10,6 +10,7 @@ import currentGym from './currentGym';
 import groups from './groups';
 import currentGroup from './currentGroup';
 import posts from './posts';
+import messages from './messages';
 
 export default combineReducers({
   auth,
@@ -22,4 +23,5 @@ export default combineReducers({
   groups,
   currentGroup,
   posts,
+  messages,
 });

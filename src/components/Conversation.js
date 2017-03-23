@@ -17,10 +17,11 @@ class Conversation extends Component {
 
   render() {
     const { user, conversation, sendMessage, loggedUser } = this.props;
-    let otherPartyUid;
-    if (loggedUser) {
-      otherPartyUid = loggedUser.messages[this.props.params.id].uid;
-    }
+    const { otherPartyUid } = this.props.params;
+    console.log('otherPartyUid:', otherPartyUid);
+    // if (loggedUser) {
+    //   otherPartyUid = loggedUser.messages[this.props.params.id].uid;
+    // }
 
     return (
       <div>
@@ -43,7 +44,7 @@ class Conversation extends Component {
 const mapStateToProps = (state => ({
   conversation: state.conversation,
   user: state.auth.user,
-  loggedUser: state.loggedUser,
+  // messages: state.messages,
 }));
 
 const mapDispatchToProps = dispatch => ({

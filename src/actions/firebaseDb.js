@@ -1,5 +1,13 @@
 import { firebaseDb, firebaseAuth } from '../firebase';
 
+function receiveMessages(messages) {
+  // console.log('messages in receiveUser:', messages);
+  return {
+    type: 'RECEIVE_MESSAGES',
+    payload: messages,
+  };
+}
+
 function receiveUser(user) {
   // console.log('user in receiveUser:', user);
   return {
@@ -61,6 +69,18 @@ function receivePosts(data) {
   };
 }
 
+export function listenToMessages() {
+  const { uid } = firebaseAuth.currentUser;
+  return (dispatch) => {
+    const userRef = firebaseDb.ref('userMessages').child(uid);
+    userRef.off();
+    userRef.on('value', (snapshot) => {
+      const user = snapshot.val();
+      dispatch(receiveMessages(user));
+    });
+  };
+}
+
 export function startListeningToUser(userId) {
   return (dispatch) => {
     const userRef = firebaseDb.ref('users').child(userId);
@@ -117,7 +137,7 @@ function addMessageToConversation(conId, messageObj) {
 }
 
 export function sendMessage(conversationId, obj, uid) {
-  const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId).child('read');
+  const userRef = firebaseDb.ref('userMessages').child(uid).child(conversationId).child('read');
   // console.log('in sendMessage');
   addMessageToConversation(conversationId, obj)
     .then(() => userRef.set(false))
@@ -129,22 +149,9 @@ export function sendMessage(conversationId, obj, uid) {
   };
 }
 
-// export function joinPost(conversationId, obj, uid) {
-//   const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId).child('read');
-//   console.log('in sendMessage');
-//   addMessageToConversation(conversationId, obj)
-//     .then(() => userRef.set(false))
-//     .catch(error => console.error('error in sendMessage:', error));
-//
-//   return {
-//     type: 'SENT_MESSAGE',
-//     payload: obj,
-//   };
-// }
-
 export function markAsRead(conversationId) {
   const { uid } = firebaseAuth.currentUser;
-  const userRef = firebaseDb.ref('users').child(uid).child('messages').child(conversationId).child('read');
+  const userRef = firebaseDb.ref('userMessages').child(uid).child(conversationId).child('read');
   userRef.set(true);
 
   return {
@@ -155,7 +162,7 @@ export function markAsRead(conversationId) {
 
 function addConversationToUserRef(conversationId, userId, messageObj) {
   return new Promise((res, rej) => {
-    const newRef = firebaseDb.ref('users').child(userId).child('messages').child(conversationId).set(messageObj);
+    const newRef = firebaseDb.ref('userMessages').child(userId).child(conversationId).set(messageObj);
     if (newRef) {
       res(conversationId);
     } else {

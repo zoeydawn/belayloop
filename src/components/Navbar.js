@@ -17,7 +17,7 @@ import FontIcon from 'material-ui/FontIcon';
 
 import LoginModal from './LoginModal';
 import { signOut, signInWithGoogle, signInWithFacebook } from '../actions/auth';
-import { listenToLoggedUser } from '../actions/firebaseDb';
+import { listenToLoggedUser, listenToMessages } from '../actions/firebaseDb';
 
 class Navbar extends Component {
   // state = {
@@ -31,7 +31,8 @@ class Navbar extends Component {
   componentDidMount() {
     // console.log('this.props.user', this.props.user);
     if (this.props.loggedIn) {
-      this.props.listenToLoggedUser();
+      // this.props.listenToLoggedUser();
+      this.props.listenToMessages();
     }
   }
 
@@ -45,16 +46,17 @@ class Navbar extends Component {
       loggedIn,
       user,
       signOut,
-      loggedUser,
+      // loggedUser,
       signInWithGoogle,
       signInWithFacebook,
+      messages,
     } = this.props;
 
     // console.log('user:', user);
     let messageCount = 0;
-    if (loggedUser && loggedUser.messages) {
-      messageCount = Object.keys(loggedUser.messages).filter((key) => {
-        return loggedUser.messages[key].read === false;
+    if (messages) {
+      messageCount = Object.keys(messages).filter((key) => {
+        return messages[key].read === false;
       }).length;
       // console.log('messageCount:', messageCount);
     }
@@ -137,7 +139,8 @@ class Navbar extends Component {
 const mapStateToProps = (state => ({
   loggedIn: state.auth.authenticated,
   user: state.auth.user,
-  loggedUser: state.loggedUser,
+  // loggedUser: state.loggedUser,
+  messages: state.messages,
 }));
 
 const mapDispatchToProps = dispatch => ({
@@ -152,6 +155,9 @@ const mapDispatchToProps = dispatch => ({
   },
   signInWithFacebook() {
     dispatch(signInWithFacebook());
+  },
+  listenToMessages() {
+    dispatch(listenToMessages());
   },
 });
 
