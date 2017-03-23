@@ -329,9 +329,20 @@ export function listenToGym(id) {
   };
 }
 
-function addNewGroupRef(groupObj) {
+function addNewGroupRef(groupObj, groupId) {
   return new Promise((res, rej) => {
-    const groupRef = firebaseDb.ref('groups').push(groupObj);
+    const groupRef = firebaseDb.ref('groups').child(groupId).set(groupObj);
+    if (groupRef) {
+      res(groupId);
+    } else {
+      rej('Write to groupRef failed');
+    }
+  });
+}
+
+function addGroupDetails(groupObj) {
+  return new Promise((res, rej) => {
+    const groupRef = firebaseDb.ref('groupsDetails').push(groupObj);
     if (groupRef) {
       res(groupRef.key);
     } else {
@@ -342,7 +353,7 @@ function addNewGroupRef(groupObj) {
 
 function addGroupToUser(groupId, userId, groupObj) {
   return new Promise((res, rej) => {
-    const userRef = firebaseDb.ref('users').child(userId).child('groups').child(groupId).set(groupObj);
+    const userRef = firebaseDb.ref('userGroups').child(userId).child(groupId).set(groupObj);
     if (userRef) {
       res(userRef);
     } else {
@@ -364,7 +375,9 @@ function addUserToGroup(groupId, userId, memberObj) {
 
 export function addGroup(groupObj) {
   const { uid, displayName, photoURL } = firebaseAuth.currentUser;
-  const obj = {
+  // console.log('groupObj:', groupObj);
+
+  const detailObj = {
     name: groupObj.name,
     description: groupObj.description,
     leader: {
@@ -380,13 +393,14 @@ export function addGroup(groupObj) {
     },
   };
 
-  addNewGroupRef(obj)
-    .then(newGroupId => addGroupToUser(newGroupId, uid, groupObj))
-    .catch(err => console.error('Error adding group:', err));
+  addGroupDetails(detailObj)
+  .then(newGroupId => addNewGroupRef(groupObj, newGroupId))
+  .then(groupId => addGroupToUser(groupId, uid, groupObj))
+  .catch(err => console.error('Error adding group:', err));
 
   return {
     type: 'GROUP_ADDED',
-    payload: obj,
+    payload: groupObj,
   };
 }
 
