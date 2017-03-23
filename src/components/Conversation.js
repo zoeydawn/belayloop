@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -16,12 +16,8 @@ class Conversation extends Component {
   }
 
   render() {
-    const { user, conversation, sendMessage, loggedUser } = this.props;
+    const { user, conversation, sendMessage } = this.props;
     const { otherPartyUid } = this.props.params;
-    console.log('otherPartyUid:', otherPartyUid);
-    // if (loggedUser) {
-    //   otherPartyUid = loggedUser.messages[this.props.params.id].uid;
-    // }
 
     return (
       <div>
@@ -44,7 +40,6 @@ class Conversation extends Component {
 const mapStateToProps = (state => ({
   conversation: state.conversation,
   user: state.auth.user,
-  // messages: state.messages,
 }));
 
 const mapDispatchToProps = dispatch => ({
@@ -58,5 +53,14 @@ const mapDispatchToProps = dispatch => ({
     dispatch(markAsRead(conId));
   },
 });
+
+Conversation.propTypes = {
+  params: PropTypes.object,
+  listenToConversation: PropTypes.func,
+  sendMessage: PropTypes.func,
+  markAsRead: PropTypes.func,
+  user: PropTypes.object,
+  conversation: PropTypes.object,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Conversation);

@@ -1,18 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
-// import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Badge from 'material-ui/Badge';
-// import FlatButton from 'material-ui/FlatButton';
-// import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-// import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
-import Avatar from 'material-ui/Avatar';
+import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
 import FontIcon from 'material-ui/FontIcon';
 
 import LoginModal from './LoginModal';
@@ -20,18 +15,9 @@ import { signOut, signInWithGoogle, signInWithFacebook } from '../actions/auth';
 import { listenToLoggedUser, listenToMessages } from '../actions/firebaseDb';
 
 class Navbar extends Component {
-  // state = {
-  //   logged: false,
-  // };
-
-  // handleChange = (event, logged) => {
-  //   this.setState({logged: logged});
-  // };
 
   componentDidMount() {
-    // console.log('this.props.user', this.props.user);
     if (this.props.loggedIn) {
-      // this.props.listenToLoggedUser();
       this.props.listenToMessages();
     }
   }
@@ -45,8 +31,6 @@ class Navbar extends Component {
     const {
       loggedIn,
       user,
-      signOut,
-      // loggedUser,
       signInWithGoogle,
       signInWithFacebook,
       messages,
@@ -55,9 +39,9 @@ class Navbar extends Component {
     // console.log('user:', user);
     let messageCount = 0;
     if (messages) {
-      messageCount = Object.keys(messages).filter((key) => {
-        return messages[key].read === false;
-      }).length;
+      messageCount = Object.keys(messages).filter(key => (
+        messages[key].read === false
+      )).length;
       // console.log('messageCount:', messageCount);
     }
 
@@ -73,7 +57,7 @@ class Navbar extends Component {
         <Badge
           className="pointer"
           badgeContent={messageCount}
-          primary={true}
+          primary
         >
           <FontIcon
             className="fa fa-envelope"
@@ -95,20 +79,9 @@ class Navbar extends Component {
     const logged = (
       <ToolbarGroup>
         {notificationIcon}
-        {/* <FontIcon
-          className="fa fa-comments"
-        />
-      <Avatar src={user.photoURL} id="navbarAvitar" /> */}
         <ToolbarSeparator />
         <IconMenu
-          iconButtonElement={
-            <IconButton><MoreVertIcon /></IconButton>
-            // <Avatar
-            //   src={user.photoURL}
-            //   id="navbarAvitar"
-            //   className="pointer"
-            // />
-          }
+          iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
         >
@@ -129,7 +102,7 @@ class Navbar extends Component {
           <ToolbarGroup firstChild>
             <img className="pointer" id="topLogo" src="/simplelogo.png" alt="" onClick={() => browserHistory.push('/')} />
           </ToolbarGroup>
-            {rightMenu}
+          {rightMenu}
         </Toolbar>
       </div>
     );
@@ -139,7 +112,6 @@ class Navbar extends Component {
 const mapStateToProps = (state => ({
   loggedIn: state.auth.authenticated,
   user: state.auth.user,
-  // loggedUser: state.loggedUser,
   messages: state.messages,
 }));
 
@@ -160,5 +132,15 @@ const mapDispatchToProps = dispatch => ({
     dispatch(listenToMessages());
   },
 });
+
+Navbar.propTypes = {
+  loggedIn: PropTypes.bool,
+  listenToMessages: PropTypes.func,
+  signOut: PropTypes.func,
+  signInWithGoogle: PropTypes.func,
+  signInWithFacebook: PropTypes.func,
+  user: PropTypes.object,
+  messages: PropTypes.object,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

@@ -1,23 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
-// import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import { connect } from 'react-redux';
-// import RaisedButton from 'material-ui/RaisedButton';
-// import FontIcon from 'material-ui/FontIcon';
+
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
-//
-// import { getUser } from '../actions/userActions';
-// import { listenToMessages } from '../actions/firebaseDb';
-// import MessageCard from './MessageCard';
 
 class Messages extends Component {
-
-  // componentWillMount() {
-  //   this.props.listenToMessages();
-  // }
 
   render() {
     const { messages } = this.props;
@@ -57,7 +47,7 @@ class Messages extends Component {
 
     return (
       <div>
-        <Subheader inset={true}>Your Conversations:</Subheader>
+        <Subheader inset>Your Conversations:</Subheader>
         <List>
           {messageList}
         </List>
@@ -70,14 +60,7 @@ const mapStateToProps = (state => ({
   messages: state.messages,
 }));
 
-// const mapDispatchToProps = dispatch => ({
-//   // listenToMessages() {
-//   //   dispatch(listenToMessages());
-//   // },
-// });
-
 Messages.propTypes = {
-  // listenToMessages: PropTypes.func,
   messages: PropTypes.object,
 };
 
