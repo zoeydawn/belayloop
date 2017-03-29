@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -71,6 +71,9 @@ export default class AddGym extends Component {
       top,
       wallHeight,
       website,
+      climbingSurface,
+      hours,
+      cost,
     } = this.state;
     // const { userDetails } = this.props;
     // const fullAddress = `${address} ${city} ${state.substring(0, 2)}`
@@ -84,6 +87,9 @@ export default class AddGym extends Component {
       size: size || '',
       state: state || '',
       wallHeight: wallHeight || '',
+      climbingSurface: climbingSurface || '',
+      hours: hours || '',
+      cost: cost || '',
       website: website || '',
       offering: {
         boldering: boldering || false,
@@ -91,6 +97,7 @@ export default class AddGym extends Component {
         lead: lead || false,
       },
     };
+    console.log('this.state:', this.state);
     this.props.submit(obj);
     this.setState({
       open: false,
@@ -108,7 +115,7 @@ export default class AddGym extends Component {
       wallHeight: '',
       website: '',
     });
-    // console.log('obj:', obj);
+    console.log('obj:', obj);
   }
 
   render() {
@@ -117,13 +124,13 @@ export default class AddGym extends Component {
     const actions = [
       <FlatButton
         label="Cancel"
-        primary={true}
+        primary
         onTouchTap={this.handleClose}
       />,
       <FlatButton
         label="Submit"
-        primary={true}
-        keyboardFocused={true}
+        primary
+        keyboardFocused
         onTouchTap={this._onSubmit}
       />,
     ];
@@ -173,16 +180,6 @@ export default class AddGym extends Component {
             onNewRequest={state => this._handleSelection('state', state)}
           />
           <br />
-          {/* <AutoComplete
-            name="country"
-            floatingLabelText="Country"
-            filter={AutoComplete.caseInsensitiveFilter}
-            dataSource={nationList}
-            // maxSearchResults={10}
-            hintText={country}
-            onNewRequest={country => this._handleSelection('country', country)}
-            />
-          <br /> */}
           <TextField
             id="text-field-default"
             name="image"
@@ -202,14 +199,21 @@ export default class AddGym extends Component {
             floatingLabelText="Size of gym (in square feet)"
             onChange={this._onType}
           />
+          <br />
           <TextField
             id="text-field-default"
             name="wallHeight"
             floatingLabelText="Height of largest wall (feet)"
             onChange={this._onType}
           />
+          <TextField
+            id="text-field-default"
+            name="climbingSurface"
+            floatingLabelText="Climbing surface area (square feet)"
+            onChange={this._onType}
+          />
           <br />
-          <h4>What does this gym offer?</h4>
+          <h4>What climbing does this gym offer?</h4>
           <Checkbox
             label="Boldering"
             onCheck={() => { this._handleCheck('boldering'); }}
@@ -222,32 +226,24 @@ export default class AddGym extends Component {
             label="Lead"
             onCheck={() => { this._handleCheck('lead'); }}
           />
-          {/* <SelectField
-            floatingLabelText="Can you belay?"
-            name="belay"
-            value={this.state.belay || belay}
-            onChange={(e, i, val) => this._handleSelection('belay', val)}
-          >
-            <MenuItem value="No" primaryText="No" />
-            <MenuItem value="Yes" primaryText="Yes" />
-          </SelectField>
-          <br />
-          <SelectField
-            floatingLabelText="Can you lead?"
-            name="lead"
-            value={this.state.lead || lead}
-            onChange={(e, i, val) => this._handleSelection('lead', val)}
-          >
-            <MenuItem value="No" primaryText="No" />
-            <MenuItem value="Yes" primaryText="Yes" />
-          </SelectField>
-          <br /> */}
-          <TextField
+          {/* <TextField
             // hintText="Message Field"
             name="description"
             floatingLabelText="Short Description"
-            multiLine={true}
+            multiLine
             rows={2}
+            onChange={this._onType}
+          /> */}
+          <TextField
+            id="text-field-default"
+            name="hours"
+            floatingLabelText="Hours of operation"
+            onChange={this._onType}
+          />
+          <TextField
+            id="text-field-default"
+            name="cost"
+            floatingLabelText="Cost"
             onChange={this._onType}
           />
         </Dialog>
@@ -259,3 +255,7 @@ export default class AddGym extends Component {
     );
   }
 }
+
+AddGym.propTypes = {
+  submit: PropTypes.func,
+};
