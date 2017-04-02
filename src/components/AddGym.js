@@ -226,14 +226,6 @@ export default class AddGym extends Component {
             label="Lead"
             onCheck={() => { this._handleCheck('lead'); }}
           />
-          {/* <TextField
-            // hintText="Message Field"
-            name="description"
-            floatingLabelText="Short Description"
-            multiLine
-            rows={2}
-            onChange={this._onType}
-          /> */}
           <TextField
             id="text-field-default"
             name="hours"
@@ -244,6 +236,14 @@ export default class AddGym extends Component {
             id="text-field-default"
             name="cost"
             floatingLabelText="Cost"
+            onChange={this._onType}
+          />
+          <TextField
+            // hintText="Message Field"
+            name="description"
+            floatingLabelText="Other information"
+            multiLine
+            rows={2}
             onChange={this._onType}
           />
         </Dialog>

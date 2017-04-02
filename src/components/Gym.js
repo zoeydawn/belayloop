@@ -31,7 +31,10 @@ class Gym extends Component {
     // console.log('posts:', posts);
     let address = '';
     let city = '';
+    let climbingSurface = '';
+    let cost = '';
     let description = '';
+    let hours = '';
     let image = '';
     let name = '';
     let offerings = '';
@@ -41,18 +44,23 @@ class Gym extends Component {
     let website = '';
     if (currentGym) {
       const { boldering, top, lead } = currentGym.offering;
+      // console.log('currentGym:', currentGym);
       address = currentGym.address;
       city = currentGym.city;
+      climbingSurface = currentGym.climbingSurface ? `${currentGym.climbingSurface} square feet` : 'unknown';
+      cost = currentGym.cost ? currentGym.cost : 'unknown';
       description = currentGym.description;
+      hours = currentGym.hours ? currentGym.hours : 'unknown';
       image = currentGym.image;
       name = currentGym.name;
-      size = currentGym.size;
+      size = currentGym.size ? `${currentGym.size} square feet` : 'unknown';
       state = currentGym.state;
-      wallHeight = currentGym.wallHeight;
+      wallHeight = currentGym.wallHeight ? `${currentGym.wallHeight} feet` : 'unknown';
       website = currentGym.website;
-      offerings = boldering ? offerings + ' boldering,' : offerings;
-      offerings = top ? offerings + ' top rope,' : offerings;
-      offerings = lead ? offerings + ' lead' : offerings;
+
+      offerings = boldering ? `${offerings} boldering,` : offerings;
+      offerings = top ? `${offerings} top,` : offerings;
+      offerings = lead ? `${offerings} lead,` : offerings;
     }
 
     return (
@@ -61,8 +69,11 @@ class Gym extends Component {
           {/* <h1>Gym</h1> */}
           <div className="profileLeft">
             <img className="profileAvatar" src={image} alt={name} />
-            <p>{size} square feet</p>
-            <p>{wallHeight} foot walls</p>
+            <p>Size: {size}</p>
+            <p>Wall height: {wallHeight}</p>
+            <p>Climbing surface: {climbingSurface}</p>
+            <p>Cost: {cost}</p>
+            <p>Hours: {hours}</p>
             <p>{offerings}</p>
             <a href={website} target="_blank" rel="noopener noreferrer">Website</a>
             <br />
