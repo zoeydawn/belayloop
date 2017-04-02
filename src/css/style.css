@@ -42,13 +42,19 @@
   min-width: 230px;
   order: 1;
   margin-right: 25px;
+  background-color: rgb(232, 232, 232);
+  padding: 25px 0 25px 25px;
+  /*border: 1px solid #1286dd;*/
+  border-radius: 5px;
 }
 
 .profileCenter {
   -webkit-flex: 250;
   order: 3;
-  /*background-color: green;*/
-  /*margin: 25px;*/
+  background-color: rgb(232, 232, 232);
+  padding: 25px;
+  /*border: 1px solid #1286dd;*/
+  border-radius: 5px;
 }
 
 .profileRight {
@@ -101,4 +107,5 @@
 
 .map {
   max-width: 100%;
+  border: 1px solid #1286dd;
 }
