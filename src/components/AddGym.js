@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 import AutoComplete from 'material-ui/AutoComplete';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 // import SelectField from 'material-ui/SelectField';
 // import MenuItem from 'material-ui/MenuItem';
 import Checkbox from 'material-ui/Checkbox';
@@ -57,6 +58,11 @@ export default class AddGym extends Component {
     this.setState({ [name]: val });
   }
 
+  selectType = (e, value) => {
+    // console.log('value:', value);
+    this.setState({ type: value });
+  }
+
   _onSubmit = () => {
     const {
       address,
@@ -69,6 +75,7 @@ export default class AddGym extends Component {
       size,
       state,
       top,
+      type,
       wallHeight,
       website,
       climbingSurface,
@@ -90,6 +97,7 @@ export default class AddGym extends Component {
       climbingSurface: climbingSurface || '',
       hours: hours || '',
       cost: cost || '',
+      type: type || '',
       website: website || '',
       offering: {
         boldering: boldering || false,
@@ -97,7 +105,7 @@ export default class AddGym extends Component {
         lead: lead || false,
       },
     };
-    console.log('this.state:', this.state);
+    // console.log('this.state:', this.state);
     this.props.submit(obj);
     this.setState({
       open: false,
@@ -115,7 +123,7 @@ export default class AddGym extends Component {
       wallHeight: '',
       website: '',
     });
-    console.log('obj:', obj);
+    // console.log('obj:', obj);
   }
 
   render() {
@@ -156,7 +164,7 @@ export default class AddGym extends Component {
             floatingLabelText="Name"
             onChange={this._onType}
           />
-          <br />
+
           <TextField
             id="text-field-default"
             name="address"
@@ -192,7 +200,7 @@ export default class AddGym extends Component {
             floatingLabelText="Website"
             onChange={this._onType}
           />
-          <br />
+
           <TextField
             id="text-field-default"
             name="size"
@@ -206,26 +214,51 @@ export default class AddGym extends Component {
             floatingLabelText="Height of largest wall (feet)"
             onChange={this._onType}
           />
+
           <TextField
             id="text-field-default"
             name="climbingSurface"
             floatingLabelText="Climbing surface area (square feet)"
             onChange={this._onType}
           />
-          <br />
-          <h4>What climbing does this gym offer?</h4>
-          <Checkbox
-            label="Boldering"
-            onCheck={() => { this._handleCheck('boldering'); }}
-          />
-          <Checkbox
-            label="Top Roping"
-            onCheck={() => { this._handleCheck('top'); }}
-          />
-          <Checkbox
-            label="Lead"
-            onCheck={() => { this._handleCheck('lead'); }}
-          />
+          <div className="flexbox-container">
+            <div id="radioButtonList">
+              <h4>Select gym type:</h4>
+              <RadioButtonGroup name="shipSpeed" onChange={this.selectType}>
+                <RadioButton
+                  value="Commercial Climbing Gym"
+                  label="Commercial gym"
+                />
+                <RadioButton
+                  value="School/Universtiy Gym"
+                  label="School/Universtiy gym"
+                />
+                <RadioButton
+                  value="Climbing Wall"
+                  label="Climbing wall"
+                />
+                <RadioButton
+                  value=" "
+                  label="Other"
+                />
+              </RadioButtonGroup>
+            </div>
+            <div id="checkboxList">
+              <h4>What climbing does this gym offer?</h4>
+              <Checkbox
+                label="Boldering"
+                onCheck={() => { this._handleCheck('boldering'); }}
+              />
+              <Checkbox
+                label="Top Roping"
+                onCheck={() => { this._handleCheck('top'); }}
+              />
+              <Checkbox
+                label="Lead"
+                onCheck={() => { this._handleCheck('lead'); }}
+              />
+            </div>
+          </div>
           <TextField
             id="text-field-default"
             name="hours"

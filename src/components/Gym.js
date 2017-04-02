@@ -40,6 +40,7 @@ class Gym extends Component {
     let offerings = '';
     let size = '';
     let state = '';
+    let type = '';
     let wallHeight = '';
     let website = '';
     if (currentGym) {
@@ -57,6 +58,7 @@ class Gym extends Component {
       state = currentGym.state;
       wallHeight = currentGym.wallHeight ? `${currentGym.wallHeight} feet` : 'unknown';
       website = currentGym.website;
+      type = currentGym.type ? currentGym.type : '';
 
       offerings = boldering ? `${offerings} boldering,` : offerings;
       offerings = top ? `${offerings} top,` : offerings;
@@ -82,6 +84,7 @@ class Gym extends Component {
           <div className="profileCenter">
             <h1>{name}</h1>
             <h3>{`${city}, ${state.substring(0, 2)}`}</h3>
+            <p>{type}</p>
             <p>{description}</p>
             <br />
             <Posts
