@@ -60,7 +60,13 @@ class Gym extends Component {
       wallHeight = currentGym.wallHeight ? `${currentGym.wallHeight} feet` : 'unknown';
       website = currentGym.website;
       type = currentGym.type ? currentGym.type : '';
-      map = <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${currentGym.address}&zoom=14&size=640x400&markers=color:green%7Clabel:${name[0]}%7C${currentGym.address}&key=AIzaSyB-J112rvVfjpxkZQjxrHShja_t0dbYaX0`} className="map" alt="" />
+      map = (<a
+        href={`http://maps.google.com/?q=${address}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${currentGym.address}&zoom=14&size=640x400&markers=color:green%7Clabel:${name[0]}%7C${currentGym.address}&key=AIzaSyB-J112rvVfjpxkZQjxrHShja_t0dbYaX0`} className="map" alt="" />
+      </a>);
 
       offerings = boldering ? `${offerings} boldering,` : offerings;
       offerings = top ? `${offerings} top,` : offerings;
@@ -81,7 +87,6 @@ class Gym extends Component {
             <p>{offerings}</p>
             <a href={website} target="_blank" rel="noopener noreferrer">Website</a>
             <br />
-            <a href={`http://maps.google.com/?q=${address}`} target="_blank" rel="noopener noreferrer">Map</a>
           </div>
           <div className="profileCenter">
             <h1>{name}</h1>

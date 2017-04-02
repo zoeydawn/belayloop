@@ -100,7 +100,7 @@ class Navbar extends Component {
       <div>
         <Toolbar>
           <ToolbarGroup firstChild>
-            <img className="pointer" id="topLogo" src="/simplelogo.png" alt="" onClick={() => browserHistory.push('/')} />
+            <img className="pointer" id="topLogo" src="/logo.png" alt="" onClick={() => browserHistory.push('/')} />
           </ToolbarGroup>
           {rightMenu}
         </Toolbar>
