@@ -36,6 +36,7 @@ class Gym extends Component {
     let description = '';
     let hours = '';
     let image = '';
+    let map = '';
     let name = '';
     let offerings = '';
     let size = '';
@@ -59,6 +60,7 @@ class Gym extends Component {
       wallHeight = currentGym.wallHeight ? `${currentGym.wallHeight} feet` : 'unknown';
       website = currentGym.website;
       type = currentGym.type ? currentGym.type : '';
+      map = <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${currentGym.address}&zoom=14&size=640x400&markers=color:green%7Clabel:${name[0]}%7C${currentGym.address}&key=AIzaSyB-J112rvVfjpxkZQjxrHShja_t0dbYaX0`} className="map" alt="" />
 
       offerings = boldering ? `${offerings} boldering,` : offerings;
       offerings = top ? `${offerings} top,` : offerings;
@@ -86,6 +88,7 @@ class Gym extends Component {
             <h3>{`${city}, ${state.substring(0, 2)}`}</h3>
             <p>{type}</p>
             <p>{description}</p>
+            {map}
             <br />
             <Posts
               id={this.props.params.id}

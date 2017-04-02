@@ -97,3 +97,7 @@
 .flexbox-container > div:first-child {
 	margin-right: 20px;
 }
+
+.map {
+  max-width: 100%;
+}
