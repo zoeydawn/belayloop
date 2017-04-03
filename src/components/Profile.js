@@ -2,10 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
-// import Avatar from 'material-ui/Avatar';
-// import RaisedButton from 'material-ui/RaisedButton';
-// import FontIcon from 'material-ui/FontIcon';
 import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 
@@ -106,26 +102,6 @@ class Profile extends Component {
         <div className="profileCenter">
           <h1>{displayName}</h1>
           <h3>{`${details.city} ${details.state} ${details.country}`}</h3>
-          {/* <Table>
-            <TableBody displayRowCheckbox={false}>
-              <TableRow displayBorder={false}>
-                <TableRowColumn>Skill Level:</TableRowColumn>
-                <TableRowColumn>{details.skill}</TableRowColumn>
-              </TableRow>
-              <TableRow displayBorder={false}>
-                <TableRowColumn>Boldering Level:</TableRowColumn>
-                <TableRowColumn>{details.boldering}</TableRowColumn>
-              </TableRow>
-              <TableRow displayBorder={false}>
-                <TableRowColumn>Belay Qualified:</TableRowColumn>
-                <TableRowColumn>{details.belay}</TableRowColumn>
-              </TableRow>
-              <TableRow displayBorder={false}>
-                <TableRowColumn>Lead Qualified:</TableRowColumn>
-                <TableRowColumn>{details.lead}</TableRowColumn>
-              </TableRow>
-            </TableBody>
-          </Table> */}
           <List>
             <ListItem
               disabled
@@ -149,7 +125,12 @@ class Profile extends Component {
             />
           </List>
           <p>{details.bio}</p>
-          <PostList posts={posts} submitMessage={startConversation} joinPost={joinPost} user={user} />
+          <PostList
+            posts={posts}
+            submitMessage={startConversation}
+            joinPost={joinPost}
+            user={user}
+          />
         </div>
         <div className="profileRight">
 
@@ -194,6 +175,7 @@ Profile.propTypes = {
   userDetails: PropTypes.object,
   posts: PropTypes.object,
   user: PropTypes.object,
+  groups: PropTypes.object,
   params: PropTypes.object,
   getUser: PropTypes.func,
   startListeningToUser: PropTypes.func,

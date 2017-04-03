@@ -1,16 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-// import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import { List, ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
-
-import ContentInbox from 'material-ui/svg-icons/content/inbox';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
-import ContentSend from 'material-ui/svg-icons/content/send';
-import ContentDrafts from 'material-ui/svg-icons/content/drafts';
-import Divider from 'material-ui/Divider';
-import ActionInfo from 'material-ui/svg-icons/action/info';
 
 import { listenToGym, listenToPosts, createNewPost, joinPost, startConversation } from '../actions/firebaseDb';
 
@@ -91,15 +83,8 @@ class Gym extends Component {
           <div className="profileLeft">
             <img className="profileAvatar" src={image} alt={name} />
             <br />
-            {/* <a href={website} target="_blank" rel="noopener noreferrer">Website</a> */}
 
             <List>
-              {/* <ListItem
-                primaryText="Gym website:"
-                secondaryText={website}
-                onClick={window.open(website, '_blank')}
-                leftIcon={<FontIcon className="fa fa-link" />}
-              /> */}
               <ListItem
                 disabled
                 primaryText="Size:"
