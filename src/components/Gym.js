@@ -1,6 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+// import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import { List, ListItem } from 'material-ui/List';
+import FontIcon from 'material-ui/FontIcon';
+
+import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import ActionGrade from 'material-ui/svg-icons/action/grade';
+import ContentSend from 'material-ui/svg-icons/content/send';
+import ContentDrafts from 'material-ui/svg-icons/content/drafts';
+import Divider from 'material-ui/Divider';
+import ActionInfo from 'material-ui/svg-icons/action/info';
+
 import { listenToGym, listenToPosts, createNewPost, joinPost, startConversation } from '../actions/firebaseDb';
 
 import Posts from './Posts';
@@ -43,7 +54,7 @@ class Gym extends Component {
     let state = '';
     let type = '';
     let wallHeight = '';
-    let website = '';
+    let website = '#';
     if (currentGym) {
       const { boldering, top, lead } = currentGym.offering;
       // console.log('currentGym:', currentGym);
@@ -69,7 +80,7 @@ class Gym extends Component {
       </a>);
 
       offerings = boldering ? `${offerings} boldering,` : offerings;
-      offerings = top ? `${offerings} top,` : offerings;
+      offerings = top ? `${offerings} top rope,` : offerings;
       offerings = lead ? `${offerings} lead,` : offerings;
     }
 
@@ -79,20 +90,64 @@ class Gym extends Component {
           {/* <h1>Gym</h1> */}
           <div className="profileLeft">
             <img className="profileAvatar" src={image} alt={name} />
-            <p>Size: {size}</p>
-            <p>Wall height: {wallHeight}</p>
-            <p>Climbing surface: {climbingSurface}</p>
-            <p>Cost: {cost}</p>
-            <p>Hours: {hours}</p>
-            <p>{offerings}</p>
-            <a href={website} target="_blank" rel="noopener noreferrer">Website</a>
+            <br />
+            {/* <a href={website} target="_blank" rel="noopener noreferrer">Website</a> */}
+
+            <List>
+              {/* <ListItem
+                primaryText="Gym website:"
+                secondaryText={website}
+                onClick={window.open(website, '_blank')}
+                leftIcon={<FontIcon className="fa fa-link" />}
+              /> */}
+              <ListItem
+                disabled
+                primaryText="Size:"
+                secondaryText={size}
+                leftIcon={<FontIcon className="fa fa-bar-chart" />}
+              />
+              <ListItem
+                disabled
+                primaryText="Wall height:"
+                secondaryText={wallHeight}
+                leftIcon={<FontIcon className="fa fa-line-chart" />}
+              />
+              <ListItem
+                disabled
+                primaryText="Climbing surface:"
+                secondaryText={climbingSurface}
+                leftIcon={<FontIcon className="fa fa-area-chart" />}
+              />
+              <ListItem
+                disabled
+                primaryText="Hours:"
+                secondaryText={hours}
+                leftIcon={<FontIcon className="fa fa-clock-o" />}
+              />
+              <ListItem
+                disabled
+                primaryText="Cost:"
+                secondaryText={cost}
+                leftIcon={<FontIcon className="fa fa-usd" />}
+              />
+              <ListItem
+                disabled
+                primaryText="Climbing:"
+                secondaryText={offerings}
+                leftIcon={<FontIcon className="fa fa-building-o" />}
+              />
+            </List>
+
             <br />
           </div>
           <div className="profileCenter">
             <h1>{name}</h1>
+            <h4>{type}</h4>
             <h3>{`${city}, ${state.substring(0, 2)}`}</h3>
-            <p>{type}</p>
             <p>{description}</p>
+            <a className="externalLink" href={website} target="_blank" rel="noopener noreferrer"><FontIcon className="fa fa-link" /> Website</a>
+            <br />
+            <br />
             {map}
             <br />
             <Posts

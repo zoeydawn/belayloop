@@ -2,6 +2,10 @@
   font-family: 'Roboto';
 }
 
+a:hover {
+  color: #dd6912;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -108,4 +112,14 @@
 .map {
   max-width: 100%;
   border: 1px solid #1286dd;
+}
+
+.map:hover {
+  border: 1px solid #dd6912;
+}
+
+.externalLink {
+  font-size: 1.2em;
+  text-decoration: none;
+  color: #1286dd;
 }
