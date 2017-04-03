@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -15,22 +15,26 @@ class Discussion extends Component {
   }
 
   render() {
-    const { user, conversation, sendMessage, loggedUser } = this.props;
+    const { user, conversation, sendMessage } = this.props;
     const { groupId, id } = this.props.params;
 
     return (
-      <div>
-        <div className="pointer" onClick={() => browserHistory.push(`/group/${groupId}`)}>
-          <FontIcon className="fa fa-chevron-left" />
-          Back to group
+      <div className="profile">
+        <div className="pageLeft" />
+        <div className="profileCenter">
+          <div className="pointer" onClick={() => browserHistory.push(`/group/${groupId}`)}>
+            <FontIcon className="fa fa-chevron-left" />
+            Back to group
+          </div>
+          <ConversationList conversation={conversation} />
+          <MessageForm
+            conversation={id}
+            submit={sendMessage}
+            user={user}
+            otherPartyUid={null}
+          />
         </div>
-        <ConversationList conversation={conversation} />
-        <MessageForm
-          conversation={id}
-          submit={sendMessage}
-          user={user}
-          otherPartyUid={null}
-        />
+        <div className="profileRight" />
       </div>
     );
   }
@@ -50,5 +54,13 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addMessageToDiscussion(conId, obj));
   },
 });
+
+Discussion.propTypes = {
+  user: PropTypes.object,
+  conversation: PropTypes.object,
+  params: PropTypes.object,
+  sendMessage: PropTypes.func,
+  listenToConversation: PropTypes.func,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Discussion);

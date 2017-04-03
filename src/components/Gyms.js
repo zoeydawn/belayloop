@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
 
 import AddGym from './AddGym';
 import GymList from './GymList';
@@ -14,12 +13,14 @@ class Gyms extends Component {
 
   render() {
     const { addGym, gyms } = this.props;
-    // console.log('this.props.gyms:', this.props.gyms);
     return (
-      <div>
-        {/* <RaisedButton label="Add a Gym" style={{ margin: 12 }} /> */}
-        <GymList listObj={gyms} />
-        <AddGym submit={addGym} />
+      <div className="profile">
+        <div className="pageLeft" />
+        <div className="profileCenter">
+          <GymList listObj={gyms} />
+          <AddGym submit={addGym} />
+        </div>
+        <div className="profileRight" />
       </div>
     );
   }
@@ -37,5 +38,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(listenToGyms());
   },
 });
+
+Gyms.propTypes = {
+  addGym: PropTypes.func,
+  listenToGyms: PropTypes.func,
+  gyms: PropTypes.object,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Gyms);

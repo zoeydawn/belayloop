@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 // import RaisedButton from 'material-ui/RaisedButton';
 
@@ -16,10 +16,13 @@ class Groups extends Component {
     const { addGroup, groups } = this.props;
     // console.log('this.props.groups:', this.props.groups);
     return (
-      <div>
-        {/* <RaisedButton label="Add a Gym" style={{ margin: 12 }} /> */}
-        <GroupList listObj={groups} />
-        <AddGroup submit={addGroup} />
+      <div className="profile">
+        <div className="pageLeft" />
+        <div className="profileCenter">
+          <GroupList listObj={groups} />
+          <AddGroup submit={addGroup} />
+        </div>
+        <div className="profileRight" />
       </div>
     );
   }
@@ -37,5 +40,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(listenToGroups());
   },
 });
+
+Groups.propTypes = {
+  addGroup: PropTypes.func,
+  listenToGroups: PropTypes.func,
+  groups: PropTypes.object,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Groups);

@@ -20,18 +20,22 @@ class Conversation extends Component {
     const { otherPartyUid } = this.props.params;
 
     return (
-      <div>
-        <div className="pointer" onClick={() => browserHistory.push('/messages')}>
-          <FontIcon className="fa fa-chevron-left" />
-          Back to conversations
+      <div className="profile">
+        <div className="pageLeft" />
+        <div className="profileCenter">
+          <div className="pointer" onClick={() => browserHistory.push('/messages')}>
+            <FontIcon className="fa fa-chevron-left" />
+            Back to conversations
+          </div>
+          <ConversationList conversation={conversation} />
+          <MessageForm
+            conversation={this.props.params.id}
+            submit={sendMessage}
+            user={user}
+            otherPartyUid={otherPartyUid}
+          />
         </div>
-        <ConversationList conversation={conversation} />
-        <MessageForm
-          conversation={this.props.params.id}
-          submit={sendMessage}
-          user={user}
-          otherPartyUid={otherPartyUid}
-        />
+        <div className="profileRight" />
       </div>
     );
   }

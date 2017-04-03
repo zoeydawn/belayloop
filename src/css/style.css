@@ -6,6 +6,14 @@ a:hover {
   color: #dd6912;
 }
 
+/*h1, h2, h3, h4 {
+  color: rgba(0, 0, 0, 0.541176);
+}*/
+
+.soft {
+  color: rgba(0, 0, 0, 0.541176);
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -38,6 +46,18 @@ a:hover {
 
 .profileAvatar {
   max-width: 230px;
+}
+
+.pageLeft {
+  -webkit-flex: 110;
+  max-width: 300px;
+  min-width: 230px;
+  order: 1;
+  margin-right: 25px;
+  /*background-color: rgb(232, 232, 232);*/
+  /*padding: 25px 0 25px 25px;*/
+  /*border: 1px solid #1286dd;*/
+  border-radius: 5px;
 }
 
 .profileLeft {
@@ -76,6 +96,11 @@ a:hover {
   .profile {
     flex-direction: row;
     -webkit-flex-direction: row;
+  }
+
+  .pageLeft {
+    /*background-color: red;*/
+    order: 0;
   }
 
   .profileLeft {

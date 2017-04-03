@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import moment from 'moment';
 
@@ -12,7 +12,7 @@ const ConversationList = (props) => {
   if (conversation) {
     conversationList = Object.keys(conversation).map((messageId) => {
       const { displayName, message, photoURL, timestamp, uid } = conversation[messageId];
-      console.log('conversation:', conversation);
+      // console.log('conversation:', conversation);
       return (
         <ListItem
           key={messageId}
@@ -20,8 +20,7 @@ const ConversationList = (props) => {
           leftAvatar={<Avatar src={photoURL} />}
           primaryText={message}
           secondaryText={`${displayName} - ${moment(timestamp).fromNow()}`}
-        >
-        </ListItem>
+        />
       );
     });
   }
@@ -31,6 +30,10 @@ const ConversationList = (props) => {
       {conversationList}
     </List>
   );
+};
+
+ConversationList.propTypes = {
+  conversation: PropTypes.object,
 };
 
 export default ConversationList;

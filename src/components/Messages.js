@@ -46,11 +46,16 @@ class Messages extends Component {
     }
 
     return (
-      <div>
-        <Subheader inset>Your Conversations:</Subheader>
-        <List>
-          {messageList}
-        </List>
+      <div className="profile">
+        <div className="pageLeft" />
+        <div className="profileCenter">
+          <h1 className="soft">Your Conversations:</h1>
+          {/* <Subheader inset>Your Conversations:</Subheader> */}
+          <List>
+            {messageList}
+          </List>
+        </div>
+        <div className="profileRight" />
       </div>
     );
   }
