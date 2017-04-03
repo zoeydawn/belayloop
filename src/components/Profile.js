@@ -79,8 +79,7 @@ class Profile extends Component {
               primaryText={name}
               secondaryText={description}
               onClick={() => browserHistory.push(`/group/${groupId}`)}
-            >
-            </ListItem>
+            />
           );
         })
       );
@@ -107,7 +106,7 @@ class Profile extends Component {
         <div className="profileCenter">
           <h1>{displayName}</h1>
           <h3>{`${details.city} ${details.state} ${details.country}`}</h3>
-          <Table>
+          {/* <Table>
             <TableBody displayRowCheckbox={false}>
               <TableRow displayBorder={false}>
                 <TableRowColumn>Skill Level:</TableRowColumn>
@@ -126,7 +125,29 @@ class Profile extends Component {
                 <TableRowColumn>{details.lead}</TableRowColumn>
               </TableRow>
             </TableBody>
-          </Table>
+          </Table> */}
+          <List>
+            <ListItem
+              disabled
+              primaryText="Skill Level:"
+              secondaryText={details.skill}
+            />
+            <ListItem
+              disabled
+              primaryText="Boldering Level:"
+              secondaryText={details.boldering}
+            />
+            <ListItem
+              disabled
+              primaryText="Belay Qualified:"
+              secondaryText={details.belay}
+            />
+            <ListItem
+              disabled
+              primaryText="Lead Qualified:"
+              secondaryText={details.lead}
+            />
+          </List>
           <p>{details.bio}</p>
           <PostList posts={posts} submitMessage={startConversation} joinPost={joinPost} user={user} />
         </div>
