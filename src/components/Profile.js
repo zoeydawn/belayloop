@@ -10,7 +10,13 @@ import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 
 import { getUser } from '../actions/userActions';
-import { startListeningToUser, startConversation, listenToPosts, joinPost } from '../actions/firebaseDb';
+import {
+  startListeningToUser,
+  startConversation,
+  listenToPosts,
+  joinPost,
+  listenToUserGroups,
+} from '../actions/firebaseDb';
 
 import Message from './Message';
 import PostList from './PostList';
@@ -22,10 +28,11 @@ class Profile extends Component {
     this.props.getUser(userId);
     this.props.startListeningToUser(userId);
     this.props.listenToPosts(userId);
+    this.props.listenToUserGroups(userId);
   }
 
   render() {
-    const { userDetails, userInfo, posts, user, startConversation, joinPost } = this.props;
+    const { userDetails, userInfo, posts, user, startConversation, joinPost, groups } = this.props;
     // const { userInfo } = this.props;
     // console.log('userInfo:', userInfo);
     let displayName = '';
@@ -60,21 +67,23 @@ class Profile extends Component {
         skill: userDetails.skill,
         state: userDetails.state,
       };
-      // groupsList = (
-      //   Object.keys(userDetails.groups).map((groupId) => {
-      //     const { name, description } = userDetails.groups[groupId];
-      //     return (
-      //       <ListItem
-      //         key={groupId}
-      //         // leftAvatar={<Avatar src={photoURL} />}
-      //         primaryText={name}
-      //         secondaryText={description}
-      //         onClick={() => browserHistory.push(`/group/${groupId}`)}
-      //       >
-      //       </ListItem>
-      //     );
-      //   })
-      // );
+    }
+
+    if (groups) {
+      groupsList = (
+        Object.keys(groups).map((groupId) => {
+          const { name, description } = groups[groupId];
+          return (
+            <ListItem
+              key={groupId}
+              primaryText={name}
+              secondaryText={description}
+              onClick={() => browserHistory.push(`/group/${groupId}`)}
+            >
+            </ListItem>
+          );
+        })
+      );
     }
 
     return (
@@ -134,6 +143,7 @@ const mapStateToProps = (state => ({
   userDetails: state.userDetails,
   posts: state.posts,
   user: state.auth.user,
+  groups: state.userGroups,
 }));
 
 const mapDispatchToProps = dispatch => ({
@@ -152,6 +162,9 @@ const mapDispatchToProps = dispatch => ({
   joinPost(userId, obj) {
     dispatch(joinPost(userId, obj));
   },
+  listenToUserGroups(userId) {
+    dispatch(listenToUserGroups(userId));
+  },
 });
 
 Profile.propTypes = {
@@ -164,6 +177,8 @@ Profile.propTypes = {
   getUser: PropTypes.func,
   startListeningToUser: PropTypes.func,
   listenToPosts: PropTypes.func,
+  joinPost: PropTypes.func,
+  listenToUserGroups: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

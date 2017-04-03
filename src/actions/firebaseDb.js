@@ -61,6 +61,14 @@ function receiveGroup(data) {
   };
 }
 
+function receiveUserGroups(data) {
+  // console.log('user group data:', data);
+  return {
+    type: 'RECEIVE_USER_GROUPS',
+    payload: data,
+  };
+}
+
 function receivePosts(data) {
   // console.log('group data:', data);
   return {
@@ -450,6 +458,17 @@ export function joinGroup(obj) {
   return {
     type: 'JOINED_GROUP',
     payload: id,
+  };
+}
+
+export function listenToUserGroups(userId) {
+  return (dispatch) => {
+    const ref = firebaseDb.ref('userGroups').child(userId);
+    ref.off();
+    ref.on('value', (snapshot) => {
+      const groupList = snapshot.val();
+      dispatch(receiveUserGroups(groupList));
+    });
   };
 }
 
