@@ -1,9 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import Dialog from 'material-ui/Dialog';
 
 export default class MessageForm extends Component {
   state = { message: '' }
@@ -11,9 +8,7 @@ export default class MessageForm extends Component {
   _onType = (e) => {
     const { value } = e.target;
     const lastChar = value.charCodeAt([value.length - 1]);
-    // console.log('lastChar:', lastChar);
     if (lastChar === 10) {
-      // console.log('Enter pressed!');
       this._onSubmit();
     } else {
       this.setState({ message: value });
@@ -39,28 +34,13 @@ export default class MessageForm extends Component {
   }
 
   render() {
-    // const { displayName } = this.props;
-    // const actions = [
-    //   <FlatButton
-    //     label="Cancel"
-    //     primary={true}
-    //     onTouchTap={this.handleClose}
-    //   />,
-    //   <FlatButton
-    //     label="Send"
-    //     primary={true}
-    //     keyboardFocused={true}
-    //     onTouchTap={this._onSubmit}
-    //   />,
-    // ];
     return (
       <div>
         <TextField
           name="message"
-          // defaultValue={bio}
-          // floatingLabelText={`Send message to ${displayName}`}
           value={this.state.message}
           multiLine
+          fullWidth
           rows={2}
           onChange={this._onType}
         />
@@ -74,3 +54,10 @@ export default class MessageForm extends Component {
     );
   }
 }
+
+MessageForm.propTypes = {
+  user: PropTypes.object,
+  submit: PropTypes.func,
+  conversation: PropTypes.string,
+  otherPartyUid: PropTypes.string,
+};
