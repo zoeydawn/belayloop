@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
@@ -48,3 +48,8 @@ export default class LoginModal extends Component {
     );
   }
 }
+
+LoginModal.propTypes = {
+  googleSignIn: PropTypes.func,
+  hideModal: PropTypes.func,
+};

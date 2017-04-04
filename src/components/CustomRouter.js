@@ -17,8 +17,8 @@ import Login from './Login';
 import Discussion from './Discussion';
 
 function authCheck(nextState, transition) {
-  console.log('nextState:', nextState);
-  console.log('transition:', transition);
+  // console.log('nextState:', nextState);
+  // console.log('transition:', transition);
   const user = firebaseAuth.currentUser;
   if (!user) {
     transition(`/login${nextState.location.pathname}`);

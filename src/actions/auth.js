@@ -1,32 +1,6 @@
 import firebase from 'firebase';
 
 import { firebaseAuth } from '../firebase';
-// import { listenToLoggedUser } from './firebaseDb';
-
-export function signInWithGoogle() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  return authenticate(provider);
-}
-
-export function signInWithFacebook() {
-  const provider = new firebase.auth.FacebookAuthProvider();
-  return authenticate(provider);
-}
-
-function authenticate(provider) {
-  return (dispatch) => {
-    firebaseAuth.signInWithPopup(provider)
-      .then(result => dispatch(signInSuccess(result)))
-      .catch(err => dispatch(signInError(err)));
-  };
-}
-
-function signInSuccess({ user }) {
-  return {
-    type: 'INIT_AUTH_SUCCESS',
-    payload: user,
-  };
-}
 
 function initAuthSuccess(user) {
   return {
@@ -57,8 +31,33 @@ function signInError(err) {
   };
 }
 
+function signInSuccess({ user }) {
+  return {
+    type: 'INIT_AUTH_SUCCESS',
+    payload: user,
+  };
+}
+
+function authenticate(provider) {
+  return (dispatch) => {
+    firebaseAuth.signInWithPopup(provider)
+    .then(result => dispatch(signInSuccess(result)))
+    .catch(err => dispatch(signInError(err)));
+  };
+}
+
+export function signInWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  return authenticate(provider);
+}
+
+export function signInWithFacebook() {
+  const provider = new firebase.auth.FacebookAuthProvider();
+  return authenticate(provider);
+}
+
 export function signOut() {
-  return dispatch => {
+  return (dispatch) => {
     firebaseAuth.signOut()
       .then(() => dispatch(signOutSuccess()));
   };
@@ -88,7 +87,7 @@ export function initAuth(dispatch) {
       },
       (error) => {
         dispatch(initAuthError(error));
-        res();
+        rej();
       });
   });
 }

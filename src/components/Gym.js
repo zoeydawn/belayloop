@@ -107,12 +107,14 @@ class Gym extends Component {
                 disabled
                 primaryText="Hours:"
                 secondaryText={hours}
+                secondaryTextLines={2}
                 leftIcon={<FontIcon className="fa fa-clock-o" />}
               />
               <ListItem
                 disabled
                 primaryText="Cost:"
                 secondaryText={cost}
+                secondaryTextLines={2}
                 leftIcon={<FontIcon className="fa fa-usd" />}
               />
               <ListItem

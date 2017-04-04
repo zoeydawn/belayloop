@@ -18,6 +18,14 @@ class Navbar extends Component {
 
   componentDidMount() {
     if (this.props.loggedIn) {
+      // console.log('in CDM');
+      this.props.listenToMessages();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.loggedIn && nextProps.loggedIn) {
+      // console.log('in CRP');
       this.props.listenToMessages();
     }
   }

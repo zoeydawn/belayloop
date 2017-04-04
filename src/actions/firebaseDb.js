@@ -1,7 +1,7 @@
 import { firebaseDb, firebaseAuth } from '../firebase';
 
 function receiveMessages(messages) {
-  // console.log('messages in receiveUser:', messages);
+  // console.log('messages in receiveMessages:', messages);
   return {
     type: 'RECEIVE_MESSAGES',
     payload: messages,
@@ -79,6 +79,7 @@ function receivePosts(data) {
 
 export function listenToMessages() {
   const { uid } = firebaseAuth.currentUser;
+  // console.log('uid:', uid);
   return (dispatch) => {
     const userRef = firebaseDb.ref('userMessages').child(uid);
     userRef.off();
