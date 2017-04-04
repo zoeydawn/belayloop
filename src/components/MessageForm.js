@@ -10,25 +10,32 @@ export default class MessageForm extends Component {
 
   _onType = (e) => {
     const { value } = e.target;
-    this.setState({ message: value });
+    const lastChar = value.charCodeAt([value.length - 1]);
+    // console.log('lastChar:', lastChar);
+    if (lastChar === 10) {
+      // console.log('Enter pressed!');
+      this._onSubmit();
+    } else {
+      this.setState({ message: value });
+    }
   }
 
   _onSubmit = () => {
-    // console.log('this.props.user:', this.props.user);
+    console.log('in _onSubmit');
     const { submit, user, conversation, otherPartyUid } = this.props;
     const { uid, displayName, photoURL } = user;
     const { message } = this.state;
-    const messageObj = {
-      message,
-      uid,
-      displayName,
-      photoURL,
-      timestamp: Date.now(),
-    };
-    // console.log('messageObj:', messageObj);
-    // console.log('conversation:', conversation);
-    submit(conversation, messageObj, otherPartyUid);
-    this.setState({ message: '' });
+    if (message) {
+      const messageObj = {
+        message,
+        uid,
+        displayName,
+        photoURL,
+        timestamp: Date.now(),
+      };
+      submit(conversation, messageObj, otherPartyUid);
+      this.setState({ message: '' });
+    }
   }
 
   render() {
@@ -53,14 +60,14 @@ export default class MessageForm extends Component {
           // defaultValue={bio}
           // floatingLabelText={`Send message to ${displayName}`}
           value={this.state.message}
-          multiLine={true}
+          multiLine
           rows={2}
           onChange={this._onType}
         />
         <FlatButton
           label="Send"
-          primary={true}
-          keyboardFocused={true}
+          primary
+          keyboardFocused
           onTouchTap={this._onSubmit}
         />
       </div>
