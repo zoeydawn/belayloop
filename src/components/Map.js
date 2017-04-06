@@ -134,7 +134,7 @@ export default class Map extends Component {
         lng={'-95'}
         zoom={4}
         loadingMessage={'Loading map...'}
-        params={{ v: '3.exp', key: process.env.API_KEY }}
+        params={{ v: '3.exp', key: 'AIzaSyA1ClOXgxqrpOrHvkyB7oFm8hqsxss7tA8' }}
       >
         {this.renderMarkers()}
         {this.renderInfoWindows()}

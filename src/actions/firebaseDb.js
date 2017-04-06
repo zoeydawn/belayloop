@@ -1,4 +1,5 @@
 import { firebaseDb, firebaseAuth } from '../firebase';
+import { getLocation } from './googleApi';
 
 function receiveMessages(messages) {
   // console.log('messages in receiveMessages:', messages);
@@ -310,12 +311,21 @@ export function listenToPosts(id) {
 }
 
 export function addGym(obj) {
-  const ref = firebaseDb.ref('gyms');
-  ref.push(obj);
-
+  const gymObj = obj;
+  getLocation(obj.address)
+    .then((location) => {
+      console.log('location:', location);
+      gymObj.location = location;
+      console.log('gymObj:', gymObj);
+      const ref = firebaseDb.ref('gyms');
+      ref.push(gymObj);
+    })
+    .catch((err) => {
+      console.error('error adding gym', err);
+    });
   return {
     type: 'GYM_ADDED',
-    payload: obj,
+    payload: gymObj,
   };
 }
 
