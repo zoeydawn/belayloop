@@ -5,8 +5,8 @@ export function getLocation(address) {
     const location = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyA1ClOXgxqrpOrHvkyB7oFm8hqsxss7tA8`)
     .then((res) => {
       const { lat, lng } = res.data.results[0].geometry.location;
-      console.log('lat:', lat);
-      console.log('lng:', lng);
+      // console.log('lat:', lat);
+      // console.log('lng:', lng);
       return { lat, lng };
     })
     .catch(err => console.error('error getting location', err));

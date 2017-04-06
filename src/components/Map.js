@@ -12,16 +12,16 @@ import { Gmaps, Marker, InfoWindow, Circle } from 'react-gmaps';
 //   lng: -95,
 // };
 
-const points = [{
-  lat: 35.816226,
-  lng: -79.072765,
-}, {
-  lat: 37.774929,
-  lng: -122.419416,
-}, {
-  lat: 42.360082,
-  lng: -71.058880,
-}];
+// const points = [{
+//   lat: 35.816226,
+//   lng: -79.072765,
+// }, {
+//   lat: 37.774929,
+//   lng: -122.419416,
+// }, {
+//   lat: 42.360082,
+//   lng: -71.058880,
+// }];
 
 // const params = { v: '3.exp', key: 'YOUR_API_KEY' };
 
@@ -100,6 +100,7 @@ export default class Map extends Component {
   }
 
   renderInfoWindows() {
+    const { points } = this.props;
     const { infoWindows } = this.state;
     return points.map((coords, index) => {
       if (!infoWindows[index]) return null;
@@ -115,6 +116,8 @@ export default class Map extends Component {
   }
 
   renderMarkers() {
+    const { points } = this.props;
+    console.log('points:', points);
     return points.map((coords, index) =>
       <Marker
         key={index}

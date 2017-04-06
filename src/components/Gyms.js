@@ -14,9 +14,16 @@ class Gyms extends Component {
 
   render() {
     const { addGym, gyms } = this.props;
+    let mapPoints = [];
+    if (gyms) {
+      mapPoints = Object.keys(gyms).map((gym) => {
+        // console.log('gym:', gym);
+        return gyms[gym].location;
+      });
+    }
     return (
       <div>
-        <Map />
+        <Map points={mapPoints} />
         <div className="profile">
           <div className="pageLeft" />
           <div className="profileCenter">

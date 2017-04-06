@@ -314,9 +314,9 @@ export function addGym(obj) {
   const gymObj = obj;
   getLocation(obj.address)
     .then((location) => {
-      console.log('location:', location);
+      // console.log('location:', location);
       gymObj.location = location;
-      console.log('gymObj:', gymObj);
+      // console.log('gymObj:', gymObj);
       const ref = firebaseDb.ref('gyms');
       ref.push(gymObj);
     })
