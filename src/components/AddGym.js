@@ -200,27 +200,6 @@ export default class AddGym extends Component {
             floatingLabelText="Website"
             onChange={this._onType}
           />
-
-          <TextField
-            id="text-field-default"
-            name="size"
-            floatingLabelText="Size of gym (in square feet)"
-            onChange={this._onType}
-          />
-          <br />
-          <TextField
-            id="text-field-default"
-            name="wallHeight"
-            floatingLabelText="Height of largest wall (feet)"
-            onChange={this._onType}
-          />
-
-          <TextField
-            id="text-field-default"
-            name="climbingSurface"
-            floatingLabelText="Climbing surface area (square feet)"
-            onChange={this._onType}
-          />
           <div className="flexbox-container">
             <div id="radioButtonList">
               <h4>Select gym type:</h4>
@@ -259,6 +238,27 @@ export default class AddGym extends Component {
               />
             </div>
           </div>
+
+          <TextField
+            id="text-field-default"
+            name="size"
+            floatingLabelText="Size of gym (in square feet)"
+            onChange={this._onType}
+          />
+          <br />
+          <TextField
+            id="text-field-default"
+            name="wallHeight"
+            floatingLabelText="Height of largest wall (feet)"
+            onChange={this._onType}
+          />
+
+          <TextField
+            id="text-field-default"
+            name="climbingSurface"
+            floatingLabelText="Climbing surface area (square feet)"
+            onChange={this._onType}
+          />
           <TextField
             id="text-field-default"
             name="hours"

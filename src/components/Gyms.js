@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import Map from './Map';
 import AddGym from './AddGym';
 import GymList from './GymList';
 
@@ -14,13 +15,16 @@ class Gyms extends Component {
   render() {
     const { addGym, gyms } = this.props;
     return (
-      <div className="profile">
-        <div className="pageLeft" />
-        <div className="profileCenter">
-          <GymList listObj={gyms} />
-          <AddGym submit={addGym} />
+      <div>
+        <Map />
+        <div className="profile">
+          <div className="pageLeft" />
+          <div className="profileCenter">
+            <GymList listObj={gyms} />
+            <AddGym submit={addGym} />
+          </div>
+          <div className="profileRight" />
         </div>
-        <div className="profileRight" />
       </div>
     );
   }
