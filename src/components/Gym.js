@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { List, ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
+import { Tabs, Tab } from 'material-ui/Tabs';
 
 import { listenToGym, listenToPosts, createNewPost, joinPost, startConversation } from '../actions/firebaseDb';
 
@@ -12,7 +13,7 @@ class Gym extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'a',
+      value: 'b',
     };
   }
 
@@ -135,21 +136,45 @@ class Gym extends Component {
             <a className="externalLink" href={website} target="_blank" rel="noopener noreferrer"><FontIcon className="fa fa-link" /> Website</a>
             <br />
             <br />
-            {map}
+            <div className="staticMapContainer">
+              {map}
+            </div>
             <br />
-            <Posts
-              id={this.props.params.id}
-              name={name}
-              city={city}
-              state={state}
-              createNewPost={createNewPost}
-              posts={posts}
-              submitMessage={startConversation}
-              joinPost={joinPost}
-              user={user}
-            />
+
+            <Tabs
+              value={this.state.value}
+              onChange={this.handleChange}
+            >
+              <Tab label="Climbing Requests" value="a" style={{ backgroundColor: '#dd6912' }}>
+                {/* <div>
+                  <h2 style={styles.headline}>Controllable Tab A</h2>
+                  <p>
+                    Tabs are also controllable if you want to programmatically pass them their values.
+                    This allows for more functionality in Tabs such as not
+                    having any Tab selected or assigning them different values.
+                  </p>
+                </div> */}
+                <Posts
+                  id={this.props.params.id}
+                  name={name}
+                  city={city}
+                  state={state}
+                  createNewPost={createNewPost}
+                  posts={posts}
+                  submitMessage={startConversation}
+                  joinPost={joinPost}
+                  user={user}
+                />
+              </Tab>
+              <Tab label="Forums" value="b" style={{ backgroundColor: '#dd6912' }}>
+                <div>
+                  <h1>Forums</h1>
+                </div>
+              </Tab>
+            </Tabs>
+
           </div>
-          <div className="profileRight"></div>
+          <div className="profileRight" />
         </div>
 
       </div>

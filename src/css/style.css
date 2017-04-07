@@ -148,3 +148,7 @@ a:hover {
   text-decoration: none;
   color: #1286dd;
 }
+
+.staticMapContainer {
+  text-align: center;
+}
