@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-// import ReactDOM from 'react-dom';
-import { Gmaps, Marker, InfoWindow, Circle } from 'react-gmaps';
+import React, { Component, PropTypes } from 'react';
+// import { browserHistory } from 'react-router';
+import { Gmaps, Marker, InfoWindow } from 'react-gmaps';
 
 // require('dotenv').config({ silent: true });
 // require('dotenv').load();
@@ -24,72 +24,10 @@ import { Gmaps, Marker, InfoWindow, Circle } from 'react-gmaps';
 // }];
 
 // const params = { v: '3.exp', key: 'YOUR_API_KEY' };
+const params = { v: '3.exp', key: 'AIzaSyA1ClOXgxqrpOrHvkyB7oFm8hqsxss7tA8' };
 
 export default class Map extends Component {
   state = { infoWindows: [] }
-  // onMapCreated = (map) => {
-  //   map.setOptions({
-  //     // disableDefaultUI: true,
-  //   });
-  // }
-  //
-  // onDragEnd = (e) => {
-  //   console.log('onDragEnd', e);
-  // }
-  //
-  // onCloseClick = () => {
-  //   console.log('onCloseClick');
-  // }
-  //
-  // onClick = (e) => {
-  //   console.log('onClick', e);
-  // }
-  //
-  // // viewInfo = (lat, lng, content) => {
-  // //   this.setState({
-  // //     lat,
-  // //     lng,
-  // //     content,
-  // //   });
-  // // }
-  //
-  // render() {
-  //   console.log('process.env.API_KEY:', process.env.API_KEY);
-  //   return (
-  //     <Gmaps
-  //       width={'100%'}
-  //       height={'600px'}
-  //       lat={coords.lat}
-  //       lng={coords.lng}
-  //       zoom={4}
-  //       loadingMessage={'Loading map...'}
-  //       params={{ v: '3.exp', key: process.env.API_KEY }}
-  //       onMapCreated={this.onMapCreated}
-  //     >
-  //       <Marker
-  //         lat={coords.lat}
-  //         lng={coords.lng}
-  //         draggable={false}
-  //         // onDragEnd={this.onDragEnd}
-  //         // onClick={() => {}}
-  //         animation={'DROP'}
-  //       />
-  //       <InfoWindow
-  //         lat={coords.lat}
-  //         lng={coords.lng}
-  //         content={'content'}
-  //         open={false}
-  //         onCloseClick={this.onCloseClick}
-  //       />
-  //       <Circle
-  //         lat={coords.lat}
-  //         lng={coords.lng}
-  //         radius={500}
-  //         onClick={this.onClick}
-  //       />
-  //     </Gmaps>
-  //   );
-  // }
 
   toggleInfoWindow(index) {
     const { infoWindows } = this.state;
@@ -102,13 +40,15 @@ export default class Map extends Component {
   renderInfoWindows() {
     const { points } = this.props;
     const { infoWindows } = this.state;
-    return points.map((coords, index) => {
+    return points.map((gym, index) => {
+      const { location, id, name } = gym;
       if (!infoWindows[index]) return null;
       return (
         <InfoWindow
           key={index}
-          lat={coords.lat}
-          lng={coords.lng}
+          lat={location.lat}
+          lng={location.lng}
+          content={`<a href="gym/${id}">${name}</a>`}
           onCloseClick={() => this.toggleInfoWindow(index)}
         />
       );
@@ -118,11 +58,11 @@ export default class Map extends Component {
   renderMarkers() {
     const { points } = this.props;
     console.log('points:', points);
-    return points.map((coords, index) =>
+    return points.map((gym, index) =>
       <Marker
         key={index}
-        lat={coords.lat}
-        lng={coords.lng}
+        lat={gym.location.lat}
+        lng={gym.location.lng}
         onClick={() => this.toggleInfoWindow(index)}
       />
     );
@@ -137,7 +77,7 @@ export default class Map extends Component {
         lng={'-95'}
         zoom={4}
         loadingMessage={'Loading map...'}
-        params={{ v: '3.exp', key: 'AIzaSyA1ClOXgxqrpOrHvkyB7oFm8hqsxss7tA8' }}
+        params={params}
       >
         {this.renderMarkers()}
         {this.renderInfoWindows()}
@@ -145,3 +85,7 @@ export default class Map extends Component {
     );
   }
 }
+
+Map.propTypes = {
+  points: PropTypes.array,
+};

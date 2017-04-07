@@ -18,7 +18,11 @@ class Gyms extends Component {
     if (gyms) {
       mapPoints = Object.keys(gyms).map((gym) => {
         // console.log('gym:', gym);
-        return gyms[gym].location;
+        return {
+          location: gyms[gym].location,
+          name: gyms[gym].name,
+          id: gym,
+        };
       });
     }
     return (
