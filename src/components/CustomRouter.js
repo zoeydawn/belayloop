@@ -4,7 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { firebaseAuth } from '../firebase';
 
 import Layout from './Layout';
-import Home from './Home';
+// import Home from './Home';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
 import Messages from './Messages';
@@ -31,7 +31,7 @@ export default class CustomRouter extends Component {
     return (
       <Router history={browserHistory}>
         <Route path="/" component={Layout}>
-          <IndexRoute component={Home} />
+          <IndexRoute component={Gyms} />
           <Route path="/dashboard" component={Dashboard} onEnter={authCheck} />
           <Route path="/profile/:userId" component={Profile} />
           <Route path="/messages" onEnter={authCheck} component={Messages} />
