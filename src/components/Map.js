@@ -41,14 +41,14 @@ export default class Map extends Component {
     const { points } = this.props;
     const { infoWindows } = this.state;
     return points.map((gym, index) => {
-      const { location, id, name } = gym;
+      const { location, id, name, type } = gym;
       if (!infoWindows[index]) return null;
       return (
         <InfoWindow
           key={index}
           lat={location.lat}
           lng={location.lng}
-          content={`<a href="gym/${id}">${name}</a>`}
+          content={`<a href="gym/${id}">${name}</a><p>${type}</p>`}
           onCloseClick={() => this.toggleInfoWindow(index)}
         />
       );

@@ -17,11 +17,12 @@ class Gyms extends Component {
     let mapPoints = [];
     if (gyms) {
       mapPoints = Object.keys(gyms).map((gym) => {
-        // console.log('gym:', gym);
+        const { location, name, type } = gyms[gym];
         return {
-          location: gyms[gym].location,
-          name: gyms[gym].name,
+          location,
+          name,
           id: gym,
+          type,
         };
       });
     }
