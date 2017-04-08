@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
 import Avatar from 'material-ui/Avatar';
-import { Tabs, Tab } from 'material-ui/Tabs';
-import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 import List from 'material-ui/List/List';
@@ -15,22 +13,7 @@ import { listenToGroup, joinGroup, leaveGroup, startGroupDiscussion } from '../a
 import GroupDiscussions from './GroupDiscussions';
 import StartDiscussion from './StartDiscussion';
 
-const styles = {
-  headline: {
-    fontSize: 24,
-    paddingTop: 16,
-    marginBottom: 12,
-    fontWeight: 400,
-  },
-};
-
 class Group extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     value: 'a',
-  //   };
-  // }
 
   componentDidMount() {
     this.props.listenToGroup(this.props.params.id);
@@ -54,12 +37,12 @@ class Group extends Component {
   }
 
   render() {
-    const { currentGroup, joinGroup, leaveGroup, uid, startGroupDiscussion } = this.props;
+    const { currentGroup, leaveGroup, uid, startGroupDiscussion } = this.props;
     // console.log('uid:', uid);
     let name = '';
     let description = '';
     let membersList = '';
-    let leader = '';
+    // let leader = '';
     let joinButton = '';
     let discussions;
 
@@ -76,10 +59,9 @@ class Group extends Component {
             leftAvatar={<Avatar src={photoURL} />}
             primaryText={displayName}
             onClick={() => browserHistory.push(`/profile/${memberId}`)}
-          >
-          </ListItem>
-        )
-      })
+          />
+        );
+      });
 
       if (Object.keys(members).includes(uid)) {
         joinButton = (
@@ -100,7 +82,6 @@ class Group extends Component {
           />
         );
       }
-      // console.log('currentGroup:', currentGroup);
     }
 
     return (
@@ -121,13 +102,23 @@ class Group extends Component {
             <StartDiscussion submit={startGroupDiscussion} groupId={this.props.params.id} />
             <GroupDiscussions discussions={discussions} groupId={this.props.params.id} type="group" />
           </div>
-          <div className="profileRight"></div>
+          <div className="profileRight" />
         </div>
 
       </div>
     );
   }
 }
+
+Group.propTypes = {
+  params: PropTypes.object,
+  currentGroup: PropTypes.object,
+  joinGroup: PropTypes.func,
+  leaveGroup: PropTypes.func,
+  uid: PropTypes.string,
+  startGroupDiscussion: PropTypes.func,
+  listenToGroup: PropTypes.func,
+};
 
 const mapStateToProps = (state => ({
   currentGroup: state.currentGroup,

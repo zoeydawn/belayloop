@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Snackbar from 'material-ui/Snackbar';
 
 const Bar = (props) => {
@@ -11,6 +11,11 @@ const Bar = (props) => {
       autoHideDuration={4000}
     />
   );
+};
+
+Bar.propTypes = {
+  open: PropTypes.bool,
+  text: PropTypes.string,
 };
 
 export default Bar;

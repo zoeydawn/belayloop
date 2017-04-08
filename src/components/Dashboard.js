@@ -110,7 +110,7 @@ class Dashboard extends Component {
             </TableBody>
           </Table>
         </div>
-        <div className="profileRight"></div>
+        <div className="profileRight" />
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -27,6 +27,10 @@ const Auth = (props) => {
       />
     </div>
   );
+};
+
+Auth.propTypes = {
+  googleSignIn: PropTypes.func,
 };
 
 export default Auth;

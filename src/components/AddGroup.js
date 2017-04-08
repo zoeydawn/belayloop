@@ -1,16 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
-import AutoComplete from 'material-ui/AutoComplete';
-// import SelectField from 'material-ui/SelectField';
-// import MenuItem from 'material-ui/MenuItem';
-import Checkbox from 'material-ui/Checkbox';
 
 import Bar from './Bar';
-import { nationList, stateList } from '../locationList';
 
 export default class AddGroup extends Component {
   state = {
@@ -40,21 +35,6 @@ export default class AddGroup extends Component {
     });
   }
 
-  // _handleCheck = (name) => {
-  //   if (this.state[name]) {
-  //     this.setState({ [name]: false });
-  //   } else {
-  //     this.setState({
-  //       [name]: true,
-  //       snackbarOpen: false,
-  //     });
-  //   }
-  // }
-  //
-  // _handleSelection = (name, val) => {
-  //   this.setState({ [name]: val });
-  // }
-
   _onSubmit = () => {
     const { name, description } = this.state;
 
@@ -74,17 +54,16 @@ export default class AddGroup extends Component {
   }
 
   render() {
-    let belay, bio, boldering, city, country, lead, skill, state = '';
     const actions = [
       <FlatButton
         label="Cancel"
-        primary={true}
+        primary
         onTouchTap={this.handleClose}
       />,
       <FlatButton
         label="Submit"
-        primary={true}
-        keyboardFocused={true}
+        primary
+        keyboardFocused
         onTouchTap={this._onSubmit}
       />,
     ];
@@ -114,7 +93,7 @@ export default class AddGroup extends Component {
           <TextField
             name="description"
             floatingLabelText="Description"
-            multiLine={true}
+            multiLine
             rows={2}
             onChange={this._onType}
           />
@@ -127,3 +106,7 @@ export default class AddGroup extends Component {
     );
   }
 }
+
+AddGroup.propTypes = {
+  submit: PropTypes.func,
+};

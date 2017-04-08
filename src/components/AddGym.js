@@ -127,7 +127,6 @@ export default class AddGym extends Component {
   }
 
   render() {
-    // const { name, title, userDetails, submit } = this.props;
     let belay, bio, boldering, city, country, lead, skill, state = '';
     const actions = [
       <FlatButton
