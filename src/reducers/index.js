@@ -12,6 +12,7 @@ import currentGroup from './currentGroup';
 import posts from './posts';
 import messages from './messages';
 import userGroups from './userGroups';
+import gymDetails from './gymDetails';
 
 export default combineReducers({
   auth,
@@ -26,4 +27,5 @@ export default combineReducers({
   posts,
   messages,
   userGroups,
+  gymDetails,
 });

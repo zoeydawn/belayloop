@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -42,7 +42,7 @@ export default class StartDiscussion extends Component {
       initialComment: message,
     };
     submit(groupId, messageObj);
-    console.log('groupId:', groupId);
+    // console.log('groupId:', groupId);
     this.setState({
       open: false,
       message: '',
@@ -56,13 +56,13 @@ export default class StartDiscussion extends Component {
     const actions = [
       <FlatButton
         label="Cancel"
-        primary={true}
+        primary
         onTouchTap={this.handleClose}
       />,
       <FlatButton
         label="Send"
-        primary={true}
-        keyboardFocused={true}
+        primary
+        keyboardFocused
         onTouchTap={this._onSubmit}
       />,
     ];
@@ -94,7 +94,7 @@ export default class StartDiscussion extends Component {
             name="message"
             // defaultValue={bio}
             floatingLabelText="Message"
-            multiLine={true}
+            multiLine
             rows={2}
             onChange={this._onType}
           />
@@ -107,3 +107,9 @@ export default class StartDiscussion extends Component {
     );
   }
 }
+
+StartDiscussion.propTypes = {
+  displayName: PropTypes.string,
+  groupId: PropTypes.string,
+  submit: PropTypes.func,
+};

@@ -78,6 +78,14 @@ function receivePosts(data) {
   };
 }
 
+function receiveGymDetails(data) {
+  console.log('data in receiveGymDetails:', data);
+  return {
+    type: 'RECEIVE_GYM_DETAILS',
+    payload: data,
+  };
+}
+
 export function listenToMessages() {
   const { uid } = firebaseAuth.currentUser;
   // console.log('uid:', uid);
@@ -230,6 +238,41 @@ export function startConversation(receiverObj, messageObj) {
   };
 }
 
+export function startForumConversation(gymId, obj) {
+  console.log('in startForumConversation');
+  const { uid, displayName, photoURL } = firebaseAuth.currentUser;
+  const { title, initialComment } = obj;
+
+  const messageObj = {
+    0: {
+      displayName,
+      uid,
+      photoURL,
+      message: initialComment,
+      timestamp: Date.now(),
+    },
+  };
+
+  createNewConversation(messageObj)
+    .then((conId) => {
+      const forumRef = firebaseDb.ref('gymDetails').child(gymId).child('discussions').child(conId);
+      forumRef.set({
+        title,
+        // initialComment,
+        uid,
+        displayName,
+        photoURL,
+        timestamp: Date.now(),
+      });
+    })
+    .catch(err => console.error('error creating forum discussion', err));
+
+  return {
+    type: 'DISCUSSION_STARTED',
+    payload: obj,
+  };
+}
+
 export function joinPost(receiverObj, messageObj) {
   // console.log('in joinPost');
   const { message, subject } = messageObj;
@@ -351,6 +394,17 @@ export function listenToGym(id) {
       const gym = snapshot.val();
       // console.log('gyms:', gyms);
       dispatch(receiveGym(gym));
+    });
+  };
+}
+
+export function listenToGymDetails(id) {
+  return (dispatch) => {
+    const ref = firebaseDb.ref('gymDetails').child(id);
+    ref.off();
+    ref.on('value', (snapshot) => {
+      const gym = snapshot.val();
+      dispatch(receiveGymDetails(gym));
     });
   };
 }

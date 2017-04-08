@@ -5,9 +5,19 @@ import { List, ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
-import { listenToGym, listenToPosts, createNewPost, joinPost, startConversation } from '../actions/firebaseDb';
+import {
+  listenToGym,
+  listenToPosts,
+  createNewPost,
+  joinPost,
+  startConversation,
+  startForumConversation,
+  listenToGymDetails,
+} from '../actions/firebaseDb';
 
 import Posts from './Posts';
+import StartDiscussion from './StartDiscussion';
+import GroupDiscussions from './GroupDiscussions';
 
 class Gym extends Component {
   constructor(props) {
@@ -21,6 +31,7 @@ class Gym extends Component {
     const { id } = this.props.params;
     this.props.listenToGym(id);
     this.props.listenToPosts(id);
+    this.props.listenToGymDetails(id);
   }
 
   handleChange = (value) => {
@@ -30,9 +41,18 @@ class Gym extends Component {
   };
 
   render() {
-    const { currentGym, createNewPost, posts, joinPost, startConversation, user } = this.props;
+    const {
+      currentGym,
+      createNewPost,
+      posts,
+      joinPost,
+      startConversation,
+      user,
+      startForumConversation,
+      details,
+    } = this.props;
 
-    // console.log('posts:', posts);
+    console.log('details:', details);
     let address = '';
     let city = '';
     let climbingSurface = '';
@@ -48,6 +68,7 @@ class Gym extends Component {
     let type = '';
     let wallHeight = '';
     let website = '#';
+    let discussions;
     if (currentGym) {
       const { boldering, top, lead } = currentGym.offering;
       // console.log('currentGym:', currentGym);
@@ -75,6 +96,10 @@ class Gym extends Component {
       offerings = boldering ? `${offerings} boldering,` : offerings;
       offerings = top ? `${offerings} top rope,` : offerings;
       offerings = lead ? `${offerings} lead,` : offerings;
+    }
+
+    if (details) {
+      discussions = details.discussions;
     }
 
     return (
@@ -146,14 +171,6 @@ class Gym extends Component {
               onChange={this.handleChange}
             >
               <Tab label="Climbing Requests" value="a" style={{ backgroundColor: '#dd6912' }}>
-                {/* <div>
-                  <h2 style={styles.headline}>Controllable Tab A</h2>
-                  <p>
-                    Tabs are also controllable if you want to programmatically pass them their values.
-                    This allows for more functionality in Tabs such as not
-                    having any Tab selected or assigning them different values.
-                  </p>
-                </div> */}
                 <Posts
                   id={this.props.params.id}
                   name={name}
@@ -169,6 +186,8 @@ class Gym extends Component {
               <Tab label="Forums" value="b" style={{ backgroundColor: '#dd6912' }}>
                 <div>
                   <h1>Forums</h1>
+                  <StartDiscussion submit={startForumConversation} groupId={this.props.params.id} />
+                  <GroupDiscussions discussions={discussions} groupId={this.props.params.id} />
                 </div>
               </Tab>
             </Tabs>
@@ -186,6 +205,7 @@ const mapStateToProps = (state => ({
   currentGym: state.currentGym,
   posts: state.posts,
   user: state.auth.user,
+  details: state.gymDetails,
 }));
 
 const mapDispatchToProps = dispatch => ({
@@ -195,6 +215,9 @@ const mapDispatchToProps = dispatch => ({
   listenToPosts(id) {
     dispatch(listenToPosts(id));
   },
+  listenToGymDetails(id) {
+    dispatch(listenToGymDetails(id));
+  },
   createNewPost(obj) {
     dispatch(createNewPost(obj));
   },
@@ -203,6 +226,9 @@ const mapDispatchToProps = dispatch => ({
   },
   startConversation(receiverObj, messageObj) {
     dispatch(startConversation(receiverObj, messageObj));
+  },
+  startForumConversation(gymId, messageObj) {
+    dispatch(startForumConversation(gymId, messageObj));
   },
 });
 
@@ -216,6 +242,8 @@ Gym.propTypes = {
   joinPost: PropTypes.func,
   listenToPosts: PropTypes.func,
   listenToGym: PropTypes.func,
+  startForumConversation: PropTypes.func,
+  listenToGymDetails: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Gym);

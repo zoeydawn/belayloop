@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 
 import { List, ListItem } from 'material-ui/List';
@@ -10,7 +10,7 @@ const GroupDiscussions = (props) => {
   let discussionList = 'This group does not yet have any discussions';
   if (discussions) {
     discussionList = Object.keys(discussions).map((conversationId) => {
-      const { title, displayName, photoURL, uid, initialComment } = discussions[conversationId];
+      const { title, displayName, photoURL } = discussions[conversationId];
       return (
         <ListItem
           key={conversationId}
@@ -29,6 +29,11 @@ const GroupDiscussions = (props) => {
       </List>
     </div>
   );
+};
+
+GroupDiscussions.propTypes = {
+  discussions: PropTypes.object,
+  groupId: PropTypes.string,
 };
 
 export default GroupDiscussions;
