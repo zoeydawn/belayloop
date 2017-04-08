@@ -41,7 +41,7 @@ export default class CustomRouter extends Component {
           <Route path="/groups" component={Groups} />
           <Route path="/group/:id" component={Group} />
           <Route path="/login/:path" component={Login} />
-          <Route path="/discussion/:id/:groupId" component={Discussion} />
+          <Route path="/discussion/:id/:type/:groupId" component={Discussion} />
         </Route>
       </Router>
     );

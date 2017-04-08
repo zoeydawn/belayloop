@@ -187,7 +187,7 @@ class Gym extends Component {
                 <div>
                   <h1>Forums</h1>
                   <StartDiscussion submit={startForumConversation} groupId={this.props.params.id} />
-                  <GroupDiscussions discussions={discussions} groupId={this.props.params.id} />
+                  <GroupDiscussions discussions={discussions} groupId={this.props.params.id} type="gym" />
                 </div>
               </Tab>
             </Tabs>

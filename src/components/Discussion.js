@@ -16,15 +16,15 @@ class Discussion extends Component {
 
   render() {
     const { user, conversation, sendMessage } = this.props;
-    const { groupId, id } = this.props.params;
+    const { groupId, id, type } = this.props.params;
 
     return (
       <div className="profile">
         <div className="pageLeft" />
         <div className="profileCenter">
-          <div className="pointer" onClick={() => browserHistory.push(`/group/${groupId}`)}>
+          <div className="pointer" onClick={() => browserHistory.push(`/${type}/${groupId}`)}>
             <FontIcon className="fa fa-chevron-left" />
-            Back to group
+            Back to {type} page
           </div>
           <ConversationList conversation={conversation} />
           <MessageForm
