@@ -17,6 +17,11 @@ export default class AddGym extends Component {
   state = {
     open: false,
     snackbarOpen: false,
+    nameError: '',
+    addressError: '',
+    cityError: '',
+    stateError: '',
+    websiteError: '',
   }
 
   handleOpen = () => {
@@ -82,52 +87,68 @@ export default class AddGym extends Component {
       hours,
       cost,
     } = this.state;
-    // const { userDetails } = this.props;
-    // const fullAddress = `${address} ${city} ${state.substring(0, 2)}`
-    const obj = {
-      streetAddress: address || '',
-      address: `${address} ${city}, ${state.substring(0, 2)}`,
-      city: city || '',
-      description: description || '',
-      image: image || '',
-      name: name || '',
-      size: size || '',
-      state: state || '',
-      wallHeight: wallHeight || '',
-      climbingSurface: climbingSurface || '',
-      hours: hours || '',
-      cost: cost || '',
-      type: type || '',
-      website: website || '',
-      offering: {
-        boldering: boldering || false,
-        top: top || false,
-        lead: lead || false,
-      },
-    };
-    // console.log('this.state:', this.state);
-    this.props.submit(obj);
-    this.setState({
-      open: false,
-      snackbarOpen: true,
-      address: '',
-      boldering: false,
-      city: '',
-      description: '',
-      image: '',
-      lead: false,
-      name: '',
-      size: '',
-      state: '',
-      top: false,
-      wallHeight: '',
-      website: '',
-    });
-    // console.log('obj:', obj);
+
+    if (name && address && city && state && website) {
+      const obj = {
+        streetAddress: address,
+        address: `${address} ${city}, ${state.substring(0, 2)}`,
+        city,
+        description: description || '',
+        image: image || '/defaulticon.png',
+        name,
+        size: size || '',
+        state,
+        wallHeight: wallHeight || '',
+        climbingSurface: climbingSurface || '',
+        hours: hours || '',
+        cost: cost || '',
+        type: type || ' ',
+        website,
+        offering: {
+          boldering: boldering || false,
+          top: top || false,
+          lead: lead || false,
+        },
+      };
+
+      this.props.submit(obj);
+      this.setState({
+        open: false,
+        snackbarOpen: true,
+        address: '',
+        boldering: false,
+        city: '',
+        description: '',
+        image: '',
+        lead: false,
+        name: '',
+        size: '',
+        state: '',
+        top: false,
+        wallHeight: '',
+        website: '',
+      });
+    } else {
+      if (!name) {
+        this.setState({ nameError: "Don't leave this blank" });
+      }
+      if (!address) {
+        this.setState({ addressError: "Don't leave this blank" });
+      }
+      if (!city) {
+        this.setState({ cityError: "Don't leave this blank" });
+      }
+      if (!state) {
+        this.setState({ stateError: 'Please select a state' });
+      }
+      if (!website) {
+        this.setState({ websiteError: "Don't leave this blank" });
+      }
+    }
   }
 
   render() {
-    let belay, bio, boldering, city, country, lead, skill, state = '';
+    const { nameError, addressError, cityError, stateError, websiteError } = this.state;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -156,17 +177,20 @@ export default class AddGym extends Component {
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
+          autoScrollBodyContent
         >
           <TextField
             id="text-field-default"
             name="name"
             floatingLabelText="Name"
+            errorText={nameError}
             onChange={this._onType}
           />
 
           <TextField
             id="text-field-default"
             name="address"
+            errorText={addressError}
             floatingLabelText="Street Address"
             onChange={this._onType}
           />
@@ -175,15 +199,16 @@ export default class AddGym extends Component {
             id="text-field-default"
             name="city"
             floatingLabelText="City"
+            errorText={cityError}
             onChange={this._onType}
           />
           <AutoComplete
             name="state"
             floatingLabelText="State"
+            errorText={stateError}
             filter={AutoComplete.caseInsensitiveFilter}
             dataSource={stateList}
             maxSearchResults={10}
-            hintText={state}
             onNewRequest={state => this._handleSelection('state', state)}
           />
           <br />
@@ -197,6 +222,7 @@ export default class AddGym extends Component {
             id="text-field-default"
             name="website"
             floatingLabelText="Website"
+            errorText={websiteError}
             onChange={this._onType}
           />
           <div className="flexbox-container">
