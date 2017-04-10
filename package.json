@@ -1,5 +1,5 @@
 {
-  "name": "BelayLoop",
+  "name": "belayLoop",
   "version": "1.0.0",
   "description": "",
   "main": "server/app.js",

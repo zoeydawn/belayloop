@@ -9,7 +9,7 @@ const morgan = require('morgan');
 const path = require('path');
 const mongoose = require('mongoose');
 
-const MONGODB_URI = process.env.MONGOODB_URI;
+// const MONGODB_URI = process.env.MONGOODB_URI;
 
 // MONGOOSE CONFIGURATION
 // mongoose.Promise = Promise;
